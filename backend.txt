@@ -1,0 +1,19 @@
+Backend Guidelines
+
+Architecture: MVC (Model-View-Controller)
+
+Authentication: JWT-based authentication (using Firebase/Auth0)
+
+API Endpoints:
+
+/api/user → Manage user data
+
+/api/skills → Skill gap analysis (LLM-based processing)
+
+/api/courses → Fetch courses from providers
+
+/api/jobs → Get trending job insights
+
+/api/resume → Resume parsing and skill matching
+
+Rate Limiting & Security: Use middleware to prevent API abuse.
