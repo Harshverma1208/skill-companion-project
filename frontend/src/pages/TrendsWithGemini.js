@@ -267,6 +267,8 @@ const ChartsSection = ({ selectedTab, marketData, loading, error }) => {
   }
 
   if (selectedTab === 'INDUSTRY DISTRIBUTION') {
+    const COLORS = ['#3b82f6', '#6366f1', '#8b5cf6', '#ec4899', '#f97316', '#14b8a6'];
+    
     return (
       <Box sx={{ height: 500, mb: 4 }}>
         {marketData.industryDistribution && marketData.industryDistribution.length > 0 ? (
@@ -286,7 +288,7 @@ const ChartsSection = ({ selectedTab, marketData, loading, error }) => {
                   <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                 ))}
               </Pie>
-              <Tooltip />
+              <Tooltip formatter={(value, name, props) => [value + '%', name]} />
               <Legend />
             </PieChart>
           </ResponsiveContainer>
@@ -396,8 +398,6 @@ const ChartsSection = ({ selectedTab, marketData, loading, error }) => {
   return null;
 };
 
-const COLORS = ['#3b82f6', '#6366f1', '#8b5cf6', '#ec4899', '#f97316'];
-
 // Skill gap data
 const skillGapData = {
   categories: [
@@ -470,81 +470,11 @@ const skillGapData = {
           skills: ['Kubernetes', 'Docker', 'Container Orchestration'],
         }
       ]
-    },
-    {
-      title: 'Data Science',
-      description: 'Data analysis and machine learning skills assessment',
-      skills: [
-        { 
-          name: 'Python', 
-          yourLevel: 90, 
-          requiredLevel: 90,
-        },
-        { 
-          name: 'TensorFlow', 
-          yourLevel: 45, 
-          requiredLevel: 82,
-        },
-        { 
-          name: 'Statistics', 
-          yourLevel: 55, 
-          requiredLevel: 75,
-        }
-      ],
-      recommendations: [
-        {
-          title: 'Deep Learning Specialization',
-          platform: 'Coursera',
-          duration: '80 hours',
-          skills: ['TensorFlow', 'Neural Networks', 'Deep Learning'],
-        },
-        {
-          title: 'Statistics for Data Science',
-          platform: 'edX',
-          duration: '30 hours',
-          skills: ['Statistics', 'Probability', 'Data Analysis'],
-        }
-      ]
-    },
-    {
-      title: 'Frontend Development',
-      description: 'Modern UI development skills comparison',
-      skills: [
-        { 
-          name: 'React', 
-          yourLevel: 65, 
-          requiredLevel: 92,
-        },
-        { 
-          name: 'CSS', 
-          yourLevel: 85, 
-          requiredLevel: 85,
-        },
-        { 
-          name: 'TypeScript', 
-          yourLevel: 50, 
-          requiredLevel: 80,
-        }
-      ],
-      recommendations: [
-        {
-          title: 'TypeScript Masterclass',
-          platform: 'Frontend Masters',
-          duration: '24 hours',
-          skills: ['TypeScript', 'Advanced Types', 'React with TS'],
-        },
-        {
-          title: 'Advanced CSS and Sass',
-          platform: 'Udemy',
-          duration: '28 hours',
-          skills: ['CSS', 'Sass', 'Flexbox', 'Grid'],
-        }
-      ]
     }
   ]
 };
 
-function Trends() {
+function TrendsWithGemini() {
   const [selectedTab, setSelectedTab] = useState('DOMAIN ANALYSIS');
   const [marketData, setMarketData] = useState({
     stats: null,
@@ -676,14 +606,14 @@ function Trends() {
         <Grid container spacing={3} sx={{ mb: 5 }}>
           {marketData.stats ? (
             marketData.stats.map((stat, index) => (
-          <Grid item xs={12} sm={6} md={3} key={index}>
-            <StatCard
-              title={stat.title}
-              value={stat.value}
-              change={stat.change}
-              period={stat.period}
-            />
-          </Grid>
+              <Grid item xs={12} sm={6} md={3} key={index}>
+                <StatCard
+                  title={stat.title}
+                  value={stat.value}
+                  change={stat.change}
+                  period={stat.period}
+                />
+              </Grid>
             ))
           ) : (
             <Grid item xs={12}>
@@ -692,7 +622,7 @@ function Trends() {
               </Typography>
             </Grid>
           )}
-      </Grid>
+        </Grid>
       )}
 
       {/* Tabs */}
@@ -732,33 +662,33 @@ function Trends() {
         <Box sx={{ mb: 5 }}>
           {loading.trendingTech ? (
             <Box sx={{ display: 'flex', justifyContent: 'center', my: 4 }}>
-            <CircularProgress />
+              <CircularProgress />
             </Box>
           ) : (
             marketData.trendingTech ? (
-            <Grid container spacing={3}>
+              <Grid container spacing={3}>
                 {marketData.trendingTech.map((tech, index) => (
-                <Grid item xs={12} sm={6} md={4} key={index}>
-                  <Card sx={{ 
-                    border: '1px solid #e2e8f0',
-                    boxShadow: 'none',
-                    borderRadius: '12px',
-                  }}>
-                    <CardContent>
-                      <Typography variant="h6" gutterBottom>
-                        {tech.name}
-                      </Typography>
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                        <TrendingUpIcon sx={{ color: '#10b981' }} />
-                        <Typography variant="body2" color="text.secondary">
-                          {tech.growth}% YoY Growth
+                  <Grid item xs={12} sm={6} md={4} key={index}>
+                    <Card sx={{ 
+                      border: '1px solid #e2e8f0',
+                      boxShadow: 'none',
+                      borderRadius: '12px',
+                    }}>
+                      <CardContent>
+                        <Typography variant="h6" gutterBottom>
+                          {tech.name}
                         </Typography>
-                      </Box>
-                    </CardContent>
-                  </Card>
-                </Grid>
-              ))}
-            </Grid>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                          <TrendingUpIcon sx={{ color: '#10b981' }} />
+                          <Typography variant="body2" color="text.secondary">
+                            {tech.growth}% YoY Growth
+                          </Typography>
+                        </Box>
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                ))}
+              </Grid>
             ) : (
               <Typography variant="body1" color="text.secondary" align="center">
                 No trending technologies data available
@@ -774,22 +704,22 @@ function Trends() {
           <Typography variant="h6" sx={{ mt: 5, mb: 2, fontWeight: 600, color: '#475569' }}>
             Your Skill Gap Analysis
           </Typography>
-      <Grid container spacing={3}>
+          <Grid container spacing={3}>
             {skillGapData.categories.slice(0, 2).map((category, index) => (
-          <Grid item xs={12} md={6} key={index}>
-            <SkillGapCard
-              title={category.title}
-              description={category.description}
-              skills={category.skills}
-              recommendations={category.recommendations}
-            />
+              <Grid item xs={12} md={6} key={index}>
+                <SkillGapCard
+                  title={category.title}
+                  description={category.description}
+                  skills={category.skills}
+                  recommendations={category.recommendations}
+                />
+              </Grid>
+            ))}
           </Grid>
-        ))}
-      </Grid>
         </>
       )}
     </Container>
   );
 }
 
-export default Trends;
+export default TrendsWithGemini; 

@@ -8,7 +8,6 @@ import {
   Box,
   Grid,
   Paper,
-  LinearProgress,
   Card,
   CardContent,
   Stack,
@@ -124,13 +123,6 @@ function Home() {
   const { user } = useAuth();
   const theme = useTheme();
 
-  // Progress data (you can fetch this from your backend)
-  const progressData = {
-    skillGap: 30,
-    courseCompletion: 45,
-    overallScore: 60
-  };
-
   const features = [
     {
       title: 'Skill Gap Analysis',
@@ -244,93 +236,6 @@ function Home() {
             </Grid>
           </Grid>
         </Box>
-
-        {/* Progress Section - Only shown when user is logged in */}
-        {user && (
-          <Card 
-            sx={{ 
-              mb: { xs: 6, md: 12 }, 
-              borderRadius: 4,
-              background: '#ffffff',
-              boxShadow: theme.shadows[1]
-            }}
-          >
-            <CardContent sx={{ p: { xs: 3, md: 5 } }}>
-              <Typography variant="h4" gutterBottom sx={{ fontWeight: 600 }}>
-                Welcome back, {user.displayName || 'User'}!
-              </Typography>
-              <Typography variant="body1" color="text.secondary" gutterBottom>
-                Let's continue enhancing your skills and career prospects.
-              </Typography>
-              
-              <Box sx={{ mt: 4 }}>
-                <Typography variant="h6" gutterBottom sx={{ fontWeight: 600 }}>Your Progress</Typography>
-                <Grid container spacing={3}>
-                  <Grid item xs={12}>
-                    <Box sx={{ mb: 2 }}>
-                      <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                        <Typography variant="body2">Skill Gap</Typography>
-                        <Typography variant="body2" color="primary">{progressData.skillGap}%</Typography>
-                      </Box>
-                      <LinearProgress 
-                        variant="determinate" 
-                        value={progressData.skillGap} 
-                        sx={{ 
-                          height: 8, 
-                          borderRadius: 4,
-                          bgcolor: 'rgba(0,0,0,0.05)',
-                          '& .MuiLinearProgress-bar': {
-                            borderRadius: 4
-                          }
-                        }} 
-                      />
-                    </Box>
-                    
-                    <Box sx={{ mb: 2 }}>
-                      <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                        <Typography variant="body2">Course Completion</Typography>
-                        <Typography variant="body2" color="success.main">{progressData.courseCompletion}%</Typography>
-                      </Box>
-                      <LinearProgress 
-                        variant="determinate" 
-                        value={progressData.courseCompletion} 
-                        color="success"
-                        sx={{ 
-                          height: 8, 
-                          borderRadius: 4,
-                          bgcolor: 'rgba(0,0,0,0.05)',
-                          '& .MuiLinearProgress-bar': {
-                            borderRadius: 4
-                          }
-                        }} 
-                      />
-                    </Box>
-                    
-                    <Box>
-                      <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                        <Typography variant="body2">Overall Score</Typography>
-                        <Typography variant="body2" color="secondary">{progressData.overallScore}/100</Typography>
-                      </Box>
-                      <LinearProgress 
-                        variant="determinate" 
-                        value={progressData.overallScore} 
-                        color="secondary"
-                        sx={{ 
-                          height: 8, 
-                          borderRadius: 4,
-                          bgcolor: 'rgba(0,0,0,0.05)',
-                          '& .MuiLinearProgress-bar': {
-                            borderRadius: 4
-                          }
-                        }} 
-                      />
-                    </Box>
-                  </Grid>
-                </Grid>
-              </Box>
-            </CardContent>
-          </Card>
-        )}
 
         {/* Features Section */}
         <Box sx={{ mb: { xs: 6, md: 12 } }}>

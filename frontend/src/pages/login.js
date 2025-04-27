@@ -62,7 +62,7 @@ function Login() {
             Welcome Back
           </Typography>
           <Typography variant="body1" align="center" color="text.secondary" sx={{ mb: 4 }}>
-            Sign in to continue to your dashboard
+            Sign in to access all Skill Bridge features
           </Typography>
 
           {error && (
