@@ -1,13 +1,20 @@
 {
-  "version": 2,
-  "builds": [
+  "buildCommand": "npm run build",
+  "outputDirectory": "build",
+  "devCommand": "npm start",
+  "installCommand": "npm install",
+  "framework": "create-react-app",
+  "rewrites": [
     {
-      "src": "package.json",
-      "use": "@vercel/static-build",
-      "config": { "distDir": "build" }
+      "source": "/api/:path*",
+      "destination": "https://skill-companion-backend.vercel.app/api/:path*"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ],
-  "routes": [
-    { "src": "/(.*)", "dest": "/index.html" }
-  ]
+  "env": {
+    "REACT_APP_API_URL": "https://skill-companion-backend.vercel.app"
+  }
 }

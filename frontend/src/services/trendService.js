@@ -3,7 +3,7 @@
  * Uses Gemini API to get the latest job market trends and data
  */
 
-const API_KEY = 'AIzaSyCa3VtgQ_M6Z0pvHAVrhYFNNvm64F4pi-E';
+const API_KEY = process.env.REACT_APP_GEMINI_API_KEY || 'AIzaSyCa3VtgQ_M6Z0pvHAVrhYFNNvm64F4pi-E';
 const API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent';
 
 // Fallback data to use when API calls fail
