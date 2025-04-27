@@ -3,8 +3,7 @@ services:
   - type: web
     name: skill-companion-backend
     env: node
-    plan: free
-    buildCommand: ./backend/render-build.sh
+    buildCommand: cd backend && npm install
     startCommand: cd backend && node server.js
     repo: https://github.com/Harshverma1208/skill-companion-project.git
     branch: main
@@ -23,9 +22,8 @@ services:
   - type: web
     name: skill-companion-frontend
     env: static
-    plan: free
-    buildCommand: ./frontend/render-build.sh
-    staticPublishPath: ./frontend/build
+    buildCommand: cd frontend && npm install && npm run build
+    staticPublishPath: frontend/build
     repo: https://github.com/Harshverma1208/skill-companion-project.git
     branch: main
     buildFilter:
