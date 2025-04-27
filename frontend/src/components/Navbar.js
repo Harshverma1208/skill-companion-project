@@ -20,7 +20,6 @@ import {
 } from '@mui/material';
 import {
   Menu as MenuIcon,
-  Dashboard,
   TrendingUp,
   School,
   WorkOutline,
@@ -30,7 +29,6 @@ import {
 import { useAuth } from '../hooks/useAuth';
 
 const navItems = [
-  { text: 'Dashboard', icon: <Dashboard />, path: '/' },
   { text: 'Skill Gap', icon: <TrendingUp />, path: '/skill-gap' },
   { text: 'Courses', icon: <School />, path: '/courses' },
   { text: 'Job Trends', icon: <WorkOutline />, path: '/trends' },
