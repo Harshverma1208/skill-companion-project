@@ -14,7 +14,6 @@ import Footer from './components/Footer';
 // Page components
 import Home from './pages/Home';
 import Dashboard from './pages/dashboard';
-import SkillGap from './pages/skill-gap';
 import Courses from './pages/courses';
 import Trends from './pages/trends';
 import Resume from './pages/resume';
@@ -86,4 +85,4 @@ function App() {
   );
 }
 
-export default App; 
+export default App;
