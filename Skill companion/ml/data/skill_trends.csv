@@ -1,0 +1,11 @@
+category,description,gap_score,key_skills,demand_level,growth_rate,avg_salary,remote_percentage
+Full Stack Development,End-to-end application development including frontend backend and database management,92,"React,Node.js,Python,SQL,MongoDB,REST APIs",85,12,98500,75
+Cloud Computing,Cloud infrastructure services and deployment strategies,88,"AWS,Azure,Docker,Kubernetes,Terraform,CloudFormation",87,13,125000,55
+Data Science,Analysis machine learning and data-driven decision making,78,"Python,R,TensorFlow,SQL,Tableau,Scikit-learn",90,15,110000,60
+DevOps,Automation CI/CD pipelines and infrastructure as code,85,"Git,Jenkins,Terraform,Docker,Kubernetes,Ansible",88,14,105000,65
+Mobile Development,Native and cross-platform mobile application development,80,"React Native,Swift,Kotlin,Flutter,iOS,Android",76,11,94000,70
+Cybersecurity,Network security penetration testing and security protocols,90,"CISSP,Network+,Wireshark,Kali Linux,Security+",82,16,108000,45
+Frontend Development,Modern web application UI/UX development,82,"React,TypeScript,CSS,HTML,Redux,Next.js",80,8,92000,80
+Backend Development,Server-side application and API development,84,"Node.js,Python,Java,SQL,MongoDB,Express",85,10,95000,70
+AI/ML Engineering,Artificial intelligence and machine learning systems,94,"Python,TensorFlow,PyTorch,Scikit-learn,MLOps",92,18,115000,50
+UI/UX Design,User interface and experience design,78,"Figma,Adobe XD,HTML/CSS,Design Systems,Prototyping",74,9,88000,85 
