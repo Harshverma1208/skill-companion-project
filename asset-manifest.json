@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/skill-companion-project/static/css/main.55176534.css",
+    "main.js": "/skill-companion-project/static/js/main.e5dbacb0.js",
+    "index.html": "/skill-companion-project/index.html",
+    "main.55176534.css.map": "/skill-companion-project/static/css/main.55176534.css.map",
+    "main.e5dbacb0.js.map": "/skill-companion-project/static/js/main.e5dbacb0.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.55176534.css",
+    "static/js/main.e5dbacb0.js"
+  ]
+}
