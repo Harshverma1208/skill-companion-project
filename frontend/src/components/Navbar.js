@@ -17,6 +17,12 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  Badge,
+  Popover,
+  Card,
+  CardContent,
+  Stack,
+  Divider,
 } from '@mui/material';
 import {
   Menu as MenuIcon,
@@ -25,8 +31,35 @@ import {
   WorkOutline,
   Description,
   Person,
+  Notifications,
+  Circle as CircleIcon,
 } from '@mui/icons-material';
 import { useAuth } from '../hooks/useAuth';
+
+// Mock notifications - In a real app, these would come from your backend
+const mockNotifications = [
+  {
+    id: 1,
+    title: 'New Course Recommendation',
+    message: 'We found a new course that matches your interests',
+    read: false,
+    time: '2 hours ago'
+  },
+  {
+    id: 2,
+    title: 'Skill Gap Update',
+    message: 'Your skill analysis report is ready',
+    read: false,
+    time: '1 day ago'
+  },
+  {
+    id: 3,
+    title: 'Job Market Alert',
+    message: 'New trending skills in your field',
+    read: true,
+    time: '2 days ago'
+  }
+];
 
 const navItems = [
   { text: 'Skill Gap', icon: <TrendingUp />, path: '/skill-gap' },
@@ -43,6 +76,10 @@ function Navbar() {
 
   const [mobileOpen, setMobileOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [notificationAnchor, setNotificationAnchor] = useState(null);
+  const [notifications, setNotifications] = useState(mockNotifications);
+
+  const unreadCount = notifications.filter(n => !n.read).length;
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -54,6 +91,19 @@ function Navbar() {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleNotificationClick = (event) => {
+    setNotificationAnchor(event.currentTarget);
+  };
+
+  const handleNotificationClose = () => {
+    setNotificationAnchor(null);
+  };
+
+  const markAllAsRead = () => {
+    setNotifications(notifications.map(n => ({ ...n, read: true })));
+    handleNotificationClose();
   };
 
   const handleLogout = async () => {
@@ -86,7 +136,14 @@ function Navbar() {
 
   return (
     <>
-      <AppBar position="sticky" color="default" elevation={1}>
+      <AppBar 
+        position="sticky" 
+        sx={{ 
+          background: 'rgba(255, 255, 255, 0.8)',
+          backdropFilter: 'blur(8px)',
+          boxShadow: '0 2px 12px rgba(0,0,0,0.08)'
+        }}
+      >
         <Toolbar>
           {isMobile && (
             <IconButton
@@ -107,8 +164,9 @@ function Navbar() {
             sx={{
               flexGrow: 1,
               textDecoration: 'none',
-              color: 'inherit',
-              fontWeight: 600,
+              color: theme.palette.primary.main,
+              fontWeight: 700,
+              letterSpacing: '-0.5px',
             }}
           >
             Skill Bridge
@@ -122,7 +180,13 @@ function Navbar() {
                   component={RouterLink}
                   to={item.path}
                   startIcon={item.icon}
-                  color="inherit"
+                  sx={{
+                    color: theme.palette.text.primary,
+                    '&:hover': {
+                      backgroundColor: 'rgba(0,0,0,0.04)',
+                      color: theme.palette.primary.main,
+                    },
+                  }}
                 >
                   {item.text}
                 </Button>
@@ -130,9 +194,27 @@ function Navbar() {
             </Box>
           )}
 
+          {user && (
+            <IconButton 
+              onClick={handleNotificationClick}
+              sx={{ mr: 2 }}
+            >
+              <Badge badgeContent={unreadCount} color="error">
+                <Notifications color="action" />
+              </Badge>
+            </IconButton>
+          )}
+
           {user ? (
             <>
-              <IconButton onClick={handleMenu} color="inherit">
+              <IconButton 
+                onClick={handleMenu} 
+                sx={{
+                  border: '2px solid',
+                  borderColor: theme.palette.primary.main,
+                  padding: '4px'
+                }}
+              >
                 <Avatar
                   alt={user.displayName || 'User'}
                   src={user.photoURL}
@@ -143,12 +225,19 @@ function Navbar() {
                 anchorEl={anchorEl}
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
+                PaperProps={{
+                  elevation: 3,
+                  sx: { mt: 1.5 }
+                }}
               >
                 <MenuItem
                   component={RouterLink}
                   to="/profile"
                   onClick={handleClose}
                 >
+                  <ListItemIcon>
+                    <Person fontSize="small" />
+                  </ListItemIcon>
                   Profile
                 </MenuItem>
                 <MenuItem onClick={handleLogout}>Logout</MenuItem>
@@ -160,6 +249,11 @@ function Navbar() {
               variant="contained"
               component={RouterLink}
               to="/login"
+              sx={{
+                borderRadius: '20px',
+                px: 3,
+                boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+              }}
             >
               Login
             </Button>
@@ -167,13 +261,87 @@ function Navbar() {
         </Toolbar>
       </AppBar>
 
+      <Popover
+        open={Boolean(notificationAnchor)}
+        anchorEl={notificationAnchor}
+        onClose={handleNotificationClose}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'right',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+        PaperProps={{
+          elevation: 3,
+          sx: { 
+            width: 320,
+            maxHeight: 400,
+            mt: 1.5,
+          }
+        }}
+      >
+        <Card sx={{ boxShadow: 'none' }}>
+          <CardContent sx={{ p: 0 }}>
+            <Box sx={{ p: 2, borderBottom: '1px solid', borderColor: 'divider' }}>
+              <Stack direction="row" justifyContent="space-between" alignItems="center">
+                <Typography variant="h6">Notifications</Typography>
+                <Button size="small" onClick={markAllAsRead}>
+                  Mark all as read
+                </Button>
+              </Stack>
+            </Box>
+            <List sx={{ p: 0 }}>
+              {notifications.map((notification) => (
+                <ListItem 
+                  key={notification.id}
+                  sx={{ 
+                    p: 2,
+                    backgroundColor: notification.read ? 'transparent' : 'action.hover',
+                  }}
+                >
+                  <ListItemIcon>
+                    <CircleIcon 
+                      sx={{ 
+                        color: notification.read ? 'text.disabled' : 'primary.main',
+                        fontSize: 12 
+                      }} 
+                    />
+                  </ListItemIcon>
+                  <ListItemText 
+                    primary={notification.title}
+                    secondary={
+                      <React.Fragment>
+                        <Typography variant="body2" color="text.secondary" gutterBottom>
+                          {notification.message}
+                        </Typography>
+                        <Typography variant="caption" color="text.disabled">
+                          {notification.time}
+                        </Typography>
+                      </React.Fragment>
+                    }
+                  />
+                </ListItem>
+              ))}
+            </List>
+          </CardContent>
+        </Card>
+      </Popover>
+
       <Drawer
         variant="temporary"
         anchor="left"
         open={mobileOpen}
         onClose={handleDrawerToggle}
         ModalProps={{
-          keepMounted: true, // Better mobile performance
+          keepMounted: true,
+        }}
+        PaperProps={{
+          sx: {
+            backgroundColor: theme.palette.background.default,
+            width: 280,
+          }
         }}
       >
         {drawer}

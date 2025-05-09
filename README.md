@@ -1,168 +1,165 @@
-# Skill Companion Application
+# Skill Enhancement Companion
 
-A comprehensive career development platform that helps professionals track their skills, identify gaps, analyze job market trends, and get personalized learning recommendations.
+A comprehensive application to help users analyze their skills, find skill gaps, discover trending technologies, and get course recommendations to enhance their career prospects.
 
-## Features
+## 🚀 Features
 
-- 🎯 **Skill Gap Analysis**: Advanced analysis of your current skills against market demands
-- 📊 **Job Market Trends**: Real-time insights into industry requirements and emerging skills
-- 📝 **Resume Analysis**: AI-powered resume evaluation and improvement suggestions
-- 📚 **Course Recommendations**: Personalized learning paths based on your skill gaps
-- 👤 **Professional Profile**: Comprehensive profile management with skill tracking
-- 📈 **Career Progress Tracking**: Monitor your professional development over time
+- **Skill Gap Analysis**: Analyze your current skills against job market requirements
+- **Career Trend Analysis**: Discover trending skills in your industry or role
+- **Course Recommendations**: Get personalized course suggestions to close skill gaps
+- **Resume Analysis**: Upload your resume for automated skill extraction and analysis
+- **User Profiles**: Track your progress and manage your skill development journey
 
-## Tech Stack
+## 🧰 Tech Stack
 
 ### Frontend
-- React.js with Material-UI
-- Redux for state management
-- Recharts for data visualization
-- React Router for navigation
-- Material UI Date Pickers
-- Emotion for styled components
+- React 18
+- Redux Toolkit for state management
+- Material UI for UI components
+- Chart.js for data visualization
+- Formik & Yup for form validation
+- Firebase Authentication
 
 ### Backend
 - Node.js with Express
 - MongoDB for database
 - JWT for authentication
-- Helmet for security
-- Morgan for logging
-- Express Rate Limit for API protection
+- Mongoose for data modeling
+- Express-validator for input validation
 
-### ML Components
-- Python
-- Pandas & NumPy for data processing
-- Scikit-learn for ML models
-- NLTK for text processing
-- BeautifulSoup4 for web scraping
-- Custom recommendation algorithms
+### ML Services
+- Python with FastAPI
+- TensorFlow/PyTorch for NLP models
+- Scikit-learn for data processing
+- NLTK and Spacy for text analysis
 
-## Project Structure
+## 📋 Prerequisites
+
+- Node.js v20.x
+- npm v10.x
+- MongoDB (local or Atlas)
+- Python 3.10+
+- (Optional) Firebase project for authentication
+
+## 🛠️ Installation & Setup
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/yourusername/skill-companion.git
+cd skill-companion
+```
+
+### 2. Set up environment variables
+
+Create `.env` files in both frontend and backend directories.
+
+Example frontend `.env`:
+```
+REACT_APP_API_URL=http://localhost:5000
+REACT_APP_FIREBASE_API_KEY=your_firebase_api_key
+REACT_APP_FIREBASE_AUTH_DOMAIN=your_firebase_auth_domain
+REACT_APP_FIREBASE_PROJECT_ID=your_firebase_project_id
+```
+
+Example backend `.env`:
+```
+PORT=5000
+NODE_ENV=development
+MONGODB_URI=mongodb://localhost:27017/skill-companion
+JWT_SECRET=your_jwt_secret
+FRONTEND_URL=http://localhost:3000
+```
+
+### 3. Install dependencies
+
+```bash
+# Install root dependencies
+npm install
+
+# This will also install frontend and backend dependencies
+```
+
+### 4. Set up ML environment (optional)
+
+```bash
+cd ml
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+pip install -r requirements.txt
+```
+
+### 5. Run development servers
+
+```bash
+# Run frontend and backend concurrently
+npm run dev
+
+# Or run them separately
+npm run dev:frontend
+npm run dev:backend
+```
+
+## 📦 Folder Structure
 
 ```
 skill-companion/
 ├── frontend/                # React frontend application
-│   ├── src/
-│   │   ├── components/     # Reusable UI components
-│   │   ├── pages/         # Main application pages
-│   │   ├── services/      # API integration services
-│   │   ├── hooks/        # Custom React hooks
-│   │   └── store/        # Redux store configuration
-├── backend/               # Node.js backend API
-│   ├── controllers/      # Request handlers
-│   ├── models/          # MongoDB schemas
-│   ├── routes/         # API routes
-│   ├── middleware/    # Custom middleware
-│   └── services/     # Business logic
-└── ml/              # Machine learning components
-    ├── data/       # Training and analysis data
-    ├── utils/     # ML utilities
-    └── models/   # ML model implementations
+│   ├── public/              # Static files
+│   └── src/                 # Source code
+│       ├── components/      # Reusable UI components
+│       ├── layouts/         # Layout components
+│       ├── pages/           # Page components
+│       ├── services/        # API services
+│       ├── store/           # Redux store
+│       └── hooks/           # Custom React hooks
+├── backend/                 # Node.js backend API
+│   ├── config/              # Configuration files
+│   ├── controllers/         # Route controllers
+│   ├── middleware/          # Custom middleware
+│   ├── models/              # Mongoose models
+│   ├── routes/              # API routes
+│   ├── scripts/             # Utility scripts
+│   └── services/            # Business logic
+└── ml/                      # Python ML services
+    ├── data/                # Data processing
+    ├── models/              # ML models
+    └── utils/               # Utility functions
 ```
 
-## Prerequisites
+## 📚 API Documentation
 
-- Node.js (v14 or higher)
-- Python (v3.8 or higher)
-- MongoDB
-- npm or yarn
-- pip (Python package manager)
+API documentation is available at:
+- Development: http://localhost:5000/api/docs
+- Production: https://your-api-url.com/api/docs
 
-## Installation
-
-### 1. Frontend Setup
+## 🧪 Testing
 
 ```bash
-cd frontend
-npm install
+# Run frontend tests
+npm run test:frontend
+
+# Run backend tests
+npm run test:backend
+
+# Run all tests
+npm test
 ```
 
-Key frontend dependencies:
-- @mui/material @emotion/react @emotion/styled
-- @mui/icons-material
-- react-router-dom
-- recharts
-- @mui/x-date-pickers
-
-### 2. Backend Setup
-
-```bash
-cd backend
-npm install
-```
-
-Create a .env file in the backend directory with:
-```
-MONGODB_URI=your_mongodb_connection_string
-JWT_SECRET=your_jwt_secret
-PORT=5001
-```
-
-### 3. ML Components Setup
-
-```bash
-cd ml
-pip install -r requirements.txt
-```
-
-## Running the Application
-
-### Start the Frontend
-
-```bash
-cd frontend
-npm start
-```
-Access the application at `http://localhost:3000`
-
-### Start the Backend Server
-
-```bash
-cd backend
-npm start
-```
-API will be available at `http://localhost:5001`
-
-### Start ML Services
-
-```bash
-cd ml
-python -m uvicorn main:app --reload
-```
-
-## API Documentation
-
-The backend provides the following main endpoints:
-
-- `/api/user` - User profile management
-- `/api/skills` - Skill analysis and tracking
-- `/api/courses` - Course recommendations
-- `/api/jobs` - Job market analysis
-- `/api/resume` - Resume analysis and optimization
-
-## Security Features
-
-- JWT authentication
-- API rate limiting
-- Helmet security headers
-- MongoDB injection protection
-- CORS configuration
-
-## Contributing
+## 🤝 Contributing
 
 1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-## License
+## 📄 License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-## Acknowledgments
+## 📧 Contact
 
-- Material-UI for the component library
-- MongoDB for the database solution
-- Python scientific computing community
-- Open-source ML model contributors
+Your Name - your.email@example.com
+
+Project Link: [https://github.com/yourusername/skill-companion](https://github.com/yourusername/skill-companion)

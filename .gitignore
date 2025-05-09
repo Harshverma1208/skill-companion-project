@@ -1,93 +1,11 @@
-# dependencies
+# Dependencies
 node_modules/
 **/node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
-# environment variables
-.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-
-# build outputs
-build/
-dist/
-.next/
-out/
-
-# misc
-.DS_Store
-.vercel
-coverage/
-
-# sensitive information
-passwords.txt
-*credentials*
-*secret*
-*.pem
-*.key
-firebase-config.js
-firebaseConfig.js
-google-services.json
-GoogleService-Info.plist
-
-# IDE specific files
-.idea/
-.vscode/
-*.swp
-*.swo
-
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
-env/
-venv/
-.env/
-.venv/
-
-# Logs
-logs
-*.log
-
-# Testing
-/frontend/coverage
-
-# Production
-/frontend/build
-
-# Misc
-.DS_Store
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
-/backend/venv/
-/ml/venv/
-pip-log.txt
-pip-delete-this-directory.txt
-.tox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*.cover
-*.py,cover
-.hypothesis/
-.pytest_cache/
+package-lock.json
+yarn.lock
 
 # Environment variables
 .env
@@ -95,20 +13,81 @@ coverage.xml
 .env.development.local
 .env.test.local
 .env.production.local
-backend/.env
-frontend/.env
 **/.env
 **/firebaseConfig.js
 **/firebase-config.js
 **/firebase-credentials.json
 
-# IDE
+# Build outputs
+build/
+dist/
+.next/
+out/
+coverage/
+.coverage
+.coverage.*
+.cache
+*.py[cod]
+__pycache__/
+*.so
+.Python
+
+# Virtual environments
+venv/
+env/
+.venv/
+.env/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# IDE and editor files
 .idea/
 .vscode/
 *.swp
 *.swo
+*.swn
+*~
 
-# ML
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Testing
+coverage/
+.pytest_cache/
+.tox/
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+
+# ML specific
 /ml/data/*.csv
-/ml/models/*.pkl 
+/ml/models/*.pkl
+/ml/checkpoints/
+/ml/logs/
+
+# Deployment
+.vercel
+.netlify
+.firebase/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Temporary files
+*.tmp
+*.temp
+.*.swp
+.*.swo
+*~
 

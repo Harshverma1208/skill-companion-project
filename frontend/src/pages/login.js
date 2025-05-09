@@ -2,16 +2,23 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Container,
-  Card,
-  CardContent,
   Typography,
-  TextField,
   Button,
+  TextField,
+  Grid,
+  Paper,
   Box,
-  Divider,
   Alert,
+  Stack,
+  Divider,
+  useTheme,
+  alpha,
 } from '@mui/material';
-import { Google } from '@mui/icons-material';
+import {
+  Google as GoogleIcon,
+  Email,
+  Lock,
+} from '@mui/icons-material';
 import { useAuth } from '../hooks/useAuth';
 
 function Login() {
@@ -20,103 +27,322 @@ function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const theme = useTheme();
 
-  const handleEmailLogin = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    console.log('Attempting email login...', email);
+    setError('');
+    setLoading(true);
     try {
-      const userCredential = await login(email, password);
-      console.log('Login successful, user:', userCredential);
-      const token = await userCredential.getIdToken();
-      console.log('Got ID token:', token);
-      localStorage.setItem('user', JSON.stringify({ token }));
-      console.log('Token stored in localStorage');
+      await login(email, password);
       navigate('/');
     } catch (error) {
-      console.error('Login error:', error);
-      setError(error.message);
+      setError('Failed to sign in. Please check your credentials.');
     }
+    setLoading(false);
   };
 
   const handleGoogleLogin = async () => {
-    console.log('Attempting Google login...');
+    setError('');
+    setLoading(true);
     try {
-      const userCredential = await loginWithGoogle();
-      console.log('Google login successful, user:', userCredential);
-      const token = await userCredential.getIdToken();
-      console.log('Got Google ID token:', token);
-      localStorage.setItem('user', JSON.stringify({ token }));
-      console.log('Google token stored in localStorage');
+      await loginWithGoogle();
       navigate('/');
     } catch (error) {
-      console.error('Google login error:', error);
-      setError(error.message);
+      setError('Failed to sign in with Google.');
     }
+    setLoading(false);
   };
 
   return (
-    <Container maxWidth="sm" sx={{ py: 8 }}>
-      <Card>
-        <CardContent sx={{ p: 4 }}>
-          <Typography variant="h4" align="center" gutterBottom>
-            Welcome Back
-          </Typography>
-          <Typography variant="body1" align="center" color="text.secondary" sx={{ mb: 4 }}>
-            Sign in to access all Skill Bridge features
-          </Typography>
+    <Box
+      sx={{
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        background: `linear-gradient(to bottom, ${alpha(theme.palette.background.default, 0.95)}, ${alpha(theme.palette.background.default, 1)})`,
+        position: 'relative',
+        overflow: 'hidden',
+      }}
+    >
+      {/* Animated background elements */}
+      <Box
+        sx={{
+          position: 'absolute',
+          top: -100,
+          right: -100,
+          width: 500,
+          height: 500,
+          borderRadius: '50%',
+          background: theme.palette.background.gradient,
+          opacity: 0.08,
+          filter: 'blur(80px)',
+          animation: 'float 15s ease-in-out infinite',
+          '@keyframes float': {
+            '0%, 100%': { transform: 'translate(0, 0) rotate(0deg)' },
+            '50%': { transform: 'translate(-30px, 30px) rotate(180deg)' },
+          },
+        }}
+      />
+      <Box
+        sx={{
+          position: 'absolute',
+          bottom: -50,
+          left: -50,
+          width: 400,
+          height: 400,
+          borderRadius: '50%',
+          background: 'linear-gradient(135deg, #14B8A6 0%, #0D9488 100%)',
+          opacity: 0.08,
+          filter: 'blur(80px)',
+          animation: 'float2 18s ease-in-out infinite',
+          '@keyframes float2': {
+            '0%, 100%': { transform: 'translate(0, 0) rotate(0deg)' },
+            '50%': { transform: 'translate(30px, -30px) rotate(-180deg)' },
+          },
+        }}
+      />
 
-          {error && (
-            <Alert severity="error" sx={{ mb: 3 }}>
-              {error}
-            </Alert>
-          )}
-
-          <form onSubmit={handleEmailLogin}>
-            <TextField
-              fullWidth
-              label="Email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              margin="normal"
-              required
-            />
-            <TextField
-              fullWidth
-              label="Password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              margin="normal"
-              required
-            />
-            <Button
-              fullWidth
-              type="submit"
-              variant="contained"
-              size="large"
-              sx={{ mt: 3 }}
-            >
-              Sign In
-            </Button>
-          </form>
-
-          <Box sx={{ my: 3 }}>
-            <Divider>OR</Divider>
-          </Box>
-
-          <Button
-            fullWidth
-            variant="outlined"
-            size="large"
-            startIcon={<Google />}
-            onClick={handleGoogleLogin}
+      <Container maxWidth="sm">
+        <Box
+          sx={{
+            transform: 'translateY(0px)',
+            opacity: 1,
+            animation: 'fadeIn 0.6s ease-out',
+            '@keyframes fadeIn': {
+              from: {
+                transform: 'translateY(20px)',
+                opacity: 0,
+              },
+              to: {
+                transform: 'translateY(0px)',
+                opacity: 1,
+              },
+            },
+          }}
+        >
+          <Paper
+            elevation={0}
+            sx={{
+              p: { xs: 3, sm: 6 },
+              textAlign: 'center',
+              position: 'relative',
+              background: alpha(theme.palette.background.paper, 0.8),
+              backdropFilter: 'blur(12px)',
+              borderRadius: 4,
+              border: `1px solid ${alpha(theme.palette.primary.main, 0.1)}`,
+              boxShadow: `0 8px 32px ${alpha(theme.palette.primary.main, 0.1)}`,
+            }}
           >
-            Sign in with Google
-          </Button>
-        </CardContent>
-      </Card>
-    </Container>
+            <Typography
+              variant="h3"
+              gutterBottom
+              sx={{
+                fontWeight: 800,
+                background: theme.palette.background.gradient,
+                backgroundClip: 'text',
+                WebkitBackgroundClip: 'text',
+                color: 'transparent',
+                mb: 1,
+                position: 'relative',
+                display: 'inline-block',
+                '&::after': {
+                  content: '""',
+                  position: 'absolute',
+                  bottom: -8,
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                  width: '60px',
+                  height: '4px',
+                  background: theme.palette.background.gradient,
+                  borderRadius: '2px',
+                },
+              }}
+            >
+              Welcome Back
+            </Typography>
+
+            <Typography
+              variant="body1"
+              sx={{
+                mb: 4,
+                color: alpha(theme.palette.text.primary, 0.8),
+                fontWeight: 500,
+              }}
+            >
+              Sign in to continue to Skill Bridge
+            </Typography>
+
+            {error && (
+              <Alert
+                severity="error"
+                sx={{
+                  mb: 3,
+                  borderRadius: 2,
+                  animation: 'shake 0.5s ease-in-out',
+                  '@keyframes shake': {
+                    '0%, 100%': { transform: 'translateX(0)' },
+                    '10%, 30%, 50%, 70%, 90%': { transform: 'translateX(-2px)' },
+                    '20%, 40%, 60%, 80%': { transform: 'translateX(2px)' },
+                  },
+                }}
+              >
+                {error}
+              </Alert>
+            )}
+
+            <form onSubmit={handleLogin}>
+              <Stack spacing={3}>
+                <TextField
+                  label="Email"
+                  type="email"
+                  fullWidth
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  InputProps={{
+                    startAdornment: (
+                      <Email color="action" sx={{ mr: 1 }} />
+                    ),
+                  }}
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      borderRadius: 2,
+                      backgroundColor: alpha(theme.palette.background.paper, 0.8),
+                      transition: 'all 0.2s ease-in-out',
+                      '&:hover': {
+                        backgroundColor: alpha(theme.palette.background.paper, 0.9),
+                        boxShadow: `0 4px 12px ${alpha(theme.palette.primary.main, 0.1)}`,
+                      },
+                      '&.Mui-focused': {
+                        backgroundColor: alpha(theme.palette.background.paper, 1),
+                        boxShadow: `0 4px 12px ${alpha(theme.palette.primary.main, 0.15)}`,
+                      },
+                    },
+                  }}
+                />
+                <TextField
+                  label="Password"
+                  type="password"
+                  fullWidth
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  InputProps={{
+                    startAdornment: (
+                      <Lock color="action" sx={{ mr: 1 }} />
+                    ),
+                  }}
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      borderRadius: 2,
+                      backgroundColor: alpha(theme.palette.background.paper, 0.8),
+                      transition: 'all 0.2s ease-in-out',
+                      '&:hover': {
+                        backgroundColor: alpha(theme.palette.background.paper, 0.9),
+                        boxShadow: `0 4px 12px ${alpha(theme.palette.primary.main, 0.1)}`,
+                      },
+                      '&.Mui-focused': {
+                        backgroundColor: alpha(theme.palette.background.paper, 1),
+                        boxShadow: `0 4px 12px ${alpha(theme.palette.primary.main, 0.15)}`,
+                      },
+                    },
+                  }}
+                />
+                <Button
+                  type="submit"
+                  variant="contained"
+                  fullWidth
+                  size="large"
+                  disabled={loading}
+                  sx={{
+                    py: 1.8,
+                    fontSize: '1.1rem',
+                    fontWeight: 600,
+                    background: theme.palette.background.gradient,
+                    borderRadius: 2,
+                    transition: 'all 0.2s ease-in-out',
+                    '&:hover': {
+                      transform: 'translateY(-2px)',
+                      boxShadow: `0 8px 25px ${alpha(theme.palette.primary.main, 0.25)}`,
+                    },
+                  }}
+                >
+                  {loading ? 'Signing in...' : 'Sign In'}
+                </Button>
+
+                <Box sx={{ position: 'relative', my: 3 }}>
+                  <Divider>
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        color: theme.palette.text.secondary,
+                        px: 2,
+                      }}
+                    >
+                      OR
+                    </Typography>
+                  </Divider>
+                </Box>
+
+                <Button
+                  onClick={handleGoogleLogin}
+                  variant="outlined"
+                  fullWidth
+                  size="large"
+                  disabled={loading}
+                  startIcon={<GoogleIcon />}
+                  sx={{
+                    py: 1.8,
+                    fontSize: '1.1rem',
+                    fontWeight: 600,
+                    borderWidth: 2,
+                    borderRadius: 2,
+                    backgroundColor: alpha(theme.palette.background.paper, 0.8),
+                    transition: 'all 0.2s ease-in-out',
+                    '&:hover': {
+                      borderWidth: 2,
+                      transform: 'translateY(-2px)',
+                      backgroundColor: alpha(theme.palette.background.paper, 0.9),
+                      boxShadow: `0 8px 25px ${alpha(theme.palette.primary.main, 0.15)}`,
+                    },
+                  }}
+                >
+                  {loading ? 'Signing in...' : 'Sign In with Google'}
+                </Button>
+              </Stack>
+            </form>
+
+            <Box sx={{ mt: 4 }}>
+              <Typography
+                variant="body2"
+                sx={{
+                  color: alpha(theme.palette.text.primary, 0.7),
+                }}
+              >
+                Don't have an account?{' '}
+                <Button
+                  color="primary"
+                  onClick={() => navigate('/signup')}
+                  sx={{
+                    fontWeight: 600,
+                    textDecoration: 'none',
+                    transition: 'all 0.2s ease-in-out',
+                    '&:hover': {
+                      background: 'transparent',
+                      transform: 'translateY(-2px)',
+                    },
+                  }}
+                >
+                  Sign Up
+                </Button>
+              </Typography>
+            </Box>
+          </Paper>
+        </Box>
+      </Container>
+    </Box>
   );
 }
 

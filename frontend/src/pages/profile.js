@@ -36,10 +36,13 @@ import {
   Notifications,
   Security,
   Save,
+  LocationOn,
 } from '@mui/icons-material';
 import { useAuth } from '../hooks/useAuth';
 import { useDispatch, useSelector } from 'react-redux';
 import { userAPI } from '../services/api';
+import { alpha } from '@mui/material/styles';
+import { useTheme } from '@mui/material/styles';
 
 function TabPanel({ children, value, index }) {
   return value === index && <Box sx={{ py: 3 }}>{children}</Box>;
@@ -71,6 +74,8 @@ function Profile() {
       publicProfile: false,
     },
   });
+
+  const theme = useTheme();
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -178,308 +183,714 @@ function Profile() {
   };
 
   return (
-    <Container maxWidth="lg" sx={{ py: 4 }}>
-      {/* Profile Header */}
-      <Card sx={{ mb: 4 }}>
-        <CardContent>
-          <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
-            <Avatar
-              src={user?.photoURL}
-              sx={{ width: 100, height: 100, mr: 3 }}
-            />
-            <Box sx={{ flexGrow: 1 }}>
-              {editMode ? (
-                <TextField
-                  fullWidth
-                  label="Name"
-                  value={userData.name}
-                  onChange={(e) => setUserData(prev => ({ ...prev, name: e.target.value }))}
-                  sx={{ mb: 1 }}
+    <Box
+      sx={{
+        minHeight: '100vh',
+        background: `linear-gradient(to bottom, ${alpha(theme.palette.background.default, 0.95)}, ${alpha(theme.palette.background.default, 1)})`,
+        py: { xs: 4, md: 6 },
+      }}
+    >
+      <Container maxWidth="lg">
+        {/* Profile Header */}
+        <Card
+          elevation={0}
+          sx={{
+            mb: 4,
+            background: alpha(theme.palette.background.paper, 0.8),
+            backdropFilter: 'blur(12px)',
+            borderRadius: 4,
+            border: `1px solid ${alpha(theme.palette.primary.main, 0.1)}`,
+            boxShadow: `0 8px 32px ${alpha(theme.palette.primary.main, 0.1)}`,
+            transition: 'all 0.3s ease-in-out',
+            '&:hover': {
+              transform: 'translateY(-4px)',
+              boxShadow: `0 12px 48px ${alpha(theme.palette.primary.main, 0.12)}`,
+            },
+          }}
+        >
+          <CardContent sx={{ p: { xs: 2, sm: 4 } }}>
+            <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, alignItems: 'center', mb: 4 }}>
+              <Box
+                sx={{
+                  position: 'relative',
+                  mb: { xs: 3, sm: 0 },
+                  mr: { sm: 4 },
+                }}
+              >
+                <Avatar
+                  src={user?.photoURL}
+                  sx={{
+                    width: { xs: 100, sm: 120 },
+                    height: { xs: 100, sm: 120 },
+                    border: `4px solid ${alpha(theme.palette.primary.main, 0.1)}`,
+                    boxShadow: `0 8px 32px ${alpha(theme.palette.primary.main, 0.15)}`,
+                  }}
                 />
-              ) : (
-                <Typography variant="h4" gutterBottom>
-                  {userData.name}
-                </Typography>
-              )}
-              <Typography variant="body1" color="text.secondary">
-                {userData.title}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {userData.location}
-              </Typography>
-            </Box>
-            <Button
-              variant={editMode ? "contained" : "outlined"}
-              startIcon={editMode ? <Save /> : <Edit />}
-              onClick={editMode ? handleSaveProfile : handleEditToggle}
-            >
-              {editMode ? 'Save' : 'Edit Profile'}
-            </Button>
-          </Box>
-
-          {editMode ? (
-            <TextField
-              fullWidth
-              multiline
-              rows={3}
-              label="About"
-              value={userData.about}
-              onChange={(e) => setUserData(prev => ({ ...prev, about: e.target.value }))}
-            />
-          ) : (
-            <Typography variant="body1">{userData.about}</Typography>
-          )}
-        </CardContent>
-      </Card>
-
-      {/* Profile Content */}
-      <Card>
-        <CardContent>
-          <Tabs value={tabValue} onChange={handleTabChange} sx={{ borderBottom: 1, borderColor: 'divider' }}>
-            <Tab icon={<Badge />} label="Skills & Experience" />
-            <Tab icon={<School />} label="Education & Certifications" />
-            <Tab icon={<Settings />} label="Settings" />
-          </Tabs>
-
-          {/* Skills & Experience Tab */}
-          <TabPanel value={tabValue} index={0}>
-            <Grid container spacing={3}>
-              {/* Skills Section */}
-              <Grid item xs={12} md={6}>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
-                  <Typography variant="h6">Skills</Typography>
-                  <Button
-                    startIcon={<Add />}
-                    onClick={() => setSkillDialogOpen(true)}
-                  >
-                    Add Skill
-                  </Button>
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    bottom: 0,
+                    right: 0,
+                    width: 32,
+                    height: 32,
+                    borderRadius: '50%',
+                    background: theme.palette.background.gradient,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    boxShadow: `0 4px 12px ${alpha(theme.palette.primary.main, 0.2)}`,
+                  }}
+                >
+                  <Edit sx={{ fontSize: 16, color: 'white' }} />
                 </Box>
-                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-                  {userData.skills.map((skill) => (
-                    <Chip
-                      key={skill.name}
-                      label={
-                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                          {skill.name}
-                          <Rating
-                            value={skill.proficiency}
-                            size="small"
-                            readOnly
-                            sx={{ ml: 1 }}
-                          />
-                        </Box>
-                      }
-                      onDelete={() => handleRemoveSkill(skill.name)}
-                    />
-                  ))}
-                </Box>
-              </Grid>
-
-              {/* Experience Section */}
-              <Grid item xs={12} md={6}>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
-                  <Typography variant="h6">Experience</Typography>
-                  <Button startIcon={<Add />}>Add Experience</Button>
-                </Box>
-                <List>
-                  {userData.experience.map((exp, index) => (
-                    <React.Fragment key={index}>
-                      <ListItem>
-                        <ListItemText
-                          primary={
-                            <Typography variant="subtitle1">
-                              {exp.title} at {exp.company}
-                            </Typography>
-                          }
-                          secondary={
-                            <>
-                              <Typography variant="body2" color="text.secondary">
-                                {exp.duration}
-                              </Typography>
-                              <Typography variant="body2">
-                                {exp.description}
-                              </Typography>
-                            </>
-                          }
-                        />
-                      </ListItem>
-                      {index < userData.experience.length - 1 && <Divider />}
-                    </React.Fragment>
-                  ))}
-                </List>
-              </Grid>
-            </Grid>
-          </TabPanel>
-
-          {/* Education & Certifications Tab */}
-          <TabPanel value={tabValue} index={1}>
-            <Grid container spacing={3}>
-              {/* Education Section */}
-              <Grid item xs={12} md={6}>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
-                  <Typography variant="h6">Education</Typography>
-                  <Button startIcon={<Add />}>Add Education</Button>
-                </Box>
-                <List>
-                  {userData.education.map((edu, index) => (
-                    <React.Fragment key={index}>
-                      <ListItem>
-                        <ListItemText
-                          primary={edu.degree}
-                          secondary={
-                            <>
-                              <Typography variant="body2" color="text.secondary">
-                                {edu.school}
-                              </Typography>
-                              <Typography variant="body2" color="text.secondary">
-                                {edu.year}
-                              </Typography>
-                            </>
-                          }
-                        />
-                      </ListItem>
-                      {index < userData.education.length - 1 && <Divider />}
-                    </React.Fragment>
-                  ))}
-                </List>
-              </Grid>
-
-              {/* Certifications Section */}
-              <Grid item xs={12} md={6}>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
-                  <Typography variant="h6">Certifications</Typography>
-                  <Button startIcon={<Add />}>Add Certification</Button>
-                </Box>
-                <List>
-                  {userData.certifications.map((cert, index) => (
-                    <React.Fragment key={index}>
-                      <ListItem>
-                        <ListItemText
-                          primary={cert.name}
-                          secondary={
-                            <>
-                              <Typography variant="body2" color="text.secondary">
-                                {cert.issuer}
-                              </Typography>
-                              <Typography variant="body2" color="text.secondary">
-                                {cert.year}
-                              </Typography>
-                            </>
-                          }
-                        />
-                      </ListItem>
-                      {index < userData.certifications.length - 1 && <Divider />}
-                    </React.Fragment>
-                  ))}
-                </List>
-              </Grid>
-            </Grid>
-          </TabPanel>
-
-          {/* Settings Tab */}
-          <TabPanel value={tabValue} index={2}>
-            <Grid container spacing={3}>
-              {/* Notification Settings */}
-              <Grid item xs={12} md={6}>
-                <Typography variant="h6" gutterBottom>
-                  Notifications
-                </Typography>
-                <List>
-                  <ListItem>
-                    <ListItemText
-                      primary="Email Updates"
-                      secondary="Receive updates about your skill progress"
-                    />
-                    <Switch
-                      checked={userData.preferences.emailUpdates}
-                      onChange={(e) => setUserData(prev => ({
-                        ...prev,
-                        preferences: {
-                          ...prev.preferences,
-                          emailUpdates: e.target.checked,
+              </Box>
+              <Box sx={{ flexGrow: 1, textAlign: { xs: 'center', sm: 'left' } }}>
+                {editMode ? (
+                  <TextField
+                    fullWidth
+                    label="Name"
+                    value={userData.name}
+                    onChange={(e) => setUserData(prev => ({ ...prev, name: e.target.value }))}
+                    sx={{
+                      mb: 2,
+                      '& .MuiOutlinedInput-root': {
+                        borderRadius: 2,
+                        backgroundColor: alpha(theme.palette.background.paper, 0.8),
+                        '&:hover': {
+                          backgroundColor: alpha(theme.palette.background.paper, 0.9),
                         },
-                      }))}
-                    />
-                  </ListItem>
-                  <ListItem>
+                      },
+                    }}
+                  />
+                ) : (
+                  <Typography
+                    variant="h4"
+                    gutterBottom
+                    sx={{
+                      fontWeight: 700,
+                      background: theme.palette.background.gradient,
+                      backgroundClip: 'text',
+                      WebkitBackgroundClip: 'text',
+                      color: 'transparent',
+                    }}
+                  >
+                    {userData.name}
+                  </Typography>
+                )}
+                <Typography
+                  variant="h6"
+                  sx={{
+                    color: alpha(theme.palette.text.primary, 0.8),
+                    fontWeight: 500,
+                    mb: 1,
+                  }}
+                >
+                  {userData.title}
+                </Typography>
+                <Typography
+                  variant="body1"
+                  sx={{
+                    color: alpha(theme.palette.text.primary, 0.6),
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: { xs: 'center', sm: 'flex-start' },
+                  }}
+                >
+                  <LocationOn sx={{ mr: 1, fontSize: 20 }} />
+                  {userData.location}
+                </Typography>
+              </Box>
+              <Button
+                variant={editMode ? "contained" : "outlined"}
+                startIcon={editMode ? <Save /> : <Edit />}
+                onClick={editMode ? handleSaveProfile : handleEditToggle}
+                sx={{
+                  ml: { sm: 2 },
+                  mt: { xs: 2, sm: 0 },
+                  py: 1.5,
+                  px: 3,
+                  borderRadius: 2,
+                  borderWidth: editMode ? 0 : 2,
+                  background: editMode ? theme.palette.background.gradient : 'transparent',
+                  '&:hover': {
+                    borderWidth: editMode ? 0 : 2,
+                    transform: 'translateY(-2px)',
+                    boxShadow: `0 8px 25px ${alpha(theme.palette.primary.main, 0.25)}`,
+                  },
+                }}
+              >
+                {editMode ? 'Save Changes' : 'Edit Profile'}
+              </Button>
+            </Box>
+
+            {editMode ? (
+              <TextField
+                fullWidth
+                multiline
+                rows={4}
+                label="About"
+                value={userData.about}
+                onChange={(e) => setUserData(prev => ({ ...prev, about: e.target.value }))}
+                sx={{
+                  '& .MuiOutlinedInput-root': {
+                    borderRadius: 2,
+                    backgroundColor: alpha(theme.palette.background.paper, 0.8),
+                    '&:hover': {
+                      backgroundColor: alpha(theme.palette.background.paper, 0.9),
+                    },
+                  },
+                }}
+              />
+            ) : (
+              <Typography
+                variant="body1"
+                sx={{
+                  color: alpha(theme.palette.text.primary, 0.8),
+                  lineHeight: 1.8,
+                }}
+              >
+                {userData.about}
+              </Typography>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Profile Content */}
+        <Card
+          elevation={0}
+          sx={{
+            background: alpha(theme.palette.background.paper, 0.8),
+            backdropFilter: 'blur(12px)',
+            borderRadius: 4,
+            border: `1px solid ${alpha(theme.palette.primary.main, 0.1)}`,
+            boxShadow: `0 8px 32px ${alpha(theme.palette.primary.main, 0.1)}`,
+          }}
+        >
+          <CardContent sx={{ p: 0 }}>
+            <Tabs
+              value={tabValue}
+              onChange={handleTabChange}
+              sx={{
+                borderBottom: 1,
+                borderColor: 'divider',
+                '& .MuiTab-root': {
+                  minHeight: 64,
+                  fontSize: '1rem',
+                  fontWeight: 600,
+                  textTransform: 'none',
+                  '&.Mui-selected': {
+                    color: theme.palette.primary.main,
+                  },
+                },
+                '& .MuiTabs-indicator': {
+                  height: 3,
+                  borderRadius: '3px 3px 0 0',
+                  background: theme.palette.background.gradient,
+                },
+              }}
+            >
+              <Tab
+                icon={<Badge sx={{ mb: 1 }} />}
+                label="Skills & Experience"
+                sx={{ py: 3 }}
+              />
+              <Tab
+                icon={<School sx={{ mb: 1 }} />}
+                label="Education & Certifications"
+                sx={{ py: 3 }}
+              />
+              <Tab
+                icon={<Settings sx={{ mb: 1 }} />}
+                label="Settings"
+                sx={{ py: 3 }}
+              />
+            </Tabs>
+
+            {/* Skills & Experience Tab */}
+            <TabPanel value={tabValue} index={0}>
+              <Box sx={{ p: { xs: 2, sm: 4 } }}>
+                <Grid container spacing={4}>
+                  {/* Skills Section */}
+                  <Grid item xs={12} md={6}>
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        mb: 3,
+                      }}
+                    >
+                      <Typography
+                        variant="h6"
+                        sx={{
+                          fontWeight: 600,
+                          position: 'relative',
+                          '&::after': {
+                            content: '""',
+                            position: 'absolute',
+                            bottom: -8,
+                            left: 0,
+                            width: 40,
+                            height: 3,
+                            borderRadius: 1.5,
+                            background: theme.palette.background.gradient,
+                          },
+                        }}
+                      >
+                        Skills
+                      </Typography>
+                      <Button
+                        variant="outlined"
+                        startIcon={<Add />}
+                        onClick={() => setSkillDialogOpen(true)}
+                        sx={{
+                          borderWidth: 2,
+                          borderRadius: 2,
+                          '&:hover': {
+                            borderWidth: 2,
+                            transform: 'translateY(-2px)',
+                          },
+                        }}
+                      >
+                        Add Skill
+                      </Button>
+                    </Box>
+                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                      {userData.skills.map((skill) => (
+                        <Chip
+                          key={skill.name}
+                          label={
+                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                              {skill.name}
+                              <Rating
+                                value={skill.proficiency}
+                                readOnly
+                                size="small"
+                                sx={{ ml: 1 }}
+                              />
+                            </Box>
+                          }
+                          onDelete={() => handleRemoveSkill(skill.name)}
+                          sx={{
+                            py: 2,
+                            borderRadius: 2,
+                            background: alpha(theme.palette.primary.main, 0.1),
+                            '&:hover': {
+                              background: alpha(theme.palette.primary.main, 0.15),
+                            },
+                          }}
+                        />
+                      ))}
+                    </Box>
+                  </Grid>
+
+                  {/* Experience Section */}
+                  <Grid item xs={12} md={6}>
+                    <Typography
+                      variant="h6"
+                      sx={{
+                        mb: 3,
+                        fontWeight: 600,
+                        position: 'relative',
+                        '&::after': {
+                          content: '""',
+                          position: 'absolute',
+                          bottom: -8,
+                          left: 0,
+                          width: 40,
+                          height: 3,
+                          borderRadius: 1.5,
+                          background: theme.palette.background.gradient,
+                        },
+                      }}
+                    >
+                      Experience
+                    </Typography>
+                    <List sx={{ width: '100%' }}>
+                      {userData.experience.map((exp, index) => (
+                        <React.Fragment key={index}>
+                          <ListItem
+                            sx={{
+                              px: 3,
+                              py: 2,
+                              borderRadius: 2,
+                              mb: 2,
+                              background: alpha(theme.palette.background.paper, 0.6),
+                              backdropFilter: 'blur(8px)',
+                              transition: 'all 0.3s ease-in-out',
+                              '&:hover': {
+                                transform: 'translateX(8px)',
+                                background: alpha(theme.palette.background.paper, 0.8),
+                              },
+                            }}
+                          >
+                            <ListItemText
+                              primary={
+                                <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>
+                                  {exp.title}
+                                </Typography>
+                              }
+                              secondary={
+                                <Box>
+                                  <Typography
+                                    variant="body1"
+                                    sx={{ color: alpha(theme.palette.text.primary, 0.8) }}
+                                  >
+                                    {exp.company}
+                                  </Typography>
+                                  <Typography
+                                    variant="body2"
+                                    sx={{ color: alpha(theme.palette.text.primary, 0.6) }}
+                                  >
+                                    {exp.duration}
+                                  </Typography>
+                                  <Typography
+                                    variant="body2"
+                                    sx={{
+                                      mt: 1,
+                                      color: alpha(theme.palette.text.primary, 0.7),
+                                      lineHeight: 1.6,
+                                    }}
+                                  >
+                                    {exp.description}
+                                  </Typography>
+                                </Box>
+                              }
+                            />
+                          </ListItem>
+                          {index < userData.experience.length - 1 && (
+                            <Divider
+                              sx={{
+                                my: 2,
+                                borderColor: alpha(theme.palette.primary.main, 0.1),
+                              }}
+                            />
+                          )}
+                        </React.Fragment>
+                      ))}
+                    </List>
+                  </Grid>
+                </Grid>
+              </Box>
+            </TabPanel>
+
+            {/* Education & Certifications Tab */}
+            <TabPanel value={tabValue} index={1}>
+              <Box sx={{ p: { xs: 2, sm: 4 } }}>
+                <Grid container spacing={4}>
+                  {/* Education Section */}
+                  <Grid item xs={12} md={6}>
+                    <Typography
+                      variant="h6"
+                      sx={{
+                        mb: 3,
+                        fontWeight: 600,
+                        position: 'relative',
+                        '&::after': {
+                          content: '""',
+                          position: 'absolute',
+                          bottom: -8,
+                          left: 0,
+                          width: 40,
+                          height: 3,
+                          borderRadius: 1.5,
+                          background: theme.palette.background.gradient,
+                        },
+                      }}
+                    >
+                      Education
+                    </Typography>
+                    <List sx={{ width: '100%' }}>
+                      {userData.education.map((edu, index) => (
+                        <ListItem
+                          key={index}
+                          sx={{
+                            px: 3,
+                            py: 2,
+                            borderRadius: 2,
+                            mb: 2,
+                            background: alpha(theme.palette.background.paper, 0.6),
+                            backdropFilter: 'blur(8px)',
+                            transition: 'all 0.3s ease-in-out',
+                            '&:hover': {
+                              transform: 'translateX(8px)',
+                              background: alpha(theme.palette.background.paper, 0.8),
+                            },
+                          }}
+                        >
+                          <ListItemText
+                            primary={
+                              <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>
+                                {edu.degree}
+                              </Typography>
+                            }
+                            secondary={
+                              <Box>
+                                <Typography
+                                  variant="body1"
+                                  sx={{ color: alpha(theme.palette.text.primary, 0.8) }}
+                                >
+                                  {edu.school}
+                                </Typography>
+                                <Typography
+                                  variant="body2"
+                                  sx={{ color: alpha(theme.palette.text.primary, 0.6) }}
+                                >
+                                  {edu.year}
+                                </Typography>
+                              </Box>
+                            }
+                          />
+                        </ListItem>
+                      ))}
+                    </List>
+                  </Grid>
+
+                  {/* Certifications Section */}
+                  <Grid item xs={12} md={6}>
+                    <Typography
+                      variant="h6"
+                      sx={{
+                        mb: 3,
+                        fontWeight: 600,
+                        position: 'relative',
+                        '&::after': {
+                          content: '""',
+                          position: 'absolute',
+                          bottom: -8,
+                          left: 0,
+                          width: 40,
+                          height: 3,
+                          borderRadius: 1.5,
+                          background: theme.palette.background.gradient,
+                        },
+                      }}
+                    >
+                      Certifications
+                    </Typography>
+                    <List sx={{ width: '100%' }}>
+                      {userData.certifications.map((cert, index) => (
+                        <ListItem
+                          key={index}
+                          sx={{
+                            px: 3,
+                            py: 2,
+                            borderRadius: 2,
+                            mb: 2,
+                            background: alpha(theme.palette.background.paper, 0.6),
+                            backdropFilter: 'blur(8px)',
+                            transition: 'all 0.3s ease-in-out',
+                            '&:hover': {
+                              transform: 'translateX(8px)',
+                              background: alpha(theme.palette.background.paper, 0.8),
+                            },
+                          }}
+                        >
+                          <ListItemText
+                            primary={
+                              <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>
+                                {cert.name}
+                              </Typography>
+                            }
+                            secondary={
+                              <Box>
+                                <Typography
+                                  variant="body1"
+                                  sx={{ color: alpha(theme.palette.text.primary, 0.8) }}
+                                >
+                                  {cert.issuer}
+                                </Typography>
+                                <Typography
+                                  variant="body2"
+                                  sx={{ color: alpha(theme.palette.text.primary, 0.6) }}
+                                >
+                                  {cert.year}
+                                </Typography>
+                              </Box>
+                            }
+                          />
+                        </ListItem>
+                      ))}
+                    </List>
+                  </Grid>
+                </Grid>
+              </Box>
+            </TabPanel>
+
+            {/* Settings Tab */}
+            <TabPanel value={tabValue} index={2}>
+              <Box sx={{ p: { xs: 2, sm: 4 } }}>
+                <Typography
+                  variant="h6"
+                  sx={{
+                    mb: 4,
+                    fontWeight: 600,
+                    position: 'relative',
+                    '&::after': {
+                      content: '""',
+                      position: 'absolute',
+                      bottom: -8,
+                      left: 0,
+                      width: 40,
+                      height: 3,
+                      borderRadius: 1.5,
+                      background: theme.palette.background.gradient,
+                    },
+                  }}
+                >
+                  Preferences
+                </Typography>
+                <List>
+                  <ListItem
+                    sx={{
+                      px: 3,
+                      py: 2,
+                      borderRadius: 2,
+                      mb: 2,
+                      background: alpha(theme.palette.background.paper, 0.6),
+                      backdropFilter: 'blur(8px)',
+                    }}
+                  >
                     <ListItemText
-                      primary="Course Recommendations"
-                      secondary="Get notified about new course recommendations"
+                      primary="Push Notifications"
+                      secondary="Receive notifications about updates and activities"
                     />
                     <Switch
                       checked={userData.preferences.notifications}
-                      onChange={(e) => setUserData(prev => ({
-                        ...prev,
-                        preferences: {
-                          ...prev.preferences,
-                          notifications: e.target.checked,
-                        },
-                      }))}
+                      onChange={(e) =>
+                        setUserData(prev => ({
+                          ...prev,
+                          preferences: {
+                            ...prev.preferences,
+                            notifications: e.target.checked,
+                          },
+                        }))
+                      }
                     />
                   </ListItem>
-                </List>
-              </Grid>
-
-              {/* Privacy Settings */}
-              <Grid item xs={12} md={6}>
-                <Typography variant="h6" gutterBottom>
-                  Privacy
-                </Typography>
-                <List>
-                  <ListItem>
+                  <ListItem
+                    sx={{
+                      px: 3,
+                      py: 2,
+                      borderRadius: 2,
+                      mb: 2,
+                      background: alpha(theme.palette.background.paper, 0.6),
+                      backdropFilter: 'blur(8px)',
+                    }}
+                  >
+                    <ListItemText
+                      primary="Email Updates"
+                      secondary="Receive email notifications about your progress"
+                    />
+                    <Switch
+                      checked={userData.preferences.emailUpdates}
+                      onChange={(e) =>
+                        setUserData(prev => ({
+                          ...prev,
+                          preferences: {
+                            ...prev.preferences,
+                            emailUpdates: e.target.checked,
+                          },
+                        }))
+                      }
+                    />
+                  </ListItem>
+                  <ListItem
+                    sx={{
+                      px: 3,
+                      py: 2,
+                      borderRadius: 2,
+                      mb: 2,
+                      background: alpha(theme.palette.background.paper, 0.6),
+                      backdropFilter: 'blur(8px)',
+                    }}
+                  >
                     <ListItemText
                       primary="Public Profile"
-                      secondary="Make your profile visible to others"
+                      secondary="Make your profile visible to other users"
                     />
                     <Switch
                       checked={userData.preferences.publicProfile}
-                      onChange={(e) => setUserData(prev => ({
-                        ...prev,
-                        preferences: {
-                          ...prev.preferences,
-                          publicProfile: e.target.checked,
-                        },
-                      }))}
+                      onChange={(e) =>
+                        setUserData(prev => ({
+                          ...prev,
+                          preferences: {
+                            ...prev.preferences,
+                            publicProfile: e.target.checked,
+                          },
+                        }))
+                      }
                     />
                   </ListItem>
                 </List>
-              </Grid>
-            </Grid>
-          </TabPanel>
-        </CardContent>
-      </Card>
+              </Box>
+            </TabPanel>
+          </CardContent>
+        </Card>
 
-      {/* Add Skill Dialog */}
-      <Dialog open={skillDialogOpen} onClose={() => setSkillDialogOpen(false)}>
-        <DialogTitle>Add New Skill</DialogTitle>
-        <DialogContent>
-          <TextField
-            autoFocus
-            margin="dense"
-            label="Skill Name"
-            fullWidth
-            value={newSkill.name}
-            onChange={(e) => setNewSkill(prev => ({ ...prev, name: e.target.value }))}
-          />
-          <Box sx={{ mt: 2 }}>
-            <Typography gutterBottom>Proficiency Level</Typography>
-            <Rating
-              value={newSkill.proficiency}
-              onChange={(event, newValue) => {
-                setNewSkill(prev => ({ ...prev, proficiency: newValue }));
+        {/* Skill Dialog */}
+        <Dialog
+          open={skillDialogOpen}
+          onClose={() => setSkillDialogOpen(false)}
+          PaperProps={{
+            sx: {
+              borderRadius: 4,
+              background: alpha(theme.palette.background.paper, 0.9),
+              backdropFilter: 'blur(12px)',
+            },
+          }}
+        >
+          <DialogTitle>Add New Skill</DialogTitle>
+          <DialogContent>
+            <TextField
+              autoFocus
+              margin="dense"
+              label="Skill Name"
+              fullWidth
+              value={newSkill.name}
+              onChange={(e) => setNewSkill(prev => ({ ...prev, name: e.target.value }))}
+              sx={{
+                mt: 2,
+                '& .MuiOutlinedInput-root': {
+                  borderRadius: 2,
+                },
               }}
             />
-          </Box>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setSkillDialogOpen(false)}>Cancel</Button>
-          <Button onClick={handleAddSkill} variant="contained">
-            Add
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </Container>
+            <Box sx={{ mt: 3 }}>
+              <Typography variant="body2" gutterBottom>
+                Proficiency Level
+              </Typography>
+              <Rating
+                value={newSkill.proficiency}
+                onChange={(e, newValue) => setNewSkill(prev => ({ ...prev, proficiency: newValue }))}
+              />
+            </Box>
+          </DialogContent>
+          <DialogActions sx={{ p: 3 }}>
+            <Button
+              onClick={() => setSkillDialogOpen(false)}
+              sx={{
+                borderRadius: 2,
+                px: 3,
+              }}
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={handleAddSkill}
+              variant="contained"
+              sx={{
+                borderRadius: 2,
+                px: 3,
+                background: theme.palette.background.gradient,
+              }}
+            >
+              Add Skill
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </Container>
+    </Box>
   );
 }
 

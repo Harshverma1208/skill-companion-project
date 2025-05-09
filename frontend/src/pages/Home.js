@@ -14,6 +14,8 @@ import {
   IconButton,
   Link,
   useTheme,
+  alpha,
+  Tooltip,
 } from '@mui/material';
 import {
   TrendingUp,
@@ -27,6 +29,11 @@ import {
   Email,
   Phone,
   LocationOn,
+  ArrowForward,
+  Analytics,
+  Speed,
+  EmojiObjects,
+  Person,
 } from '@mui/icons-material';
 
 // Custom SkillGraph component
@@ -47,7 +54,7 @@ const SkillGraph = () => {
         cx="200"
         cy="150"
         r="120"
-        fill={theme.palette.primary.light}
+        fill={`url(#skillGraphGradient)`}
         fillOpacity="0.1"
       />
 
@@ -63,15 +70,15 @@ const SkillGraph = () => {
       {/* Data points and connections */}
       <g>
         {/* Main skill points */}
-        <circle cx="200" cy="70" r="8" fill={theme.palette.primary.main} />
-        <circle cx="120" cy="190" r="8" fill={theme.palette.primary.main} />
-        <circle cx="280" cy="190" r="8" fill={theme.palette.primary.main} />
+        <circle cx="200" cy="70" r="8" fill={`url(#pointGradient)`} />
+        <circle cx="120" cy="190" r="8" fill={`url(#pointGradient)`} />
+        <circle cx="280" cy="190" r="8" fill={`url(#pointGradient)`} />
         
-        {/* Connection lines */}
+        {/* Connection lines with gradient */}
         <path
           d={`M 200 70 L 120 190 L 280 190 Z`}
           fill="none"
-          stroke={theme.palette.primary.main}
+          stroke={`url(#lineGradient)`}
           strokeWidth="3"
         />
         
@@ -89,9 +96,6 @@ const SkillGraph = () => {
           stroke={theme.palette.primary.main}
           strokeWidth="2"
           opacity="0.5"
-          style={{
-            animation: 'pulse 2s infinite',
-          }}
         >
           <animate
             attributeName="r"
@@ -109,11 +113,27 @@ const SkillGraph = () => {
       </g>
 
       {/* Labels */}
-      <g fill={theme.palette.primary.main} fontSize="14px" fontWeight="bold">
+      <g fill={theme.palette.text.primary} fontSize="14px" fontWeight="600">
         <text x="190" y="55" textAnchor="middle">Skills</text>
         <text x="100" y="205" textAnchor="middle">Experience</text>
         <text x="300" y="205" textAnchor="middle">Growth</text>
       </g>
+
+      {/* Gradients */}
+      <defs>
+        <linearGradient id="skillGraphGradient" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor={theme.palette.primary.light} />
+          <stop offset="100%" stopColor={theme.palette.primary.main} />
+        </linearGradient>
+        <linearGradient id="pointGradient" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor={theme.palette.primary.light} />
+          <stop offset="100%" stopColor={theme.palette.primary.main} />
+        </linearGradient>
+        <linearGradient id="lineGradient" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stopColor={theme.palette.primary.light} />
+          <stop offset="100%" stopColor={theme.palette.primary.main} />
+        </linearGradient>
+      </defs>
     </svg>
   );
 };
@@ -127,327 +147,307 @@ function Home() {
     {
       title: 'Skill Gap Analysis',
       description: 'Get detailed insights about your professional skills and areas for improvement',
-      icon: <TrendingUp />,
+      icon: <Analytics />,
       action: () => navigate('/skill-gap'),
-      buttonText: 'Get Started'
+      buttonText: 'Get Started',
+      gradient: 'linear-gradient(135deg, #6366F1 0%, #4F46E5 100%)',
     },
     {
       title: 'Course Recommendations',
       description: 'Personalized courses based on your skill development needs',
       icon: <School />,
       action: () => navigate('/courses'),
-      buttonText: 'View Courses'
+      buttonText: 'View Courses',
+      gradient: 'linear-gradient(135deg, #F472B6 0%, #EC4899 100%)',
     },
     {
       title: 'Job Market Trends',
       description: 'Stay up-to-date with the latest job market trends and demands',
-      icon: <Timeline />,
+      icon: <Speed />,
       action: () => navigate('/trends'),
-      buttonText: 'See Trends'
+      buttonText: 'See Trends',
+      gradient: 'linear-gradient(135deg, #14B8A6 0%, #0D9488 100%)',
     },
     {
       title: 'Resume Analysis',
       description: 'Get suggestions and improvements for your resume',
-      icon: <Description />,
+      icon: <EmojiObjects />,
       action: () => navigate('/resume'),
-      buttonText: 'Get Started'
+      buttonText: 'Get Started',
+      gradient: 'linear-gradient(135deg, #F97316 0%, #EA580C 100%)',
     }
   ];
 
+  const stats = [
+    { label: 'Active Users', value: '10K+' },
+    { label: 'Courses', value: '500+' },
+    { label: 'Success Rate', value: '95%' },
+  ];
+
   return (
-    <Box sx={{ 
-      display: 'flex', 
-      flexDirection: 'column', 
-      minHeight: '100vh',
-      background: '#ffffff',
-    }}>
-      <Container maxWidth="lg" sx={{ py: { xs: 4, md: 8 }, flexGrow: 1 }}>
-        {/* Hero Section */}
-        <Box sx={{ 
-          mb: { xs: 6, md: 12 }, 
-          py: { xs: 4, md: 8 },
-          px: { xs: 3, md: 6 },
-          borderRadius: 4,
-          background: '#ffffff',
-          color: theme.palette.primary.main,
-          boxShadow: '0 10px 30px rgba(0, 0, 0, 0.05)',
-          position: 'relative',
-          overflow: 'hidden',
-        }}>
-          <Grid container spacing={8} alignItems="center">
-            <Grid item xs={12} md={6}>
-              <Box sx={{ position: 'relative', zIndex: 1 }}>
-                <Typography 
-                  variant="h1" 
-                  component="h1" 
-                  gutterBottom 
-                  sx={{ 
-                    fontWeight: 800,
-                    fontSize: { xs: '2.5rem', md: '3.5rem' },
-                    color: theme.palette.primary.main,
-                    mb: 3
-                  }}
-                >
-                  Accelerate Your Career Growth
-                </Typography>
-                <Typography variant="h5" sx={{ mb: 4, lineHeight: 1.6, color: theme.palette.text.primary }}>
-                  Skill Bridge helps you identify skill gaps, find relevant courses, track job market trends, and improve your resume - all in one place.
-                </Typography>
-                <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-                  <Button
-                    variant="contained"
-                    size="large"
-                    onClick={() => navigate('/skill-gap')}
-                    sx={{
-                      px: 4,
-                      py: 1.5,
-                      fontWeight: 600
-                    }}
-                  >
-                    Analyze Skills
-                  </Button>
-                  <Button
-                    variant="outlined"
-                    size="large"
-                    onClick={() => navigate('/courses')}
-                    sx={{
-                      px: 4,
-                      py: 1.5,
-                      fontWeight: 600
-                    }}
-                  >
-                    View Courses
-                  </Button>
-                </Stack>
-              </Box>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <Box 
-                sx={{ 
+    <Box 
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: '100vh',
+        background: `linear-gradient(to bottom, ${alpha(theme.palette.background.default, 0.95)}, ${alpha(theme.palette.background.default, 1)})`,
+        position: 'relative',
+        overflow: 'hidden',
+      }}
+    >
+      {/* Animated background elements */}
+      <Box
+        sx={{
+          position: 'absolute',
+          top: -100,
+          right: -100,
+          width: 500,
+          height: 500,
+          borderRadius: '50%',
+          background: theme.palette.background.gradient,
+          opacity: 0.08,
+          filter: 'blur(80px)',
+          animation: 'float 15s ease-in-out infinite',
+          '@keyframes float': {
+            '0%, 100%': { transform: 'translate(0, 0) rotate(0deg)' },
+            '50%': { transform: 'translate(-30px, 30px) rotate(180deg)' },
+          },
+        }}
+      />
+      <Box
+        sx={{
+          position: 'absolute',
+          bottom: -50,
+          left: -50,
+          width: 400,
+          height: 400,
+          borderRadius: '50%',
+          background: 'linear-gradient(135deg, #14B8A6 0%, #0D9488 100%)',
+          opacity: 0.08,
+          filter: 'blur(80px)',
+          animation: 'float2 18s ease-in-out infinite',
+          '@keyframes float2': {
+            '0%, 100%': { transform: 'translate(0, 0) rotate(0deg)' },
+            '50%': { transform: 'translate(30px, -30px) rotate(-180deg)' },
+          },
+        }}
+      />
+
+      {/* Hero Section */}
+      <Container maxWidth="lg" sx={{ mt: { xs: 6, md: 12 }, mb: { xs: 8, md: 15 } }}>
+        <Grid container spacing={8} alignItems="center">
+          <Grid item xs={12} md={6}>
+            <Box sx={{ position: 'relative' }}>
+              <Typography
+                variant="h1"
+                gutterBottom
+                sx={{
+                  fontSize: { xs: '2.5rem', sm: '3rem', md: '3.5rem' },
+                  fontWeight: 800,
+                  lineHeight: 1.2,
+                  background: theme.palette.background.gradient,
+                  backgroundClip: 'text',
+                  WebkitBackgroundClip: 'text',
+                  color: 'transparent',
                   position: 'relative',
-                  display: 'flex',
-                  justifyContent: 'center',
-                  transform: { xs: 'scale(0.9)', md: 'scale(1)' },
-                  filter: 'drop-shadow(0px 10px 30px rgba(0,0,0,0.08))'
+                  '&::after': {
+                    content: '""',
+                    position: 'absolute',
+                    bottom: -8,
+                    left: 0,
+                    width: '60px',
+                    height: '4px',
+                    background: theme.palette.background.gradient,
+                    borderRadius: '2px',
+                  },
                 }}
               >
-                <SkillGraph />
-              </Box>
-            </Grid>
-          </Grid>
-        </Box>
-
-        {/* Features Section */}
-        <Box sx={{ mb: { xs: 6, md: 12 } }}>
-          <Typography 
-            variant="h2" 
-            align="center" 
-            gutterBottom 
-            sx={{ 
-              mb: 6,
-              fontWeight: 700,
-              color: theme.palette.primary.main
-            }}
-          >
-            Our Features
-          </Typography>
-          <Grid container spacing={4}>
-            {features.map((feature, index) => (
-              <Grid item xs={12} sm={6} md={3} key={index}>
-                <Paper 
-                  elevation={1}
+                Professional Journey
+              </Typography>
+              <Typography
+                variant="h5"
+                sx={{
+                  mb: 4,
+                  color: alpha(theme.palette.text.primary, 0.8),
+                  fontWeight: 500,
+                  lineHeight: 1.6,
+                }}
+              >
+                Unlock your potential with AI-powered skill analysis, personalized learning paths, and real-time market insights.
+              </Typography>
+              <Stack direction="row" spacing={2}>
+                <Button
+                  variant="contained"
+                  size="large"
+                  onClick={() => navigate('/skill-gap')}
                   sx={{
-                    p: 4,
-                    height: '100%',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    transition: 'all 0.3s ease-in-out',
-                    background: '#ffffff',
+                    py: 1.5,
+                    px: 4,
+                    background: theme.palette.background.gradient,
                     '&:hover': {
-                      transform: 'translateY(-8px)',
-                      boxShadow: '0 10px 30px rgba(0, 0, 0, 0.08)',
-                    }
+                      transform: 'translateY(-2px)',
+                      boxShadow: `0 8px 25px ${alpha(theme.palette.primary.main, 0.25)}`,
+                    },
                   }}
                 >
-                  <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
-                    <Box sx={{ 
+                  Get Started
+                </Button>
+                <Button
+                  variant="outlined"
+                  size="large"
+                  onClick={() => navigate('/courses')}
+                  sx={{
+                    py: 1.5,
+                    px: 4,
+                    borderWidth: 2,
+                    '&:hover': {
+                      borderWidth: 2,
+                      transform: 'translateY(-2px)',
+                    },
+                  }}
+                >
+                  Explore Courses
+                </Button>
+              </Stack>
+            </Box>
+          </Grid>
+          <Grid item xs={12} md={6} sx={{ display: 'flex', justifyContent: 'center' }}>
+            <Box
+              sx={{
+                position: 'relative',
+                width: '100%',
+                maxWidth: 500,
+                animation: 'float3 6s ease-in-out infinite',
+                '@keyframes float3': {
+                  '0%, 100%': { transform: 'translateY(0)' },
+                  '50%': { transform: 'translateY(-20px)' },
+                },
+              }}
+            >
+              <SkillGraph />
+            </Box>
+          </Grid>
+        </Grid>
+      </Container>
+
+      {/* Stats Section */}
+      <Container maxWidth="lg" sx={{ mb: { xs: 8, md: 15 } }}>
+        <Grid container spacing={4} justifyContent="center">
+          {stats.map((stat, index) => (
+            <Grid item xs={12} sm={4} key={index}>
+              <Paper
+                elevation={0}
+                sx={{
+                  p: 4,
+                  textAlign: 'center',
+                  background: alpha(theme.palette.background.paper, 0.8),
+                  backdropFilter: 'blur(8px)',
+                  borderRadius: 4,
+                  border: `1px solid ${alpha(theme.palette.primary.main, 0.1)}`,
+                  transition: 'all 0.3s ease-in-out',
+                  '&:hover': {
+                    transform: 'translateY(-5px)',
+                    boxShadow: `0 8px 25px ${alpha(theme.palette.primary.main, 0.15)}`,
+                  },
+                }}
+              >
+                <Typography
+                  variant="h3"
+                  sx={{
+                    mb: 1,
+                    background: theme.palette.background.gradient,
+                    backgroundClip: 'text',
+                    WebkitBackgroundClip: 'text',
+                    color: 'transparent',
+                  }}
+                >
+                  {stat.value}
+                </Typography>
+                <Typography variant="h6" color="text.secondary">
+                  {stat.label}
+                </Typography>
+              </Paper>
+            </Grid>
+          ))}
+        </Grid>
+      </Container>
+
+      {/* Features Section */}
+      <Container maxWidth="lg" sx={{ mb: { xs: 8, md: 15 } }}>
+        <Typography
+          variant="h2"
+          align="center"
+          sx={{
+            mb: 8,
+            background: theme.palette.background.gradient,
+            backgroundClip: 'text',
+            WebkitBackgroundClip: 'text',
+            color: 'transparent',
+          }}
+        >
+          Key Features
+        </Typography>
+        <Grid container spacing={4}>
+          {features.map((feature, index) => (
+            <Grid item xs={12} sm={6} md={3} key={index}>
+              <Card
+                sx={{
+                  height: '100%',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  background: alpha(theme.palette.background.paper, 0.8),
+                  backdropFilter: 'blur(8px)',
+                  transition: 'all 0.3s ease-in-out',
+                  '&:hover': {
+                    transform: 'translateY(-8px)',
+                    boxShadow: `0 12px 30px ${alpha(theme.palette.primary.main, 0.15)}`,
+                  },
+                }}
+              >
+                <CardContent sx={{ flexGrow: 1, p: 4 }}>
+                  <Box
+                    sx={{
+                      mb: 3,
                       p: 2,
                       borderRadius: 2,
-                      bgcolor: 'primary.main',
-                      color: 'white',
-                      display: 'flex',
-                      boxShadow: '0 8px 16px rgba(79, 70, 229, 0.2)'
-                    }}>
-                      {feature.icon}
-                    </Box>
+                      background: feature.gradient,
+                      width: 'fit-content',
+                    }}
+                  >
+                    {React.cloneElement(feature.icon, {
+                      sx: { fontSize: 32, color: 'white' }
+                    })}
                   </Box>
-                  <Typography variant="h6" gutterBottom sx={{ fontWeight: 600 }}>
+                  <Typography variant="h5" gutterBottom>
                     {feature.title}
                   </Typography>
-                  <Typography variant="body2" color="text.secondary" sx={{ mb: 3, flexGrow: 1 }}>
+                  <Typography
+                    variant="body1"
+                    color="text.secondary"
+                    sx={{ mb: 3 }}
+                  >
                     {feature.description}
                   </Typography>
                   <Button
                     variant="outlined"
-                    size="large"
+                    endIcon={<ArrowForward />}
                     onClick={feature.action}
-                    sx={{ 
-                      alignSelf: 'flex-start',
+                    sx={{
+                      mt: 'auto',
                       borderWidth: 2,
                       '&:hover': {
-                        borderWidth: 2
-                      }
+                        borderWidth: 2,
+                      },
                     }}
                   >
                     {feature.buttonText}
                   </Button>
-                </Paper>
-              </Grid>
-            ))}
-          </Grid>
-        </Box>
-
-        {/* About Section */}
-        <Box sx={{ 
-          mt: { xs: 6, md: 12 }, 
-          mb: { xs: 4, md: 8 },
-          py: { xs: 4, md: 8 },
-          px: { xs: 3, md: 6 },
-          borderRadius: 4,
-          background: '#ffffff',
-          boxShadow: '0 10px 30px rgba(0, 0, 0, 0.05)'
-        }}>
-          <Typography variant="h4" gutterBottom>
-            About Skill Bridge
-          </Typography>
-          <Typography variant="body1" color="text.secondary" paragraph>
-            Skill Bridge is your comprehensive career development platform designed to help you navigate the ever-evolving job market. Our intelligent system combines data-driven insights with personalized recommendations to guide your professional growth.
-          </Typography>
-          <Grid container spacing={3} sx={{ mt: 2 }}>
-            <Grid item xs={12} md={4}>
-              <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                <TrendingUp color="primary" sx={{ mr: 1 }} />
-                <Typography variant="h6">Learning Paths</Typography>
-              </Box>
-              <Typography variant="body2" color="text.secondary">
-                Customized learning journeys based on your career goals
-              </Typography>
+                </CardContent>
+              </Card>
             </Grid>
-            <Grid item xs={12} md={4}>
-              <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                <School color="primary" sx={{ mr: 1 }} />
-                <Typography variant="h6">Skill Certification</Typography>
-              </Box>
-              <Typography variant="body2" color="text.secondary">
-                Get certified in the skills that matter most
-              </Typography>
-            </Grid>
-            <Grid item xs={12} md={4}>
-              <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                <Timeline color="primary" sx={{ mr: 1 }} />
-                <Typography variant="h6">Career Support</Typography>
-              </Box>
-              <Typography variant="body2" color="text.secondary">
-                Ongoing guidance for your professional development
-              </Typography>
-            </Grid>
-          </Grid>
-        </Box>
+          ))}
+        </Grid>
       </Container>
-
-      {/* Footer */}
-      <Box 
-        component="footer" 
-        sx={{ 
-          py: 6, 
-          bgcolor: '#fafafa',
-          borderTop: '1px solid',
-          borderColor: 'divider'
-        }}
-      >
-        <Container maxWidth="lg">
-          <Grid container spacing={4}>
-            <Grid item xs={12} md={4}>
-              <Typography variant="h6" gutterBottom sx={{ fontWeight: 600 }}>
-                Skill Bridge
-              </Typography>
-              <Typography variant="body2" sx={{ opacity: 0.7, mb: 2 }}>
-                Empowering careers through skill development and market insights. Join us in building the future of professional growth.
-              </Typography>
-              <Stack direction="row" spacing={1}>
-                <IconButton size="small" sx={{ color: 'white' }}>
-                  <GitHub />
-                </IconButton>
-                <IconButton size="small" sx={{ color: 'white' }}>
-                  <LinkedIn />
-                </IconButton>
-                <IconButton size="small" sx={{ color: 'white' }}>
-                  <Twitter />
-                </IconButton>
-                <IconButton size="small" sx={{ color: 'white' }}>
-                  <Facebook />
-                </IconButton>
-              </Stack>
-            </Grid>
-            
-            <Grid item xs={12} md={4}>
-              <Typography variant="h6" gutterBottom sx={{ fontWeight: 600 }}>
-                Quick Links
-              </Typography>
-              <Grid container spacing={1}>
-                <Grid item xs={6}>
-                  <Link href="/skill-gap" color="inherit" sx={{ opacity: 0.7, display: 'block', textDecoration: 'none', '&:hover': { opacity: 1 } }}>
-                    Skill Assessment
-                  </Link>
-                  <Link href="/courses" color="inherit" sx={{ opacity: 0.7, display: 'block', textDecoration: 'none', '&:hover': { opacity: 1 } }}>
-                    Courses
-                  </Link>
-                </Grid>
-                <Grid item xs={6}>
-                  <Link href="/trends" color="inherit" sx={{ opacity: 0.7, display: 'block', textDecoration: 'none', '&:hover': { opacity: 1 } }}>
-                    Job Trends
-                  </Link>
-                  <Link href="/resume" color="inherit" sx={{ opacity: 0.7, display: 'block', textDecoration: 'none', '&:hover': { opacity: 1 } }}>
-                    Resume Builder
-                  </Link>
-                </Grid>
-              </Grid>
-            </Grid>
-
-            <Grid item xs={12} md={4}>
-              <Typography variant="h6" gutterBottom sx={{ fontWeight: 600 }}>
-                Contact Us
-              </Typography>
-              <Stack spacing={2}>
-                <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  <Email sx={{ mr: 1, opacity: 0.7 }} />
-                  <Typography variant="body2" sx={{ opacity: 0.7 }}>
-                    support@skillbridge.com
-                  </Typography>
-                </Box>
-                <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  <Phone sx={{ mr: 1, opacity: 0.7 }} />
-                  <Typography variant="body2" sx={{ opacity: 0.7 }}>
-                    +1 (555) 123-4567
-                  </Typography>
-                </Box>
-                <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  <LocationOn sx={{ mr: 1, opacity: 0.7 }} />
-                  <Typography variant="body2" sx={{ opacity: 0.7 }}>
-                    123 Tech Street, Innovation City, 12345
-                  </Typography>
-                </Box>
-              </Stack>
-            </Grid>
-          </Grid>
-
-          <Box sx={{ mt: 6, pt: 3, borderTop: '1px solid rgba(255,255,255,0.1)' }}>
-            <Typography variant="body2" align="center" sx={{ opacity: 0.7 }}>
-              © {new Date().getFullYear()} Skill Bridge. All rights reserved.
-            </Typography>
-          </Box>
-        </Container>
-      </Box>
     </Box>
   );
 }

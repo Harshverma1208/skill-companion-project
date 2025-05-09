@@ -8,8 +8,7 @@ import { useAuth } from './hooks/useAuth';
 import theme from './theme';
 
 // Layout components
-import Navbar from './components/Navbar';
-import Footer from './components/Footer';
+import MainLayout from './layouts/MainLayout';
 
 // Page components
 import Home from './pages/Home';
@@ -18,7 +17,6 @@ import Trends from './pages/trends';
 import Resume from './pages/resume';
 import Profile from './pages/profile';
 import Login from './pages/login';
-import ProfileSection from './components/ProfileSection';
 import SkillGapAnalyzer from './pages/SkillGapAnalyzer';
 
 // Protected Route component
@@ -41,38 +39,38 @@ function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Router>
-        <div className="flex flex-col min-h-screen">
-          <Navbar />
-          <main className="flex-grow">
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/login" element={<Login />} />
-              
-              <Route path="/skill-gap" element={<SkillGapAnalyzer />} />
-              
-              <Route path="/courses" element={
-                <ProtectedRoute>
-                  <Courses />
-                </ProtectedRoute>
-              } />
-              
-              <Route path="/trends" element={
-                <ProtectedRoute>
-                  <Trends />
-                </ProtectedRoute>
-              } />
-              
-              <Route path="/resume" element={
-                <ProtectedRoute>
-                  <Resume />
-                </ProtectedRoute>
-              } />
-              
-              <Route path="/profile" element={<ProfileSection />} />
-            </Routes>
-          </main>
-          <Footer />
-        </div>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          
+          <Route path="/" element={<MainLayout />}>
+            <Route index element={<Home />} />
+            <Route path="skill-gap" element={<SkillGapAnalyzer />} />
+            
+            <Route path="courses" element={
+              <ProtectedRoute>
+                <Courses />
+              </ProtectedRoute>
+            } />
+            
+            <Route path="trends" element={
+              <ProtectedRoute>
+                <Trends />
+              </ProtectedRoute>
+            } />
+            
+            <Route path="resume" element={
+              <ProtectedRoute>
+                <Resume />
+              </ProtectedRoute>
+            } />
+            
+            <Route path="profile" element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            } />
+          </Route>
+        </Routes>
       </Router>
     </ThemeProvider>
   );

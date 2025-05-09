@@ -31,163 +31,249 @@ import {
   FilterList,
 } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
+import { alpha } from '@mui/material/styles';
 
 // Course card component
-const CourseCard = ({ course, onSave }) => (
-  <Card
-    sx={{
-      height: '100%',
-      display: 'flex',
-      flexDirection: 'column',
-      '&:hover': {
-        boxShadow: 6,
-        transform: 'translateY(-4px)',
-        transition: 'all 0.3s ease',
-      },
-    }}
-  >
-    <CardMedia
-      component="img"
-      height="160"
-      image={course.image}
-      alt={course.title}
-      sx={{ objectFit: 'cover' }}
-    />
-    <CardContent sx={{ flexGrow: 1, p: 2 }}>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-        <Typography 
-          variant="caption" 
-          sx={{ 
-            backgroundColor: 'white',
-            color: 'text.primary',
-            px: 1,
-            py: 0.5,
-            borderRadius: 1,
-            fontSize: '0.75rem',
-            fontWeight: 500,
-            border: '1px solid #e0e0e0'
+const CourseCard = ({ course, onSave }) => {
+  const theme = useTheme();
+  
+  return (
+    <Card
+      elevation={0}
+      sx={{
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        background: alpha(theme.palette.background.paper, 0.8),
+        backdropFilter: 'blur(12px)',
+        borderRadius: 4,
+        border: `1px solid ${alpha(theme.palette.primary.main, 0.1)}`,
+        overflow: 'hidden',
+        transition: 'all 0.3s ease-in-out',
+        '&:hover': {
+          transform: 'translateY(-8px)',
+          boxShadow: `0 12px 48px ${alpha(theme.palette.primary.main, 0.12)}`,
+          '& .course-image': {
+            transform: 'scale(1.05)',
+          },
+        },
+      }}
+    >
+      <Box sx={{ position: 'relative', overflow: 'hidden' }}>
+        <CardMedia
+          component="img"
+          height="180"
+          image={course.image}
+          alt={course.title}
+          className="course-image"
+          sx={{
+            objectFit: 'cover',
+            transition: 'transform 0.3s ease-in-out',
+          }}
+        />
+        <Box
+          sx={{
+            position: 'absolute',
+            top: 12,
+            left: 12,
+            right: 12,
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
           }}
         >
-          {course.platform}
-        </Typography>
-        <IconButton size="small" onClick={() => onSave(course)}>
-          {course.saved ? <Bookmark color="primary" /> : <BookmarkBorder />}
-        </IconButton>
-      </Box>
-      <Typography 
-        variant="h6" 
-        gutterBottom 
-        sx={{ 
-          fontSize: '1.1rem',
-          fontWeight: 600,
-          lineHeight: 1.3,
-          height: '2.8em',
-          overflow: 'hidden',
-          textOverflow: 'ellipsis',
-          display: '-webkit-box',
-          WebkitLineClamp: 2,
-          WebkitBoxOrient: 'vertical'
-        }}
-      >
-        {course.title}
-      </Typography>
-      <Typography 
-        variant="body2" 
-        color="text.secondary" 
-        sx={{ 
-          mb: 2,
-          height: '3em',
-          overflow: 'hidden',
-          textOverflow: 'ellipsis',
-          display: '-webkit-box',
-          WebkitLineClamp: 2,
-          WebkitBoxOrient: 'vertical'
-        }}
-      >
-        {course.description}
-      </Typography>
-      <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-        <AccessTime sx={{ fontSize: 16, mr: 0.5, color: 'text.secondary' }} />
-        <Typography variant="caption" color="text.secondary">
-          {course.duration}
-        </Typography>
-        <Box sx={{ ml: 2, display: 'flex', alignItems: 'center' }}>
-          <Rating 
-            value={course.rating} 
-            precision={0.1} 
-            size="small" 
-            readOnly 
-            sx={{ mr: 0.5 }}
+          <Chip
+            label={course.platform}
+            sx={{
+              backgroundColor: alpha(theme.palette.background.paper, 0.9),
+              backdropFilter: 'blur(8px)',
+              color: theme.palette.text.primary,
+              fontWeight: 600,
+              fontSize: '0.75rem',
+              height: 28,
+              '& .MuiChip-label': {
+                px: 1.5,
+              },
+            }}
           />
-          <Typography variant="caption" color="text.secondary">
-            ({course.reviewCount.toLocaleString()})
-          </Typography>
+          <IconButton
+            size="small"
+            onClick={() => onSave(course)}
+            sx={{
+              backgroundColor: alpha(theme.palette.background.paper, 0.9),
+              backdropFilter: 'blur(8px)',
+              width: 32,
+              height: 32,
+              '&:hover': {
+                backgroundColor: alpha(theme.palette.background.paper, 1),
+                transform: 'scale(1.1)',
+              },
+            }}
+          >
+            {course.saved ? (
+              <Bookmark sx={{ fontSize: 18, color: theme.palette.primary.main }} />
+            ) : (
+              <BookmarkBorder sx={{ fontSize: 18 }} />
+            )}
+          </IconButton>
         </Box>
       </Box>
-      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, mb: 2 }}>
-        {course.skills.slice(0, 3).map((skill) => (
-          <Chip
-            key={skill}
-            label={skill}
-            size="small"
-            variant="outlined"
-            sx={{ 
-              borderColor: 'primary.light',
-              color: 'primary.main',
-              '& .MuiChip-label': {
-                px: 1,
-                fontSize: '0.7rem'
-              }
-            }}
-          />
-        ))}
-        {course.skills.length > 3 && (
-          <Chip
-            label={`+${course.skills.length - 3}`}
-            size="small"
-            variant="outlined"
-            sx={{ 
-              borderColor: 'primary.light',
-              color: 'primary.main',
-              '& .MuiChip-label': {
-                px: 1,
-                fontSize: '0.7rem'
-              }
-            }}
-          />
-        )}
-      </Box>
-      <Box sx={{ 
-        display: 'flex', 
-        justifyContent: 'space-between', 
-        alignItems: 'center',
-        mt: 'auto'
-      }}>
-        <Typography 
-          variant="h6" 
-          color="primary"
-          sx={{ fontWeight: 600 }}
-        >
-          {course.price === 0 ? 'Free' : `$${course.price}`}
-        </Typography>
-        <Button 
-          variant="contained" 
-          size="small"
-          href={course.url}
-          target="_blank"
-          rel="noopener noreferrer"
+      <CardContent sx={{ flexGrow: 1, p: 3 }}>
+        <Typography
+          variant="h6"
+          gutterBottom
           sx={{
-            textTransform: 'none',
-            fontWeight: 600,
-            px: 2
+            fontSize: '1.1rem',
+            fontWeight: 700,
+            lineHeight: 1.4,
+            height: '2.8em',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            display: '-webkit-box',
+            WebkitLineClamp: 2,
+            WebkitBoxOrient: 'vertical',
+            mb: 1,
           }}
         >
-          Enroll Now
-        </Button>
-      </Box>
-    </CardContent>
-  </Card>
-);
+          {course.title}
+        </Typography>
+        <Typography
+          variant="body2"
+          sx={{
+            mb: 2,
+            height: '3em',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            display: '-webkit-box',
+            WebkitLineClamp: 2,
+            WebkitBoxOrient: 'vertical',
+            color: alpha(theme.palette.text.primary, 0.7),
+            lineHeight: 1.6,
+          }}
+        >
+          {course.description}
+        </Typography>
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            mb: 2,
+            gap: 2,
+          }}
+        >
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              color: alpha(theme.palette.text.primary, 0.6),
+            }}
+          >
+            <AccessTime sx={{ fontSize: 16, mr: 0.5 }} />
+            <Typography variant="caption">{course.duration}</Typography>
+          </Box>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Rating
+              value={course.rating}
+              precision={0.1}
+              size="small"
+              readOnly
+              sx={{
+                mr: 0.5,
+                '& .MuiRating-iconFilled': {
+                  color: theme.palette.warning.main,
+                },
+              }}
+            />
+            <Typography
+              variant="caption"
+              sx={{ color: alpha(theme.palette.text.primary, 0.6) }}
+            >
+              ({course.reviewCount.toLocaleString()})
+            </Typography>
+          </Box>
+        </Box>
+        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.8, mb: 3 }}>
+          {course.skills.slice(0, 3).map((skill) => (
+            <Chip
+              key={skill}
+              label={skill}
+              size="small"
+              sx={{
+                backgroundColor: alpha(theme.palette.primary.main, 0.1),
+                color: theme.palette.primary.main,
+                fontWeight: 500,
+                fontSize: '0.7rem',
+                height: 24,
+                '& .MuiChip-label': {
+                  px: 1.2,
+                },
+              }}
+            />
+          ))}
+          {course.skills.length > 3 && (
+            <Chip
+              label={`+${course.skills.length - 3}`}
+              size="small"
+              sx={{
+                backgroundColor: alpha(theme.palette.primary.main, 0.1),
+                color: theme.palette.primary.main,
+                fontWeight: 500,
+                fontSize: '0.7rem',
+                height: 24,
+                '& .MuiChip-label': {
+                  px: 1.2,
+                },
+              }}
+            />
+          )}
+        </Box>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            mt: 'auto',
+          }}
+        >
+          <Typography
+            variant="h6"
+            sx={{
+              fontWeight: 700,
+              background: theme.palette.background.gradient,
+              backgroundClip: 'text',
+              WebkitBackgroundClip: 'text',
+              color: 'transparent',
+            }}
+          >
+            {course.price === 0 ? 'Free' : `$${course.price}`}
+          </Typography>
+          <Button
+            variant="contained"
+            size="medium"
+            href={course.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            sx={{
+              textTransform: 'none',
+              fontWeight: 600,
+              px: 2.5,
+              py: 1,
+              borderRadius: 2,
+              background: theme.palette.background.gradient,
+              transition: 'all 0.2s ease-in-out',
+              '&:hover': {
+                transform: 'translateY(-2px)',
+                boxShadow: `0 8px 25px ${alpha(theme.palette.primary.main, 0.25)}`,
+              },
+            }}
+          >
+            Enroll Now
+          </Button>
+        </Box>
+      </CardContent>
+    </Card>
+  );
+};
 
 function Courses() {
   const dispatch = useDispatch();
@@ -198,6 +284,7 @@ function Courses() {
     difficulty: 'all',
     priceRange: 'all',
   });
+  const theme = useTheme();
 
   // Sample courses data - In real app, this would come from Redux store
   const sampleCourses = [
@@ -352,25 +439,73 @@ function Courses() {
   };
 
   return (
-    <Container maxWidth="lg" sx={{ py: 4 }}>
-      <Typography variant="h4" gutterBottom>
-        Course Recommendations
-      </Typography>
-      <Typography variant="body1" color="text.secondary" sx={{ mb: 4 }}>
-        Find the best courses to enhance your skills.
-      </Typography>
+    <Box
+      sx={{
+        minHeight: '100vh',
+        background: `linear-gradient(to bottom, ${alpha(theme.palette.background.default, 0.95)}, ${alpha(theme.palette.background.default, 1)})`,
+        py: { xs: 4, md: 6 },
+      }}
+    >
+      <Container maxWidth="lg">
+        {/* Header */}
+        <Box sx={{ mb: 6, textAlign: 'center' }}>
+          <Typography
+            variant="h3"
+            sx={{
+              fontWeight: 800,
+              mb: 2,
+              background: theme.palette.background.gradient,
+              backgroundClip: 'text',
+              WebkitBackgroundClip: 'text',
+              color: 'transparent',
+              position: 'relative',
+              display: 'inline-block',
+              '&::after': {
+                content: '""',
+                position: 'absolute',
+                bottom: -8,
+                left: '50%',
+                transform: 'translateX(-50%)',
+                width: '60px',
+                height: '4px',
+                background: theme.palette.background.gradient,
+                borderRadius: '2px',
+              },
+            }}
+          >
+            Explore Courses
+          </Typography>
+          <Typography
+            variant="h6"
+            sx={{
+              color: alpha(theme.palette.text.primary, 0.7),
+              fontWeight: 500,
+              maxWidth: '800px',
+              mx: 'auto',
+            }}
+          >
+            Discover top-rated courses from leading platforms to enhance your skills
+          </Typography>
+        </Box>
 
-      {/* Filters */}
-      <Card sx={{ mb: 4 }}>
-        <CardContent>
-          <Grid container spacing={2}>
-            <Grid item xs={12} md={6}>
+        {/* Filters */}
+        <Box
+          sx={{
+            mb: 4,
+            p: { xs: 2, sm: 3 },
+            borderRadius: 4,
+            background: alpha(theme.palette.background.paper, 0.8),
+            backdropFilter: 'blur(12px)',
+            border: `1px solid ${alpha(theme.palette.primary.main, 0.1)}`,
+          }}
+        >
+          <Grid container spacing={3}>
+            <Grid item xs={12} sm={6} md={4}>
               <TextField
                 fullWidth
-                name="search"
-                value={filters.search}
-                onChange={handleFilterChange}
                 placeholder="Search courses..."
+                value={filters.search}
+                onChange={(e) => setFilters({ ...filters, search: e.target.value })}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
@@ -378,77 +513,106 @@ function Courses() {
                     </InputAdornment>
                   ),
                 }}
+                sx={{
+                  '& .MuiOutlinedInput-root': {
+                    borderRadius: 2,
+                    backgroundColor: alpha(theme.palette.background.paper, 0.8),
+                    '&:hover': {
+                      backgroundColor: alpha(theme.palette.background.paper, 0.9),
+                    },
+                  },
+                }}
               />
             </Grid>
-            <Grid item xs={12} sm={4} md={2}>
-              <FormControl fullWidth>
-                <InputLabel>Platform</InputLabel>
-                <Select
-                  name="platform"
-                  value={filters.platform}
-                  onChange={handleFilterChange}
-                  label="Platform"
-                >
-                  <MenuItem value="all">All Platforms</MenuItem>
-                  <MenuItem value="coursera">Coursera</MenuItem>
-                  <MenuItem value="udemy">Udemy</MenuItem>
-                  <MenuItem value="edx">edX</MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
-            <Grid item xs={12} sm={4} md={2}>
-              <FormControl fullWidth>
-                <InputLabel>Difficulty</InputLabel>
-                <Select
-                  name="difficulty"
-                  value={filters.difficulty}
-                  onChange={handleFilterChange}
-                  label="Difficulty"
-                >
-                  <MenuItem value="all">All Levels</MenuItem>
-                  <MenuItem value="beginner">Beginner</MenuItem>
-                  <MenuItem value="intermediate">Intermediate</MenuItem>
-                  <MenuItem value="advanced">Advanced</MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
-            <Grid item xs={12} sm={4} md={2}>
-              <FormControl fullWidth>
-                <InputLabel>Price Range</InputLabel>
-                <Select
-                  name="priceRange"
-                  value={filters.priceRange}
-                  onChange={handleFilterChange}
-                  label="Price Range"
-                >
-                  <MenuItem value="all">All Prices</MenuItem>
-                  <MenuItem value="free">Free</MenuItem>
-                  <MenuItem value="paid">Paid</MenuItem>
-                </Select>
-              </FormControl>
+            <Grid item xs={12} sm={6} md={8}>
+              <Box sx={{ display: 'flex', gap: 2 }}>
+                <FormControl fullWidth>
+                  <InputLabel>Platform</InputLabel>
+                  <Select
+                    value={filters.platform}
+                    label="Platform"
+                    onChange={(e) => setFilters({ ...filters, platform: e.target.value })}
+                    sx={{
+                      borderRadius: 2,
+                      backgroundColor: alpha(theme.palette.background.paper, 0.8),
+                      '&:hover': {
+                        backgroundColor: alpha(theme.palette.background.paper, 0.9),
+                      },
+                    }}
+                  >
+                    <MenuItem value="all">All Platforms</MenuItem>
+                    <MenuItem value="udemy">Udemy</MenuItem>
+                    <MenuItem value="coursera">Coursera</MenuItem>
+                    <MenuItem value="edx">edX</MenuItem>
+                  </Select>
+                </FormControl>
+                <FormControl fullWidth>
+                  <InputLabel>Difficulty</InputLabel>
+                  <Select
+                    value={filters.difficulty}
+                    label="Difficulty"
+                    onChange={(e) => setFilters({ ...filters, difficulty: e.target.value })}
+                    sx={{
+                      borderRadius: 2,
+                      backgroundColor: alpha(theme.palette.background.paper, 0.8),
+                      '&:hover': {
+                        backgroundColor: alpha(theme.palette.background.paper, 0.9),
+                      },
+                    }}
+                  >
+                    <MenuItem value="all">All Levels</MenuItem>
+                    <MenuItem value="beginner">Beginner</MenuItem>
+                    <MenuItem value="intermediate">Intermediate</MenuItem>
+                    <MenuItem value="advanced">Advanced</MenuItem>
+                  </Select>
+                </FormControl>
+                <FormControl fullWidth>
+                  <InputLabel>Price Range</InputLabel>
+                  <Select
+                    value={filters.priceRange}
+                    label="Price Range"
+                    onChange={(e) => setFilters({ ...filters, priceRange: e.target.value })}
+                    sx={{
+                      borderRadius: 2,
+                      backgroundColor: alpha(theme.palette.background.paper, 0.8),
+                      '&:hover': {
+                        backgroundColor: alpha(theme.palette.background.paper, 0.9),
+                      },
+                    }}
+                  >
+                    <MenuItem value="all">All Prices</MenuItem>
+                    <MenuItem value="free">Free</MenuItem>
+                    <MenuItem value="paid">Paid</MenuItem>
+                  </Select>
+                </FormControl>
+              </Box>
             </Grid>
           </Grid>
-        </CardContent>
-      </Card>
-
-      {/* Course Grid */}
-      {loading ? (
-        <Box sx={{ display: 'flex', justifyContent: 'center', py: 4 }}>
-          <CircularProgress />
         </Box>
-      ) : (
-        <Grid container spacing={3}>
-          {sampleCourses.map((course) => (
-            <Grid item xs={12} sm={6} md={4} key={course.id}>
-              <CourseCard
-                course={course}
-                onSave={handleSaveCourse}
-              />
-            </Grid>
-          ))}
-        </Grid>
-      )}
-    </Container>
+
+        {/* Course Grid */}
+        {loading ? (
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              minHeight: '400px',
+            }}
+          >
+            <CircularProgress />
+          </Box>
+        ) : (
+          <Grid container spacing={3}>
+            {sampleCourses.map((course) => (
+              <Grid item xs={12} sm={6} md={4} key={course.id}>
+                <CourseCard course={course} onSave={handleSaveCourse} />
+              </Grid>
+            ))}
+          </Grid>
+        )}
+      </Container>
+    </Box>
   );
 }
 
