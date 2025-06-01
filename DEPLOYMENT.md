@@ -1,7 +1,7 @@
 # 🚀 Skill Bridge - Deployment Guide
 
 ## 🌟 Live Demo
-**🔗 Live Application**: [https://skillbridge-onlloj8vy-harsh-vermas-projects-0fca99ab.vercel.app](https://skillbridge-onlloj8vy-harsh-vermas-projects-0fca99ab.vercel.app)
+**🔗 Live Application**: [https://skillbridge-7aro6foi7-harsh-vermas-projects-0fca99ab.vercel.app](https://skillbridge-7aro6foi7-harsh-vermas-projects-0fca99ab.vercel.app)
 
 ## 🔐 Demo Authentication
 The application is deployed with demo authentication for immediate testing:
@@ -16,12 +16,21 @@ The application is deployed with demo authentication for immediate testing:
 
 ## 📋 Features Deployed
 ✅ **AI-Powered Resume Analysis** - Upload and analyze resumes with Gemini AI  
+✅ **Enhanced PDF Processing** - Improved PDF text extraction and validation  
 ✅ **Skill Gap Analysis** - Identify missing skills and get recommendations  
 ✅ **Course Recommendations** - Personalized learning paths  
 ✅ **Job Market Trends** - Real-time industry insights  
 ✅ **Interactive Dashboard** - Beautiful Material-UI interface  
 ✅ **Authentication System** - Secure user management  
 ✅ **Responsive Design** - Works on all devices  
+
+## 🆕 Latest Updates
+🎯 **Improved Resume Analysis** (Latest)
+- Removed Resume Preview tab for focused experience
+- Enhanced PDF upload with better error handling
+- Streamlined analysis workflow
+- Improved UI/UX with better visual feedback
+- Better error messages and loading states
 
 ## 🛠 Deployment Details
 
@@ -165,6 +174,7 @@ Value: 76.76.19.61
 - ✅ Gzip compression via Vercel
 - ✅ CDN distribution
 - ✅ Caching headers
+- ✅ Reduced bundle size (320KB gzipped)
 
 ### Performance Metrics
 - **First Contentful Paint**: < 1.5s
@@ -197,6 +207,7 @@ Value: 76.76.19.61
 2. **API errors**: Check network tab and API endpoints
 3. **Build failures**: Clear cache and reinstall dependencies
 4. **Routing issues**: Ensure basename is correctly configured
+5. **PDF upload issues**: Ensure PDF contains readable text
 
 ### Debug Commands
 ```bash
@@ -239,7 +250,7 @@ GitHub Push -> Vercel Build -> Deploy -> Update Live URL
 - **Email**: harshgverma2001@gmail.com
 
 ### Project Links
-- **Live Demo**: [Skill Bridge App](https://skillbridge-onlloj8vy-harsh-vermas-projects-0fca99ab.vercel.app)
+- **Live Demo**: [Skill Bridge App](https://skillbridge-7aro6foi7-harsh-vermas-projects-0fca99ab.vercel.app)
 - **GitHub Repo**: [skill-companion-project](https://github.com/Harshverma1208/skill-companion-project)
 - **Documentation**: This file
 
