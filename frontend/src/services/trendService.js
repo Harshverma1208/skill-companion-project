@@ -3,96 +3,206 @@
  * Uses Gemini API to get the latest job market trends and data
  */
 
-const API_KEY = process.env.REACT_APP_GEMINI_API_KEY || 'AIzaSyCa3VtgQ_M6Z0pvHAVrhYFNNvm64F4pi-E';
-const API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent';
+const API_KEY =
+  process.env.REACT_APP_GEMINI_API_KEY ||
+  "AIzaSyCa3VtgQ_M6Z0pvHAVrhYFNNvm64F4pi-E";
+const API_URL =
+  "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent";
 
 // Fallback data to use when API calls fail
 const fallbackData = {
   stats: [
-    { "title": "Open Positions", "value": "186,500", "change": "4.8", "period": "vs last month" },
-    { "title": "Average Salary", "value": "$105,800", "change": "2.3", "period": "vs last month" },
-    { "title": "Demand Growth", "value": "9.5%", "change": "1.7", "period": "vs last month" },
-    { "title": "Top Skills", "value": "25", "change": "3.2", "period": "vs last month" }
+    {
+      title: "Open Positions",
+      value: "186,500",
+      change: "4.8",
+      period: "vs last month",
+    },
+    {
+      title: "Average Salary",
+      value: "$105,800",
+      change: "2.3",
+      period: "vs last month",
+    },
+    {
+      title: "Demand Growth",
+      value: "9.5%",
+      change: "1.7",
+      period: "vs last month",
+    },
+    {
+      title: "Top Skills",
+      value: "25",
+      change: "3.2",
+      period: "vs last month",
+    },
   ],
   salaryTrends: [
-    { "role": "Full Stack Developer", "salary": 115000, "growth": 7.2, "openings": 45000 },
-    { "role": "Frontend Developer", "salary": 102000, "growth": 5.8, "openings": 38000 },
-    { "role": "Backend Developer", "salary": 112000, "growth": 6.4, "openings": 42000 },
-    { "role": "DevOps Engineer", "salary": 125000, "growth": 9.1, "openings": 28000 },
-    { "role": "Data Scientist", "salary": 130000, "growth": 8.5, "openings": 25000 },
-    { "role": "Cloud Architect", "salary": 145000, "growth": 10.2, "openings": 18000 },
-    { "role": "ML Engineer", "salary": 135000, "growth": 12.3, "openings": 15000 },
-    { "role": "UI/UX Designer", "salary": 95000, "growth": 4.5, "openings": 30000 },
-    { "role": "Security Engineer", "salary": 128000, "growth": 11.8, "openings": 22000 },
-    { "role": "Mobile Developer", "salary": 108000, "growth": 5.3, "openings": 33000 }
+    {
+      role: "Full Stack Developer",
+      salary: 115000,
+      growth: 7.2,
+      openings: 45000,
+    },
+    {
+      role: "Frontend Developer",
+      salary: 102000,
+      growth: 5.8,
+      openings: 38000,
+    },
+    { role: "Backend Developer", salary: 112000, growth: 6.4, openings: 42000 },
+    { role: "DevOps Engineer", salary: 125000, growth: 9.1, openings: 28000 },
+    { role: "Data Scientist", salary: 130000, growth: 8.5, openings: 25000 },
+    { role: "Cloud Architect", salary: 145000, growth: 10.2, openings: 18000 },
+    { role: "ML Engineer", salary: 135000, growth: 12.3, openings: 15000 },
+    { role: "UI/UX Designer", salary: 95000, growth: 4.5, openings: 30000 },
+    {
+      role: "Security Engineer",
+      salary: 128000,
+      growth: 11.8,
+      openings: 22000,
+    },
+    { role: "Mobile Developer", salary: 108000, growth: 5.3, openings: 33000 },
   ],
   industryDistribution: [
-    { "name": "Technology", "value": 42, "jobs": 350000 },
-    { "name": "Finance", "value": 18, "jobs": 150000 },
-    { "name": "Healthcare", "value": 15, "jobs": 125000 },
-    { "name": "E-commerce", "value": 12, "jobs": 100000 },
-    { "name": "Manufacturing", "value": 8, "jobs": 67000 },
-    { "name": "Education", "value": 5, "jobs": 42000 }
+    { name: "Technology", value: 42, jobs: 350000 },
+    { name: "Finance", value: 18, jobs: 150000 },
+    { name: "Healthcare", value: 15, jobs: 125000 },
+    { name: "E-commerce", value: 12, jobs: 100000 },
+    { name: "Manufacturing", value: 8, jobs: 67000 },
+    { name: "Education", value: 5, jobs: 42000 },
   ],
   skillDemand: [
-    { "month": "Jan", "React": 85, "Node": 78, "Python": 90, "AWS": 86, "DevOps": 84, "AI": 92, "Security": 88, "UI": 76, "Mobile": 74, "Cloud": 89 },
-    { "month": "Feb", "React": 86, "Node": 79, "Python": 91, "AWS": 87, "DevOps": 85, "AI": 93, "Security": 89, "UI": 77, "Mobile": 75, "Cloud": 90 },
-    { "month": "Mar", "React": 87, "Node": 80, "Python": 92, "AWS": 88, "DevOps": 86, "AI": 94, "Security": 90, "UI": 78, "Mobile": 76, "Cloud": 91 },
-    { "month": "Apr", "React": 88, "Node": 82, "Python": 93, "AWS": 89, "DevOps": 87, "AI": 95, "Security": 91, "UI": 79, "Mobile": 77, "Cloud": 92 },
-    { "month": "May", "React": 89, "Node": 83, "Python": 94, "AWS": 90, "DevOps": 88, "AI": 96, "Security": 92, "UI": 80, "Mobile": 78, "Cloud": 93 },
-    { "month": "Jun", "React": 90, "Node": 85, "Python": 95, "AWS": 91, "DevOps": 89, "AI": 97, "Security": 93, "UI": 81, "Mobile": 79, "Cloud": 94 }
+    {
+      month: "Jan",
+      React: 85,
+      Node: 78,
+      Python: 90,
+      AWS: 86,
+      DevOps: 84,
+      AI: 92,
+      Security: 88,
+      UI: 76,
+      Mobile: 74,
+      Cloud: 89,
+    },
+    {
+      month: "Feb",
+      React: 86,
+      Node: 79,
+      Python: 91,
+      AWS: 87,
+      DevOps: 85,
+      AI: 93,
+      Security: 89,
+      UI: 77,
+      Mobile: 75,
+      Cloud: 90,
+    },
+    {
+      month: "Mar",
+      React: 87,
+      Node: 80,
+      Python: 92,
+      AWS: 88,
+      DevOps: 86,
+      AI: 94,
+      Security: 90,
+      UI: 78,
+      Mobile: 76,
+      Cloud: 91,
+    },
+    {
+      month: "Apr",
+      React: 88,
+      Node: 82,
+      Python: 93,
+      AWS: 89,
+      DevOps: 87,
+      AI: 95,
+      Security: 91,
+      UI: 79,
+      Mobile: 77,
+      Cloud: 92,
+    },
+    {
+      month: "May",
+      React: 89,
+      Node: 83,
+      Python: 94,
+      AWS: 90,
+      DevOps: 88,
+      AI: 96,
+      Security: 92,
+      UI: 80,
+      Mobile: 78,
+      Cloud: 93,
+    },
+    {
+      month: "Jun",
+      React: 90,
+      Node: 85,
+      Python: 95,
+      AWS: 91,
+      DevOps: 89,
+      AI: 97,
+      Security: 93,
+      UI: 81,
+      Mobile: 79,
+      Cloud: 94,
+    },
   ],
   trendingTech: [
-    { "name": "Generative AI", "growth": 152 },
-    { "name": "Web3", "growth": 73 },
-    { "name": "Serverless Architecture", "growth": 48 },
-    { "name": "Edge Computing", "growth": 37 },
-    { "name": "Low-Code Development", "growth": 29 }
+    { name: "Generative AI", growth: 152 },
+    { name: "Web3", growth: 73 },
+    { name: "Serverless Architecture", growth: 48 },
+    { name: "Edge Computing", growth: 37 },
+    { name: "Low-Code Development", growth: 29 },
   ],
   jobDetails: [
-    { 
-      "role": "Full Stack Developer", 
-      "skills": ["JavaScript", "React", "Node.js", "MongoDB"], 
-      "avgExperience": "3-5 years", 
-      "remotePercentage": 68, 
-      "topLocations": ["San Francisco", "New York", "Austin"] 
+    {
+      role: "Full Stack Developer",
+      skills: ["JavaScript", "React", "Node.js", "MongoDB"],
+      avgExperience: "3-5 years",
+      remotePercentage: 68,
+      topLocations: ["San Francisco", "New York", "Austin"],
     },
-    { 
-      "role": "Frontend Developer", 
-      "skills": ["React", "TypeScript", "CSS", "HTML"], 
-      "avgExperience": "2-4 years", 
-      "remotePercentage": 72, 
-      "topLocations": ["Seattle", "Boston", "Denver"] 
+    {
+      role: "Frontend Developer",
+      skills: ["React", "TypeScript", "CSS", "HTML"],
+      avgExperience: "2-4 years",
+      remotePercentage: 72,
+      topLocations: ["Seattle", "Boston", "Denver"],
     },
-    { 
-      "role": "Backend Developer", 
-      "skills": ["Python", "Java", "Go", "SQL"], 
-      "avgExperience": "3-5 years", 
-      "remotePercentage": 65, 
-      "topLocations": ["New York", "Chicago", "Atlanta"] 
+    {
+      role: "Backend Developer",
+      skills: ["Python", "Java", "Go", "SQL"],
+      avgExperience: "3-5 years",
+      remotePercentage: 65,
+      topLocations: ["New York", "Chicago", "Atlanta"],
     },
-    { 
-      "role": "DevOps Engineer", 
-      "skills": ["Docker", "Kubernetes", "AWS", "CI/CD"], 
-      "avgExperience": "4-6 years", 
-      "remotePercentage": 58, 
-      "topLocations": ["San Francisco", "Seattle", "Austin"] 
+    {
+      role: "DevOps Engineer",
+      skills: ["Docker", "Kubernetes", "AWS", "CI/CD"],
+      avgExperience: "4-6 years",
+      remotePercentage: 58,
+      topLocations: ["San Francisco", "Seattle", "Austin"],
     },
-    { 
-      "role": "Data Scientist", 
-      "skills": ["Python", "SQL", "Machine Learning", "Statistics"], 
-      "avgExperience": "3-6 years", 
-      "remotePercentage": 62, 
-      "topLocations": ["San Francisco", "New York", "Boston"] 
+    {
+      role: "Data Scientist",
+      skills: ["Python", "SQL", "Machine Learning", "Statistics"],
+      avgExperience: "3-6 years",
+      remotePercentage: 62,
+      topLocations: ["San Francisco", "New York", "Boston"],
     },
-    { 
-      "role": "Cloud Architect", 
-      "skills": ["AWS", "Azure", "GCP", "Infrastructure as Code"], 
-      "avgExperience": "5-8 years", 
-      "remotePercentage": 55, 
-      "topLocations": ["Seattle", "San Francisco", "Chicago"] 
-    }
-  ]
+    {
+      role: "Cloud Architect",
+      skills: ["AWS", "Azure", "GCP", "Infrastructure as Code"],
+      avgExperience: "5-8 years",
+      remotePercentage: 55,
+      topLocations: ["Seattle", "San Francisco", "Chicago"],
+    },
+  ],
 };
 
 /**
@@ -124,7 +234,7 @@ export const fetchMarketStats = async () => {
 
     return await fetchGeminiData(prompt);
   } catch (error) {
-    console.error('Error fetching market stats:', error);
+    console.error("Error fetching market stats:", error);
     return { stats: fallbackData.stats };
   }
 };
@@ -159,7 +269,7 @@ export const fetchSalaryTrends = async () => {
 
     return await fetchGeminiData(prompt);
   } catch (error) {
-    console.error('Error fetching salary trends:', error);
+    console.error("Error fetching salary trends:", error);
     return { salaryTrends: fallbackData.salaryTrends };
   }
 };
@@ -192,7 +302,7 @@ export const fetchIndustryDistribution = async () => {
 
     return await fetchGeminiData(prompt);
   } catch (error) {
-    console.error('Error fetching industry distribution:', error);
+    console.error("Error fetching industry distribution:", error);
     return { industryDistribution: fallbackData.industryDistribution };
   }
 };
@@ -221,7 +331,7 @@ export const fetchSkillDemand = async () => {
 
     return await fetchGeminiData(prompt);
   } catch (error) {
-    console.error('Error fetching skill demand:', error);
+    console.error("Error fetching skill demand:", error);
     return { skillDemand: fallbackData.skillDemand };
   }
 };
@@ -253,7 +363,7 @@ export const fetchTrendingTech = async () => {
 
     return await fetchGeminiData(prompt);
   } catch (error) {
-    console.error('Error fetching trending tech:', error);
+    console.error("Error fetching trending tech:", error);
     return { trendingTech: fallbackData.trendingTech };
   }
 };
@@ -295,7 +405,7 @@ export const fetchJobDetails = async () => {
 
     return await fetchGeminiData(prompt);
   } catch (error) {
-    console.error('Error fetching job details:', error);
+    console.error("Error fetching job details:", error);
     return { jobDetails: fallbackData.jobDetails };
   }
 };
@@ -308,27 +418,27 @@ export const fetchJobDetails = async () => {
 const fetchGeminiData = async (prompt) => {
   try {
     const response = await fetch(`${API_URL}?key=${API_KEY}`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         contents: [
           {
             parts: [
               {
-                text: prompt
-              }
-            ]
-          }
+                text: prompt,
+              },
+            ],
+          },
         ],
         generationConfig: {
           temperature: 0.1,
           topK: 32,
           topP: 0.95,
           maxOutputTokens: 2048,
-        }
-      })
+        },
+      }),
     });
 
     if (!response.ok) {
@@ -336,19 +446,19 @@ const fetchGeminiData = async (prompt) => {
     }
 
     const data = await response.json();
-    
+
     // Extract the JSON from the response text
     const text = data.candidates[0].content.parts[0].text;
     const jsonMatch = text.match(/\{[\s\S]*\}/);
-    
+
     if (!jsonMatch) {
-      throw new Error('Failed to parse Gemini response');
+      throw new Error("Failed to parse Gemini response");
     }
-    
+
     const resultData = JSON.parse(jsonMatch[0]);
     return resultData;
   } catch (error) {
-    console.error('Gemini API error:', error);
+    console.error("Gemini API error:", error);
     throw error;
   }
-}; 
+};

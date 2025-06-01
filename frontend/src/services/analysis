@@ -138,20 +138,33 @@ const genAI = new GoogleGenerativeAI(process.env.REACT_APP_GEMINI_API_KEY);
  * @param {string} resumeText - The text content of the resume
  * @returns {Promise<Object>} - Analysis results
  */
-export const analyzeResume = async (resumeText) => {
+export const analyzeResume = async (text) => {
   try {
-    // Always return sample data
-    console.log("Using sample analysis data");
-    return Promise.resolve(sampleResumeAnalysis);
+    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+    const prompt = `Analyze this resume text and extract key information:
+    ${text}
+    
+    Please provide a structured analysis including:
+    1. Contact Information
+    2. Education
+    3. Work Experience
+    4. Skills
+    5. Projects
+    6. Certifications (if any)
+    7. Key Achievements`;
+
+    const result = await model.generateContent(prompt);
+    const response = await result.response;
+    return response.text();
   } catch (error) {
-    console.error("Resume analysis error:", error);
-    return sampleResumeAnalysis;
+    console.error('Error analyzing resume:', error);
+    throw error;
   }
 };
 
 /**
  * Simplified function to extract text from a PDF file
- * This version just returns dummy text, skipping the actual PDF processing
+ * This version now just returns dummy text, skipping the actual PDF processing
  * @param {File} file - The PDF file
  * @returns {Promise<string>} - Placeholder text
  */
@@ -202,4 +215,4 @@ const getSampleResumeText = (fileName) => {
     Technical Skills
     Programming Languages: Python (NumPy, Pandas, Scikit-learn), Java, JavaScript, C++
   `;
-}; 
+};

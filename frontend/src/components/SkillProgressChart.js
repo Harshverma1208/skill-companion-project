@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   BarChart,
   Bar,
@@ -8,9 +8,17 @@ import {
   Tooltip,
   ResponsiveContainer,
   Cell,
-} from 'recharts';
-import { Box, Typography, useTheme, alpha, Paper, Stack, Chip } from '@mui/material';
-import TrendingUpIcon from '@mui/icons-material/TrendingUp';
+} from "recharts";
+import {
+  Box,
+  Typography,
+  useTheme,
+  alpha,
+  Paper,
+  Stack,
+  Chip,
+} from "@mui/material";
+import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 
 const SkillProgressChart = () => {
   const theme = useTheme();
@@ -18,40 +26,40 @@ const SkillProgressChart = () => {
   // Sample data - replace with real data in production
   const data = [
     {
-      name: 'React',
+      name: "React",
       current: 85,
       target: 95,
-      category: 'Frontend',
+      category: "Frontend",
     },
     {
-      name: 'Node.js',
+      name: "Node.js",
       current: 75,
       target: 90,
-      category: 'Backend',
+      category: "Backend",
     },
     {
-      name: 'MongoDB',
+      name: "MongoDB",
       current: 70,
       target: 85,
-      category: 'Database',
+      category: "Database",
     },
     {
-      name: 'TypeScript',
+      name: "TypeScript",
       current: 65,
       target: 80,
-      category: 'Language',
+      category: "Language",
     },
     {
-      name: 'AWS',
+      name: "AWS",
       current: 60,
       target: 85,
-      category: 'Cloud',
+      category: "Cloud",
     },
   ];
 
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
-      const skill = data.find(item => item.name === label);
+      const skill = data.find((item) => item.name === label);
       return (
         <Paper
           elevation={3}
@@ -59,7 +67,7 @@ const SkillProgressChart = () => {
             background: alpha(theme.palette.background.paper, 0.95),
             p: 2,
             borderRadius: 2,
-            backdropFilter: 'blur(8px)',
+            backdropFilter: "blur(8px)",
             border: `1px solid ${alpha(theme.palette.divider, 0.1)}`,
             minWidth: 200,
           }}
@@ -73,20 +81,37 @@ const SkillProgressChart = () => {
               size="small"
               sx={{
                 background: `${theme.palette.background.gradient}`,
-                color: 'white',
-                width: 'fit-content',
+                color: "white",
+                width: "fit-content",
               }}
             />
             <Box sx={{ color: theme.palette.text.secondary }}>
-              <Typography variant="body2" sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.5 }}>
+              <Typography
+                variant="body2"
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  mb: 0.5,
+                }}
+              >
                 <span>Current Level:</span>
-                <span style={{ color: theme.palette.primary.main, fontWeight: 600 }}>
+                <span
+                  style={{ color: theme.palette.primary.main, fontWeight: 600 }}
+                >
                   {payload[0].value}%
                 </span>
               </Typography>
-              <Typography variant="body2" sx={{ display: 'flex', justifyContent: 'space-between' }}>
+              <Typography
+                variant="body2"
+                sx={{ display: "flex", justifyContent: "space-between" }}
+              >
                 <span>Target Level:</span>
-                <span style={{ color: theme.palette.secondary.main, fontWeight: 600 }}>
+                <span
+                  style={{
+                    color: theme.palette.secondary.main,
+                    fontWeight: 600,
+                  }}
+                >
                   {payload[1].value}%
                 </span>
               </Typography>
@@ -102,18 +127,19 @@ const SkillProgressChart = () => {
     <Paper
       elevation={2}
       sx={{
-        width: '100%',
+        width: "100%",
         height: 500,
         p: 4,
         borderRadius: 3,
-        background: theme.palette.mode === 'dark'
-          ? alpha(theme.palette.background.paper, 0.8)
-          : alpha('#fff', 0.8),
-        backdropFilter: 'blur(12px)',
+        background:
+          theme.palette.mode === "dark"
+            ? alpha(theme.palette.background.paper, 0.8)
+            : alpha("#fff", 0.8),
+        backdropFilter: "blur(12px)",
         border: `1px solid ${alpha(theme.palette.divider, 0.1)}`,
-        transition: 'transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out',
-        '&:hover': {
-          transform: 'translateY(-4px)',
+        transition: "transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out",
+        "&:hover": {
+          transform: "translateY(-4px)",
           boxShadow: theme.shadows[4],
         },
       }}
@@ -125,10 +151,10 @@ const SkillProgressChart = () => {
           sx={{
             fontWeight: 600,
             background: theme.palette.background.gradient,
-            backgroundClip: 'text',
-            WebkitBackgroundClip: 'text',
-            color: 'transparent',
-            letterSpacing: '0.5px',
+            backgroundClip: "text",
+            WebkitBackgroundClip: "text",
+            color: "transparent",
+            letterSpacing: "0.5px",
           }}
         >
           Skill Progress Overview
@@ -159,16 +185,9 @@ const SkillProgressChart = () => {
             axisLine={{ stroke: alpha(theme.palette.divider, 0.2) }}
           />
           <Tooltip content={<CustomTooltip />} />
-          <Bar
-            dataKey="current"
-            name="Current Level"
-            radius={[6, 6, 0, 0]}
-          >
+          <Bar dataKey="current" name="Current Level" radius={[6, 6, 0, 0]}>
             {data.map((entry, index) => (
-              <Cell
-                key={`cell-${index}`}
-                fill={`url(#gradient-${index})`}
-              />
+              <Cell key={`cell-${index}`} fill={`url(#gradient-${index})`} />
             ))}
           </Bar>
           <Bar
@@ -206,4 +225,4 @@ const SkillProgressChart = () => {
   );
 };
 
-export default SkillProgressChart; 
+export default SkillProgressChart;

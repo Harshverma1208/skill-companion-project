@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Box,
   Button,
@@ -16,12 +16,12 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
-} from '@mui/material';
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import WorkIcon from '@mui/icons-material/Work';
-import SchoolIcon from '@mui/icons-material/School';
-import TrendingUpIcon from '@mui/icons-material/TrendingUp';
-import WarningIcon from '@mui/icons-material/Warning';
+} from "@mui/material";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import WorkIcon from "@mui/icons-material/Work";
+import SchoolIcon from "@mui/icons-material/School";
+import TrendingUpIcon from "@mui/icons-material/TrendingUp";
+import WarningIcon from "@mui/icons-material/Warning";
 
 const ResumeAnalyzer = () => {
   const [file, setFile] = useState(null);
@@ -32,12 +32,12 @@ const ResumeAnalyzer = () => {
 
   const handleFileUpload = async (event) => {
     const uploadedFile = event.target.files[0];
-    if (uploadedFile && uploadedFile.type === 'application/pdf') {
+    if (uploadedFile && uploadedFile.type === "application/pdf") {
       setFile(uploadedFile);
       setError(null);
       await analyzeResume(uploadedFile);
     } else {
-      setError('Please upload a PDF file');
+      setError("Please upload a PDF file");
     }
   };
 
@@ -45,38 +45,51 @@ const ResumeAnalyzer = () => {
     setLoading(true);
     try {
       const formData = new FormData();
-      formData.append('file', resumeFile);
+      formData.append("file", resumeFile);
 
-      const response = await fetch('/api/resume/analyze', {
-        method: 'POST',
+      const response = await fetch("/api/resume/analyze", {
+        method: "POST",
         body: formData,
       });
 
       if (!response.ok) {
-        throw new Error('Failed to analyze resume');
+        throw new Error("Failed to analyze resume");
       }
 
       const analysisData = await response.json();
       setAnalysis(analysisData);
     } catch (err) {
-      setError('Error analyzing resume. Please try again.');
-      console.error('Analysis error:', err);
+      setError("Error analyzing resume. Please try again.");
+      console.error("Analysis error:", err);
     } finally {
       setLoading(false);
     }
   };
 
   const renderScoreCircle = (score, label, color) => (
-    <Box sx={{ position: 'relative', display: 'inline-flex', flexDirection: 'column', alignItems: 'center', m: 2 }}>
-      <Box sx={{ position: 'relative' }}>
-        <CircularProgress variant="determinate" value={100} size={80} sx={{ color: '#f0f0f0' }} />
+    <Box
+      sx={{
+        position: "relative",
+        display: "inline-flex",
+        flexDirection: "column",
+        alignItems: "center",
+        m: 2,
+      }}
+    >
+      <Box sx={{ position: "relative" }}>
+        <CircularProgress
+          variant="determinate"
+          value={100}
+          size={80}
+          sx={{ color: "#f0f0f0" }}
+        />
         <CircularProgress
           variant="determinate"
           value={score}
           size={80}
           sx={{
             color: color,
-            position: 'absolute',
+            position: "absolute",
             left: 0,
           }}
         />
@@ -86,10 +99,10 @@ const ResumeAnalyzer = () => {
             left: 0,
             bottom: 0,
             right: 0,
-            position: 'absolute',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
+            position: "absolute",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
           }}
         >
           <Typography variant="h6" component="div" color="text.secondary">
@@ -112,11 +125,29 @@ const ResumeAnalyzer = () => {
               <Typography variant="h6" gutterBottom>
                 Analysis Overview
               </Typography>
-              <Box sx={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap' }}>
-                {renderScoreCircle(analysis.overallScore, 'Overall Score', '#2196f3')}
-                {renderScoreCircle(analysis.skillsMatch, 'Skills Match', '#9c27b0')}
-                {renderScoreCircle(analysis.experience, 'Experience', '#00c853')}
-                {renderScoreCircle(analysis.education, 'Education', '#f44336')}
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  flexWrap: "wrap",
+                }}
+              >
+                {renderScoreCircle(
+                  analysis.overallScore,
+                  "Overall Score",
+                  "#2196f3",
+                )}
+                {renderScoreCircle(
+                  analysis.skillsMatch,
+                  "Skills Match",
+                  "#9c27b0",
+                )}
+                {renderScoreCircle(
+                  analysis.experience,
+                  "Experience",
+                  "#00c853",
+                )}
+                {renderScoreCircle(analysis.education, "Education", "#f44336")}
               </Box>
             </CardContent>
           </Card>
@@ -137,7 +168,7 @@ const ResumeAnalyzer = () => {
                     />
                     <Chip
                       label={skill.priority}
-                      color={skill.priority === 'High' ? 'error' : 'warning'}
+                      color={skill.priority === "High" ? "error" : "warning"}
                       size="small"
                     />
                   </ListItem>
@@ -150,10 +181,15 @@ const ResumeAnalyzer = () => {
         <Grid item xs={12} md={6}>
           <Card>
             <CardContent>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-                <Typography variant="h6">
-                  Recommended Jobs
-                </Typography>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  mb: 2,
+                }}
+              >
+                <Typography variant="h6">Recommended Jobs</Typography>
                 <Button
                   variant="outlined"
                   size="small"
@@ -171,7 +207,7 @@ const ResumeAnalyzer = () => {
                     />
                     <Chip
                       label={`${job.matchScore}% Match`}
-                      color={job.matchScore > 85 ? 'success' : 'primary'}
+                      color={job.matchScore > 85 ? "success" : "primary"}
                       size="small"
                     />
                   </ListItem>
@@ -195,11 +231,17 @@ const ResumeAnalyzer = () => {
               <ListItem key={index} divider>
                 <ListItemText
                   primary={
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                      }}
+                    >
                       <Typography variant="h6">{job.title}</Typography>
                       <Chip
                         label={`${job.matchScore}% Match`}
-                        color={job.matchScore > 85 ? 'success' : 'primary'}
+                        color={job.matchScore > 85 ? "success" : "primary"}
                       />
                     </Box>
                   }
@@ -237,13 +279,13 @@ const ResumeAnalyzer = () => {
       <Typography variant="h5" gutterBottom>
         Resume Analysis
       </Typography>
-      
+
       {!file && !loading && (
-        <Card sx={{ mt: 2, p: 3, textAlign: 'center' }}>
+        <Card sx={{ mt: 2, p: 3, textAlign: "center" }}>
           <CardContent>
             <input
               accept="application/pdf"
-              style={{ display: 'none' }}
+              style={{ display: "none" }}
               id="resume-upload"
               type="file"
               onChange={handleFileUpload}
@@ -266,7 +308,7 @@ const ResumeAnalyzer = () => {
       )}
 
       {loading && (
-        <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
+        <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
           <CircularProgress />
         </Box>
       )}
@@ -282,4 +324,4 @@ const ResumeAnalyzer = () => {
   );
 };
 
-export default ResumeAnalyzer; 
+export default ResumeAnalyzer;

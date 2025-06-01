@@ -383,7 +383,7 @@ function Resume() {
         Resume Analysis
       </Typography>
       <Typography variant="body1" color="text.secondary" sx={{ mb: 2 }}>
-        Upload your resume for AI-powered analysis and improvement suggestions powered by Google's Gemini AI.
+        Upload your resume for AI-powered analysis and improvement suggestions powered by Google&apos;s Gemini AI.
       </Typography>
       
       {/* Developer options in development mode */}

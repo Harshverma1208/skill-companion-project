@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   Container,
   Grid,
@@ -24,7 +24,7 @@ import {
   Tab,
   Tabs,
   Switch,
-} from '@mui/material';
+} from "@mui/material";
 import {
   Edit,
   Delete,
@@ -37,12 +37,12 @@ import {
   Security,
   Save,
   LocationOn,
-} from '@mui/icons-material';
-import { useAuth } from '../hooks/useAuth';
-import { useDispatch, useSelector } from 'react-redux';
-import { userAPI } from '../services/api';
-import { alpha } from '@mui/material/styles';
-import { useTheme } from '@mui/material/styles';
+} from "@mui/icons-material";
+import { useAuth } from "../hooks/useAuth";
+import { useDispatch, useSelector } from "react-redux";
+import { userAPI } from "../services/api";
+import { alpha } from "@mui/material/styles";
+import { useTheme } from "@mui/material/styles";
 
 function TabPanel({ children, value, index }) {
   return value === index && <Box sx={{ py: 3 }}>{children}</Box>;
@@ -54,16 +54,16 @@ function Profile() {
   const [tabValue, setTabValue] = useState(0);
   const [editMode, setEditMode] = useState(false);
   const [skillDialogOpen, setSkillDialogOpen] = useState(false);
-  const [newSkill, setNewSkill] = useState({ name: '', proficiency: 3 });
+  const [newSkill, setNewSkill] = useState({ name: "", proficiency: 3 });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   const [userData, setUserData] = useState({
-    name: '',
-    email: '',
-    title: '',
-    location: '',
-    about: '',
+    name: "",
+    email: "",
+    title: "",
+    location: "",
+    about: "",
     skills: [],
     education: [],
     experience: [],
@@ -82,56 +82,58 @@ function Profile() {
       try {
         setLoading(true);
         const response = await userAPI.getProfile();
-        console.log('Profile data:', response.data);
+        console.log("Profile data:", response.data);
         // For now, keep using sample data
         setUserData({
-          name: 'John Doe',
-          email: 'john.doe@example.com',
-          title: 'Senior Software Engineer',
-          location: 'San Francisco, CA',
-          about: 'Passionate software engineer with 5+ years of experience in full-stack development.',
+          name: "John Doe",
+          email: "john.doe@example.com",
+          title: "Senior Software Engineer",
+          location: "San Francisco, CA",
+          about:
+            "Passionate software engineer with 5+ years of experience in full-stack development.",
           skills: [
-            { name: 'React', proficiency: 5 },
-            { name: 'Node.js', proficiency: 4 },
-            { name: 'Python', proficiency: 3 },
-            { name: 'AWS', proficiency: 4 },
+            { name: "React", proficiency: 5 },
+            { name: "Node.js", proficiency: 4 },
+            { name: "Python", proficiency: 3 },
+            { name: "AWS", proficiency: 4 },
           ],
           education: [
             {
-              degree: 'M.S. Computer Science',
-              school: 'Stanford University',
-              year: '2018-2020',
+              degree: "M.S. Computer Science",
+              school: "Stanford University",
+              year: "2018-2020",
             },
             {
-              degree: 'B.S. Computer Science',
-              school: 'UC Berkeley',
-              year: '2014-2018',
+              degree: "B.S. Computer Science",
+              school: "UC Berkeley",
+              year: "2014-2018",
             },
           ],
           experience: [
             {
-              title: 'Senior Software Engineer',
-              company: 'Tech Corp',
-              duration: '2020-Present',
-              description: 'Leading frontend development team and architecting scalable solutions.',
+              title: "Senior Software Engineer",
+              company: "Tech Corp",
+              duration: "2020-Present",
+              description:
+                "Leading frontend development team and architecting scalable solutions.",
             },
             {
-              title: 'Software Engineer',
-              company: 'StartUp Inc',
-              duration: '2018-2020',
-              description: 'Full-stack development using React and Node.js.',
+              title: "Software Engineer",
+              company: "StartUp Inc",
+              duration: "2018-2020",
+              description: "Full-stack development using React and Node.js.",
             },
           ],
           certifications: [
             {
-              name: 'AWS Certified Solutions Architect',
-              issuer: 'Amazon Web Services',
-              year: '2021',
+              name: "AWS Certified Solutions Architect",
+              issuer: "Amazon Web Services",
+              year: "2021",
             },
             {
-              name: 'Google Cloud Professional Developer',
-              issuer: 'Google',
-              year: '2020',
+              name: "Google Cloud Professional Developer",
+              issuer: "Google",
+              year: "2020",
             },
           ],
           preferences: {
@@ -141,8 +143,8 @@ function Profile() {
           },
         });
       } catch (err) {
-        console.error('Error fetching profile:', err);
-        setError('Failed to load profile data');
+        console.error("Error fetching profile:", err);
+        setError("Failed to load profile data");
       } finally {
         setLoading(false);
       }
@@ -166,26 +168,26 @@ function Profile() {
 
   const handleAddSkill = () => {
     if (newSkill.name) {
-      setUserData(prev => ({
+      setUserData((prev) => ({
         ...prev,
         skills: [...prev.skills, newSkill],
       }));
-      setNewSkill({ name: '', proficiency: 3 });
+      setNewSkill({ name: "", proficiency: 3 });
       setSkillDialogOpen(false);
     }
   };
 
   const handleRemoveSkill = (skillName) => {
-    setUserData(prev => ({
+    setUserData((prev) => ({
       ...prev,
-      skills: prev.skills.filter(skill => skill.name !== skillName),
+      skills: prev.skills.filter((skill) => skill.name !== skillName),
     }));
   };
 
   return (
     <Box
       sx={{
-        minHeight: '100vh',
+        minHeight: "100vh",
         background: `linear-gradient(to bottom, ${alpha(theme.palette.background.default, 0.95)}, ${alpha(theme.palette.background.default, 1)})`,
         py: { xs: 4, md: 6 },
       }}
@@ -197,22 +199,29 @@ function Profile() {
           sx={{
             mb: 4,
             background: alpha(theme.palette.background.paper, 0.8),
-            backdropFilter: 'blur(12px)',
+            backdropFilter: "blur(12px)",
             borderRadius: 4,
             border: `1px solid ${alpha(theme.palette.primary.main, 0.1)}`,
             boxShadow: `0 8px 32px ${alpha(theme.palette.primary.main, 0.1)}`,
-            transition: 'all 0.3s ease-in-out',
-            '&:hover': {
-              transform: 'translateY(-4px)',
+            transition: "all 0.3s ease-in-out",
+            "&:hover": {
+              transform: "translateY(-4px)",
               boxShadow: `0 12px 48px ${alpha(theme.palette.primary.main, 0.12)}`,
             },
           }}
         >
           <CardContent sx={{ p: { xs: 2, sm: 4 } }}>
-            <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, alignItems: 'center', mb: 4 }}>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: { xs: "column", sm: "row" },
+                alignItems: "center",
+                mb: 4,
+              }}
+            >
               <Box
                 sx={{
-                  position: 'relative',
+                  position: "relative",
                   mb: { xs: 3, sm: 0 },
                   mr: { sm: 4 },
                 }}
@@ -228,36 +237,46 @@ function Profile() {
                 />
                 <Box
                   sx={{
-                    position: 'absolute',
+                    position: "absolute",
                     bottom: 0,
                     right: 0,
                     width: 32,
                     height: 32,
-                    borderRadius: '50%',
+                    borderRadius: "50%",
                     background: theme.palette.background.gradient,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
                     boxShadow: `0 4px 12px ${alpha(theme.palette.primary.main, 0.2)}`,
                   }}
                 >
-                  <Edit sx={{ fontSize: 16, color: 'white' }} />
+                  <Edit sx={{ fontSize: 16, color: "white" }} />
                 </Box>
               </Box>
-              <Box sx={{ flexGrow: 1, textAlign: { xs: 'center', sm: 'left' } }}>
+              <Box
+                sx={{ flexGrow: 1, textAlign: { xs: "center", sm: "left" } }}
+              >
                 {editMode ? (
                   <TextField
                     fullWidth
                     label="Name"
                     value={userData.name}
-                    onChange={(e) => setUserData(prev => ({ ...prev, name: e.target.value }))}
+                    onChange={(e) =>
+                      setUserData((prev) => ({ ...prev, name: e.target.value }))
+                    }
                     sx={{
                       mb: 2,
-                      '& .MuiOutlinedInput-root': {
+                      "& .MuiOutlinedInput-root": {
                         borderRadius: 2,
-                        backgroundColor: alpha(theme.palette.background.paper, 0.8),
-                        '&:hover': {
-                          backgroundColor: alpha(theme.palette.background.paper, 0.9),
+                        backgroundColor: alpha(
+                          theme.palette.background.paper,
+                          0.8,
+                        ),
+                        "&:hover": {
+                          backgroundColor: alpha(
+                            theme.palette.background.paper,
+                            0.9,
+                          ),
                         },
                       },
                     }}
@@ -269,9 +288,9 @@ function Profile() {
                     sx={{
                       fontWeight: 700,
                       background: theme.palette.background.gradient,
-                      backgroundClip: 'text',
-                      WebkitBackgroundClip: 'text',
-                      color: 'transparent',
+                      backgroundClip: "text",
+                      WebkitBackgroundClip: "text",
+                      color: "transparent",
                     }}
                   >
                     {userData.name}
@@ -291,9 +310,9 @@ function Profile() {
                   variant="body1"
                   sx={{
                     color: alpha(theme.palette.text.primary, 0.6),
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: { xs: 'center', sm: 'flex-start' },
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: { xs: "center", sm: "flex-start" },
                   }}
                 >
                   <LocationOn sx={{ mr: 1, fontSize: 20 }} />
@@ -311,15 +330,17 @@ function Profile() {
                   px: 3,
                   borderRadius: 2,
                   borderWidth: editMode ? 0 : 2,
-                  background: editMode ? theme.palette.background.gradient : 'transparent',
-                  '&:hover': {
+                  background: editMode
+                    ? theme.palette.background.gradient
+                    : "transparent",
+                  "&:hover": {
                     borderWidth: editMode ? 0 : 2,
-                    transform: 'translateY(-2px)',
+                    transform: "translateY(-2px)",
                     boxShadow: `0 8px 25px ${alpha(theme.palette.primary.main, 0.25)}`,
                   },
                 }}
               >
-                {editMode ? 'Save Changes' : 'Edit Profile'}
+                {editMode ? "Save Changes" : "Edit Profile"}
               </Button>
             </Box>
 
@@ -330,13 +351,18 @@ function Profile() {
                 rows={4}
                 label="About"
                 value={userData.about}
-                onChange={(e) => setUserData(prev => ({ ...prev, about: e.target.value }))}
+                onChange={(e) =>
+                  setUserData((prev) => ({ ...prev, about: e.target.value }))
+                }
                 sx={{
-                  '& .MuiOutlinedInput-root': {
+                  "& .MuiOutlinedInput-root": {
                     borderRadius: 2,
                     backgroundColor: alpha(theme.palette.background.paper, 0.8),
-                    '&:hover': {
-                      backgroundColor: alpha(theme.palette.background.paper, 0.9),
+                    "&:hover": {
+                      backgroundColor: alpha(
+                        theme.palette.background.paper,
+                        0.9,
+                      ),
                     },
                   },
                 }}
@@ -360,7 +386,7 @@ function Profile() {
           elevation={0}
           sx={{
             background: alpha(theme.palette.background.paper, 0.8),
-            backdropFilter: 'blur(12px)',
+            backdropFilter: "blur(12px)",
             borderRadius: 4,
             border: `1px solid ${alpha(theme.palette.primary.main, 0.1)}`,
             boxShadow: `0 8px 32px ${alpha(theme.palette.primary.main, 0.1)}`,
@@ -372,19 +398,19 @@ function Profile() {
               onChange={handleTabChange}
               sx={{
                 borderBottom: 1,
-                borderColor: 'divider',
-                '& .MuiTab-root': {
+                borderColor: "divider",
+                "& .MuiTab-root": {
                   minHeight: 64,
-                  fontSize: '1rem',
+                  fontSize: "1rem",
                   fontWeight: 600,
-                  textTransform: 'none',
-                  '&.Mui-selected': {
+                  textTransform: "none",
+                  "&.Mui-selected": {
                     color: theme.palette.primary.main,
                   },
                 },
-                '& .MuiTabs-indicator': {
+                "& .MuiTabs-indicator": {
                   height: 3,
-                  borderRadius: '3px 3px 0 0',
+                  borderRadius: "3px 3px 0 0",
                   background: theme.palette.background.gradient,
                 },
               }}
@@ -414,9 +440,9 @@ function Profile() {
                   <Grid item xs={12} md={6}>
                     <Box
                       sx={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
                         mb: 3,
                       }}
                     >
@@ -424,10 +450,10 @@ function Profile() {
                         variant="h6"
                         sx={{
                           fontWeight: 600,
-                          position: 'relative',
-                          '&::after': {
+                          position: "relative",
+                          "&::after": {
                             content: '""',
-                            position: 'absolute',
+                            position: "absolute",
                             bottom: -8,
                             left: 0,
                             width: 40,
@@ -446,21 +472,27 @@ function Profile() {
                         sx={{
                           borderWidth: 2,
                           borderRadius: 2,
-                          '&:hover': {
+                          "&:hover": {
                             borderWidth: 2,
-                            transform: 'translateY(-2px)',
+                            transform: "translateY(-2px)",
                           },
                         }}
                       >
                         Add Skill
                       </Button>
                     </Box>
-                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                    <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
                       {userData.skills.map((skill) => (
                         <Chip
                           key={skill.name}
                           label={
-                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                            <Box
+                              sx={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: 1,
+                              }}
+                            >
                               {skill.name}
                               <Rating
                                 value={skill.proficiency}
@@ -475,8 +507,11 @@ function Profile() {
                             py: 2,
                             borderRadius: 2,
                             background: alpha(theme.palette.primary.main, 0.1),
-                            '&:hover': {
-                              background: alpha(theme.palette.primary.main, 0.15),
+                            "&:hover": {
+                              background: alpha(
+                                theme.palette.primary.main,
+                                0.15,
+                              ),
                             },
                           }}
                         />
@@ -491,10 +526,10 @@ function Profile() {
                       sx={{
                         mb: 3,
                         fontWeight: 600,
-                        position: 'relative',
-                        '&::after': {
+                        position: "relative",
+                        "&::after": {
                           content: '""',
-                          position: 'absolute',
+                          position: "absolute",
                           bottom: -8,
                           left: 0,
                           width: 40,
@@ -506,7 +541,7 @@ function Profile() {
                     >
                       Experience
                     </Typography>
-                    <List sx={{ width: '100%' }}>
+                    <List sx={{ width: "100%" }}>
                       {userData.experience.map((exp, index) => (
                         <React.Fragment key={index}>
                           <ListItem
@@ -515,18 +550,27 @@ function Profile() {
                               py: 2,
                               borderRadius: 2,
                               mb: 2,
-                              background: alpha(theme.palette.background.paper, 0.6),
-                              backdropFilter: 'blur(8px)',
-                              transition: 'all 0.3s ease-in-out',
-                              '&:hover': {
-                                transform: 'translateX(8px)',
-                                background: alpha(theme.palette.background.paper, 0.8),
+                              background: alpha(
+                                theme.palette.background.paper,
+                                0.6,
+                              ),
+                              backdropFilter: "blur(8px)",
+                              transition: "all 0.3s ease-in-out",
+                              "&:hover": {
+                                transform: "translateX(8px)",
+                                background: alpha(
+                                  theme.palette.background.paper,
+                                  0.8,
+                                ),
                               },
                             }}
                           >
                             <ListItemText
                               primary={
-                                <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>
+                                <Typography
+                                  variant="h6"
+                                  sx={{ fontWeight: 600, mb: 1 }}
+                                >
                                   {exp.title}
                                 </Typography>
                               }
@@ -534,13 +578,23 @@ function Profile() {
                                 <Box>
                                   <Typography
                                     variant="body1"
-                                    sx={{ color: alpha(theme.palette.text.primary, 0.8) }}
+                                    sx={{
+                                      color: alpha(
+                                        theme.palette.text.primary,
+                                        0.8,
+                                      ),
+                                    }}
                                   >
                                     {exp.company}
                                   </Typography>
                                   <Typography
                                     variant="body2"
-                                    sx={{ color: alpha(theme.palette.text.primary, 0.6) }}
+                                    sx={{
+                                      color: alpha(
+                                        theme.palette.text.primary,
+                                        0.6,
+                                      ),
+                                    }}
                                   >
                                     {exp.duration}
                                   </Typography>
@@ -548,7 +602,10 @@ function Profile() {
                                     variant="body2"
                                     sx={{
                                       mt: 1,
-                                      color: alpha(theme.palette.text.primary, 0.7),
+                                      color: alpha(
+                                        theme.palette.text.primary,
+                                        0.7,
+                                      ),
                                       lineHeight: 1.6,
                                     }}
                                   >
@@ -562,7 +619,10 @@ function Profile() {
                             <Divider
                               sx={{
                                 my: 2,
-                                borderColor: alpha(theme.palette.primary.main, 0.1),
+                                borderColor: alpha(
+                                  theme.palette.primary.main,
+                                  0.1,
+                                ),
                               }}
                             />
                           )}
@@ -585,10 +645,10 @@ function Profile() {
                       sx={{
                         mb: 3,
                         fontWeight: 600,
-                        position: 'relative',
-                        '&::after': {
+                        position: "relative",
+                        "&::after": {
                           content: '""',
-                          position: 'absolute',
+                          position: "absolute",
                           bottom: -8,
                           left: 0,
                           width: 40,
@@ -600,7 +660,7 @@ function Profile() {
                     >
                       Education
                     </Typography>
-                    <List sx={{ width: '100%' }}>
+                    <List sx={{ width: "100%" }}>
                       {userData.education.map((edu, index) => (
                         <ListItem
                           key={index}
@@ -609,18 +669,27 @@ function Profile() {
                             py: 2,
                             borderRadius: 2,
                             mb: 2,
-                            background: alpha(theme.palette.background.paper, 0.6),
-                            backdropFilter: 'blur(8px)',
-                            transition: 'all 0.3s ease-in-out',
-                            '&:hover': {
-                              transform: 'translateX(8px)',
-                              background: alpha(theme.palette.background.paper, 0.8),
+                            background: alpha(
+                              theme.palette.background.paper,
+                              0.6,
+                            ),
+                            backdropFilter: "blur(8px)",
+                            transition: "all 0.3s ease-in-out",
+                            "&:hover": {
+                              transform: "translateX(8px)",
+                              background: alpha(
+                                theme.palette.background.paper,
+                                0.8,
+                              ),
                             },
                           }}
                         >
                           <ListItemText
                             primary={
-                              <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>
+                              <Typography
+                                variant="h6"
+                                sx={{ fontWeight: 600, mb: 1 }}
+                              >
                                 {edu.degree}
                               </Typography>
                             }
@@ -628,13 +697,23 @@ function Profile() {
                               <Box>
                                 <Typography
                                   variant="body1"
-                                  sx={{ color: alpha(theme.palette.text.primary, 0.8) }}
+                                  sx={{
+                                    color: alpha(
+                                      theme.palette.text.primary,
+                                      0.8,
+                                    ),
+                                  }}
                                 >
                                   {edu.school}
                                 </Typography>
                                 <Typography
                                   variant="body2"
-                                  sx={{ color: alpha(theme.palette.text.primary, 0.6) }}
+                                  sx={{
+                                    color: alpha(
+                                      theme.palette.text.primary,
+                                      0.6,
+                                    ),
+                                  }}
                                 >
                                   {edu.year}
                                 </Typography>
@@ -653,10 +732,10 @@ function Profile() {
                       sx={{
                         mb: 3,
                         fontWeight: 600,
-                        position: 'relative',
-                        '&::after': {
+                        position: "relative",
+                        "&::after": {
                           content: '""',
-                          position: 'absolute',
+                          position: "absolute",
                           bottom: -8,
                           left: 0,
                           width: 40,
@@ -668,7 +747,7 @@ function Profile() {
                     >
                       Certifications
                     </Typography>
-                    <List sx={{ width: '100%' }}>
+                    <List sx={{ width: "100%" }}>
                       {userData.certifications.map((cert, index) => (
                         <ListItem
                           key={index}
@@ -677,18 +756,27 @@ function Profile() {
                             py: 2,
                             borderRadius: 2,
                             mb: 2,
-                            background: alpha(theme.palette.background.paper, 0.6),
-                            backdropFilter: 'blur(8px)',
-                            transition: 'all 0.3s ease-in-out',
-                            '&:hover': {
-                              transform: 'translateX(8px)',
-                              background: alpha(theme.palette.background.paper, 0.8),
+                            background: alpha(
+                              theme.palette.background.paper,
+                              0.6,
+                            ),
+                            backdropFilter: "blur(8px)",
+                            transition: "all 0.3s ease-in-out",
+                            "&:hover": {
+                              transform: "translateX(8px)",
+                              background: alpha(
+                                theme.palette.background.paper,
+                                0.8,
+                              ),
                             },
                           }}
                         >
                           <ListItemText
                             primary={
-                              <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>
+                              <Typography
+                                variant="h6"
+                                sx={{ fontWeight: 600, mb: 1 }}
+                              >
                                 {cert.name}
                               </Typography>
                             }
@@ -696,13 +784,23 @@ function Profile() {
                               <Box>
                                 <Typography
                                   variant="body1"
-                                  sx={{ color: alpha(theme.palette.text.primary, 0.8) }}
+                                  sx={{
+                                    color: alpha(
+                                      theme.palette.text.primary,
+                                      0.8,
+                                    ),
+                                  }}
                                 >
                                   {cert.issuer}
                                 </Typography>
                                 <Typography
                                   variant="body2"
-                                  sx={{ color: alpha(theme.palette.text.primary, 0.6) }}
+                                  sx={{
+                                    color: alpha(
+                                      theme.palette.text.primary,
+                                      0.6,
+                                    ),
+                                  }}
                                 >
                                   {cert.year}
                                 </Typography>
@@ -725,10 +823,10 @@ function Profile() {
                   sx={{
                     mb: 4,
                     fontWeight: 600,
-                    position: 'relative',
-                    '&::after': {
+                    position: "relative",
+                    "&::after": {
                       content: '""',
-                      position: 'absolute',
+                      position: "absolute",
                       bottom: -8,
                       left: 0,
                       width: 40,
@@ -748,7 +846,7 @@ function Profile() {
                       borderRadius: 2,
                       mb: 2,
                       background: alpha(theme.palette.background.paper, 0.6),
-                      backdropFilter: 'blur(8px)',
+                      backdropFilter: "blur(8px)",
                     }}
                   >
                     <ListItemText
@@ -758,7 +856,7 @@ function Profile() {
                     <Switch
                       checked={userData.preferences.notifications}
                       onChange={(e) =>
-                        setUserData(prev => ({
+                        setUserData((prev) => ({
                           ...prev,
                           preferences: {
                             ...prev.preferences,
@@ -775,7 +873,7 @@ function Profile() {
                       borderRadius: 2,
                       mb: 2,
                       background: alpha(theme.palette.background.paper, 0.6),
-                      backdropFilter: 'blur(8px)',
+                      backdropFilter: "blur(8px)",
                     }}
                   >
                     <ListItemText
@@ -785,7 +883,7 @@ function Profile() {
                     <Switch
                       checked={userData.preferences.emailUpdates}
                       onChange={(e) =>
-                        setUserData(prev => ({
+                        setUserData((prev) => ({
                           ...prev,
                           preferences: {
                             ...prev.preferences,
@@ -802,7 +900,7 @@ function Profile() {
                       borderRadius: 2,
                       mb: 2,
                       background: alpha(theme.palette.background.paper, 0.6),
-                      backdropFilter: 'blur(8px)',
+                      backdropFilter: "blur(8px)",
                     }}
                   >
                     <ListItemText
@@ -812,7 +910,7 @@ function Profile() {
                     <Switch
                       checked={userData.preferences.publicProfile}
                       onChange={(e) =>
-                        setUserData(prev => ({
+                        setUserData((prev) => ({
                           ...prev,
                           preferences: {
                             ...prev.preferences,
@@ -836,7 +934,7 @@ function Profile() {
             sx: {
               borderRadius: 4,
               background: alpha(theme.palette.background.paper, 0.9),
-              backdropFilter: 'blur(12px)',
+              backdropFilter: "blur(12px)",
             },
           }}
         >
@@ -848,10 +946,12 @@ function Profile() {
               label="Skill Name"
               fullWidth
               value={newSkill.name}
-              onChange={(e) => setNewSkill(prev => ({ ...prev, name: e.target.value }))}
+              onChange={(e) =>
+                setNewSkill((prev) => ({ ...prev, name: e.target.value }))
+              }
               sx={{
                 mt: 2,
-                '& .MuiOutlinedInput-root': {
+                "& .MuiOutlinedInput-root": {
                   borderRadius: 2,
                 },
               }}
@@ -862,7 +962,9 @@ function Profile() {
               </Typography>
               <Rating
                 value={newSkill.proficiency}
-                onChange={(e, newValue) => setNewSkill(prev => ({ ...prev, proficiency: newValue }))}
+                onChange={(e, newValue) =>
+                  setNewSkill((prev) => ({ ...prev, proficiency: newValue }))
+                }
               />
             </Box>
           </DialogContent>
@@ -894,4 +996,4 @@ function Profile() {
   );
 }
 
-export default Profile; 
+export default Profile;

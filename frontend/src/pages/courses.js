@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   Container,
   Grid,
@@ -20,7 +20,7 @@ import {
   IconButton,
   Tooltip,
   useTheme,
-} from '@mui/material';
+} from "@mui/material";
 import {
   Search,
   School,
@@ -29,37 +29,37 @@ import {
   AccessTime,
   Star,
   FilterList,
-} from '@mui/icons-material';
-import { useDispatch, useSelector } from 'react-redux';
-import { alpha } from '@mui/material/styles';
+} from "@mui/icons-material";
+import { useDispatch, useSelector } from "react-redux";
+import { alpha } from "@mui/material/styles";
 
 // Course card component
 const CourseCard = ({ course, onSave }) => {
   const theme = useTheme();
-  
+
   return (
     <Card
       elevation={0}
       sx={{
-        height: '100%',
-        display: 'flex',
-        flexDirection: 'column',
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
         background: alpha(theme.palette.background.paper, 0.8),
-        backdropFilter: 'blur(12px)',
+        backdropFilter: "blur(12px)",
         borderRadius: 4,
         border: `1px solid ${alpha(theme.palette.primary.main, 0.1)}`,
-        overflow: 'hidden',
-        transition: 'all 0.3s ease-in-out',
-        '&:hover': {
-          transform: 'translateY(-8px)',
+        overflow: "hidden",
+        transition: "all 0.3s ease-in-out",
+        "&:hover": {
+          transform: "translateY(-8px)",
           boxShadow: `0 12px 48px ${alpha(theme.palette.primary.main, 0.12)}`,
-          '& .course-image': {
-            transform: 'scale(1.05)',
+          "& .course-image": {
+            transform: "scale(1.05)",
           },
         },
       }}
     >
-      <Box sx={{ position: 'relative', overflow: 'hidden' }}>
+      <Box sx={{ position: "relative", overflow: "hidden" }}>
         <CardMedia
           component="img"
           height="180"
@@ -67,31 +67,31 @@ const CourseCard = ({ course, onSave }) => {
           alt={course.title}
           className="course-image"
           sx={{
-            objectFit: 'cover',
-            transition: 'transform 0.3s ease-in-out',
+            objectFit: "cover",
+            transition: "transform 0.3s ease-in-out",
           }}
         />
         <Box
           sx={{
-            position: 'absolute',
+            position: "absolute",
             top: 12,
             left: 12,
             right: 12,
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
           }}
         >
           <Chip
             label={course.platform}
             sx={{
               backgroundColor: alpha(theme.palette.background.paper, 0.9),
-              backdropFilter: 'blur(8px)',
+              backdropFilter: "blur(8px)",
               color: theme.palette.text.primary,
               fontWeight: 600,
-              fontSize: '0.75rem',
+              fontSize: "0.75rem",
               height: 28,
-              '& .MuiChip-label': {
+              "& .MuiChip-label": {
                 px: 1.5,
               },
             }}
@@ -101,17 +101,19 @@ const CourseCard = ({ course, onSave }) => {
             onClick={() => onSave(course)}
             sx={{
               backgroundColor: alpha(theme.palette.background.paper, 0.9),
-              backdropFilter: 'blur(8px)',
+              backdropFilter: "blur(8px)",
               width: 32,
               height: 32,
-              '&:hover': {
+              "&:hover": {
                 backgroundColor: alpha(theme.palette.background.paper, 1),
-                transform: 'scale(1.1)',
+                transform: "scale(1.1)",
               },
             }}
           >
             {course.saved ? (
-              <Bookmark sx={{ fontSize: 18, color: theme.palette.primary.main }} />
+              <Bookmark
+                sx={{ fontSize: 18, color: theme.palette.primary.main }}
+              />
             ) : (
               <BookmarkBorder sx={{ fontSize: 18 }} />
             )}
@@ -123,15 +125,15 @@ const CourseCard = ({ course, onSave }) => {
           variant="h6"
           gutterBottom
           sx={{
-            fontSize: '1.1rem',
+            fontSize: "1.1rem",
             fontWeight: 700,
             lineHeight: 1.4,
-            height: '2.8em',
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            display: '-webkit-box',
+            height: "2.8em",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            display: "-webkit-box",
             WebkitLineClamp: 2,
-            WebkitBoxOrient: 'vertical',
+            WebkitBoxOrient: "vertical",
             mb: 1,
           }}
         >
@@ -141,12 +143,12 @@ const CourseCard = ({ course, onSave }) => {
           variant="body2"
           sx={{
             mb: 2,
-            height: '3em',
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            display: '-webkit-box',
+            height: "3em",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            display: "-webkit-box",
             WebkitLineClamp: 2,
-            WebkitBoxOrient: 'vertical',
+            WebkitBoxOrient: "vertical",
             color: alpha(theme.palette.text.primary, 0.7),
             lineHeight: 1.6,
           }}
@@ -155,23 +157,23 @@ const CourseCard = ({ course, onSave }) => {
         </Typography>
         <Box
           sx={{
-            display: 'flex',
-            alignItems: 'center',
+            display: "flex",
+            alignItems: "center",
             mb: 2,
             gap: 2,
           }}
         >
           <Box
             sx={{
-              display: 'flex',
-              alignItems: 'center',
+              display: "flex",
+              alignItems: "center",
               color: alpha(theme.palette.text.primary, 0.6),
             }}
           >
             <AccessTime sx={{ fontSize: 16, mr: 0.5 }} />
             <Typography variant="caption">{course.duration}</Typography>
           </Box>
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
             <Rating
               value={course.rating}
               precision={0.1}
@@ -179,7 +181,7 @@ const CourseCard = ({ course, onSave }) => {
               readOnly
               sx={{
                 mr: 0.5,
-                '& .MuiRating-iconFilled': {
+                "& .MuiRating-iconFilled": {
                   color: theme.palette.warning.main,
                 },
               }}
@@ -192,7 +194,7 @@ const CourseCard = ({ course, onSave }) => {
             </Typography>
           </Box>
         </Box>
-        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.8, mb: 3 }}>
+        <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.8, mb: 3 }}>
           {course.skills.slice(0, 3).map((skill) => (
             <Chip
               key={skill}
@@ -202,9 +204,9 @@ const CourseCard = ({ course, onSave }) => {
                 backgroundColor: alpha(theme.palette.primary.main, 0.1),
                 color: theme.palette.primary.main,
                 fontWeight: 500,
-                fontSize: '0.7rem',
+                fontSize: "0.7rem",
                 height: 24,
-                '& .MuiChip-label': {
+                "& .MuiChip-label": {
                   px: 1.2,
                 },
               }}
@@ -218,9 +220,9 @@ const CourseCard = ({ course, onSave }) => {
                 backgroundColor: alpha(theme.palette.primary.main, 0.1),
                 color: theme.palette.primary.main,
                 fontWeight: 500,
-                fontSize: '0.7rem',
+                fontSize: "0.7rem",
                 height: 24,
-                '& .MuiChip-label': {
+                "& .MuiChip-label": {
                   px: 1.2,
                 },
               }}
@@ -229,10 +231,10 @@ const CourseCard = ({ course, onSave }) => {
         </Box>
         <Box
           sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            mt: 'auto',
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            mt: "auto",
           }}
         >
           <Typography
@@ -240,12 +242,12 @@ const CourseCard = ({ course, onSave }) => {
             sx={{
               fontWeight: 700,
               background: theme.palette.background.gradient,
-              backgroundClip: 'text',
-              WebkitBackgroundClip: 'text',
-              color: 'transparent',
+              backgroundClip: "text",
+              WebkitBackgroundClip: "text",
+              color: "transparent",
             }}
           >
-            {course.price === 0 ? 'Free' : `$${course.price}`}
+            {course.price === 0 ? "Free" : `$${course.price}`}
           </Typography>
           <Button
             variant="contained"
@@ -254,15 +256,15 @@ const CourseCard = ({ course, onSave }) => {
             target="_blank"
             rel="noopener noreferrer"
             sx={{
-              textTransform: 'none',
+              textTransform: "none",
               fontWeight: 600,
               px: 2.5,
               py: 1,
               borderRadius: 2,
               background: theme.palette.background.gradient,
-              transition: 'all 0.2s ease-in-out',
-              '&:hover': {
-                transform: 'translateY(-2px)',
+              transition: "all 0.2s ease-in-out",
+              "&:hover": {
+                transform: "translateY(-2px)",
                 boxShadow: `0 8px 25px ${alpha(theme.palette.primary.main, 0.25)}`,
               },
             }}
@@ -279,10 +281,10 @@ function Courses() {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [filters, setFilters] = useState({
-    search: '',
-    platform: 'all',
-    difficulty: 'all',
-    priceRange: 'all',
+    search: "",
+    platform: "all",
+    difficulty: "all",
+    priceRange: "all",
   });
   const theme = useTheme();
 
@@ -290,139 +292,153 @@ function Courses() {
   const sampleCourses = [
     {
       id: 1,
-      title: 'React - The Complete Guide 2024',
-      description: 'Master React 18, Redux, Hooks, Router, Authentication, and best practices with hands-on projects',
-      platform: 'Udemy',
-      duration: '49 hours',
+      title: "React - The Complete Guide 2024",
+      description:
+        "Master React 18, Redux, Hooks, Router, Authentication, and best practices with hands-on projects",
+      platform: "Udemy",
+      duration: "49 hours",
       rating: 4.8,
       reviewCount: 189634,
       price: 84.99,
-      skills: ['React', 'JavaScript', 'Redux', 'Web Development'],
-      difficulty: 'All Levels',
+      skills: ["React", "JavaScript", "Redux", "Web Development"],
+      difficulty: "All Levels",
       saved: false,
-      image: 'https://img-c.udemycdn.com/course/480x270/1362070_b9a1_2.jpg',
-      url: 'https://www.udemy.com/course/react-the-complete-guide-incl-redux/'
+      image: "https://img-c.udemycdn.com/course/480x270/1362070_b9a1_2.jpg",
+      url: "https://www.udemy.com/course/react-the-complete-guide-incl-redux/",
     },
     {
       id: 2,
-      title: 'Google Data Analytics Professional Certificate',
-      description: 'Get professional training designed by Google and launch your career in data analytics',
-      platform: 'Coursera',
-      duration: '6 months',
+      title: "Google Data Analytics Professional Certificate",
+      description:
+        "Get professional training designed by Google and launch your career in data analytics",
+      platform: "Coursera",
+      duration: "6 months",
       rating: 4.7,
       reviewCount: 56789,
       price: 49,
-      skills: ['Data Analytics', 'SQL', 'R Programming', 'Tableau'],
-      difficulty: 'Beginner',
+      skills: ["Data Analytics", "SQL", "R Programming", "Tableau"],
+      difficulty: "Beginner",
       saved: false,
-      image: 'https://d3njjcbhbojbot.cloudfront.net/api/utilities/v1/imageproxy/https://d15cw65ipctsrr.cloudfront.net/eb/d8739c87ff4ee9a57f9d4937e9c3b8/Professional-Certificate---Data-Analytics---600x600.png',
-      url: 'https://www.coursera.org/professional-certificates/google-data-analytics'
+      image:
+        "https://d3njjcbhbojbot.cloudfront.net/api/utilities/v1/imageproxy/https://d15cw65ipctsrr.cloudfront.net/eb/d8739c87ff4ee9a57f9d4937e9c3b8/Professional-Certificate---Data-Analytics---600x600.png",
+      url: "https://www.coursera.org/professional-certificates/google-data-analytics",
     },
     {
       id: 3,
-      title: 'Machine Learning Specialization',
-      description: 'Build ML models with TensorFlow and master key concepts in machine learning',
-      platform: 'Coursera',
-      duration: '3 months',
+      title: "Machine Learning Specialization",
+      description:
+        "Build ML models with TensorFlow and master key concepts in machine learning",
+      platform: "Coursera",
+      duration: "3 months",
       rating: 4.9,
       reviewCount: 45231,
       price: 49,
-      skills: ['Machine Learning', 'Python', 'TensorFlow', 'Neural Networks'],
-      difficulty: 'Intermediate',
+      skills: ["Machine Learning", "Python", "TensorFlow", "Neural Networks"],
+      difficulty: "Intermediate",
       saved: false,
-      image: 'https://d3njjcbhbojbot.cloudfront.net/api/utilities/v1/imageproxy/https://d15cw65ipctsrr.cloudfront.net/4a/0471b0b0dd4b78bd9c1bdb1a8f2ae6/ML-Specialization-Logo-Generic-no-badge.png',
-      url: 'https://www.coursera.org/specializations/machine-learning-introduction'
+      image:
+        "https://d3njjcbhbojbot.cloudfront.net/api/utilities/v1/imageproxy/https://d15cw65ipctsrr.cloudfront.net/4a/0471b0b0dd4b78bd9c1bdb1a8f2ae6/ML-Specialization-Logo-Generic-no-badge.png",
+      url: "https://www.coursera.org/specializations/machine-learning-introduction",
     },
     {
       id: 4,
-      title: 'CS50: Introduction to Computer Science',
-      description: 'Harvard University\'s introduction to computer science and programming',
-      platform: 'edX',
-      duration: '12 weeks',
+      title: "CS50: Introduction to Computer Science",
+      description:
+        "Harvard University's introduction to computer science and programming",
+      platform: "edX",
+      duration: "12 weeks",
       rating: 4.9,
       reviewCount: 78456,
       price: 0,
-      skills: ['Python', 'C', 'SQL', 'Computer Science'],
-      difficulty: 'Beginner',
+      skills: ["Python", "C", "SQL", "Computer Science"],
+      difficulty: "Beginner",
       saved: false,
-      image: 'https://prod-discovery.edx-cdn.org/media/course/image/da1b2400-322b-459b-97b0-0c557f05d017-ef1e27c74db2.small.png',
-      url: 'https://www.edx.org/course/introduction-computer-science-harvardx-cs50x'
+      image:
+        "https://prod-discovery.edx-cdn.org/media/course/image/da1b2400-322b-459b-97b0-0c557f05d017-ef1e27c74db2.small.png",
+      url: "https://www.edx.org/course/introduction-computer-science-harvardx-cs50x",
     },
     {
       id: 5,
-      title: 'Google Cloud Digital Leader Training',
-      description: 'Learn cloud technology fundamentals and prepare for the certification exam',
-      platform: 'Google',
-      duration: '20 hours',
+      title: "Google Cloud Digital Leader Training",
+      description:
+        "Learn cloud technology fundamentals and prepare for the certification exam",
+      platform: "Google",
+      duration: "20 hours",
       rating: 4.7,
       reviewCount: 12567,
       price: 0,
-      skills: ['Cloud Computing', 'Google Cloud', 'Digital Transformation'],
-      difficulty: 'Beginner',
+      skills: ["Cloud Computing", "Google Cloud", "Digital Transformation"],
+      difficulty: "Beginner",
       saved: false,
-      image: 'https://www.cloudskillsboost.google/api/public_profiles/badges/image_path/2187254',
-      url: 'https://www.cloudskillsboost.google/paths/9'
+      image:
+        "https://www.cloudskillsboost.google/api/public_profiles/badges/image_path/2187254",
+      url: "https://www.cloudskillsboost.google/paths/9",
     },
     {
       id: 6,
-      title: 'Full Stack Development Bootcamp',
-      description: 'Complete 2024 web development bootcamp with MERN stack',
-      platform: 'Udemy',
-      duration: '65 hours',
+      title: "Full Stack Development Bootcamp",
+      description: "Complete 2024 web development bootcamp with MERN stack",
+      platform: "Udemy",
+      duration: "65 hours",
       rating: 4.8,
       reviewCount: 156789,
       price: 94.99,
-      skills: ['JavaScript', 'React', 'Node.js', 'MongoDB', 'Express'],
-      difficulty: 'All Levels',
+      skills: ["JavaScript", "React", "Node.js", "MongoDB", "Express"],
+      difficulty: "All Levels",
       saved: false,
-      image: 'https://img-c.udemycdn.com/course/480x270/1565838_e54e_16.jpg',
-      url: 'https://www.udemy.com/course/the-complete-web-development-bootcamp/'
+      image: "https://img-c.udemycdn.com/course/480x270/1565838_e54e_16.jpg",
+      url: "https://www.udemy.com/course/the-complete-web-development-bootcamp/",
     },
     {
       id: 7,
-      title: 'AWS Certified Solutions Architect',
-      description: 'Prepare for AWS Solutions Architect Associate certification',
-      platform: 'edX',
-      duration: '6 weeks',
+      title: "AWS Certified Solutions Architect",
+      description:
+        "Prepare for AWS Solutions Architect Associate certification",
+      platform: "edX",
+      duration: "6 weeks",
       rating: 4.8,
       reviewCount: 34567,
       price: 149,
-      skills: ['AWS', 'Cloud Architecture', 'DevOps'],
-      difficulty: 'Intermediate',
+      skills: ["AWS", "Cloud Architecture", "DevOps"],
+      difficulty: "Intermediate",
       saved: false,
-      image: 'https://prod-discovery.edx-cdn.org/media/course/image/8a7abc3b-0059-4392-9e70-42900b8538cb-6f2692a8bb13.small.png',
-      url: 'https://www.edx.org/professional-certificate/aws-solutions-architect'
+      image:
+        "https://prod-discovery.edx-cdn.org/media/course/image/8a7abc3b-0059-4392-9e70-42900b8538cb-6f2692a8bb13.small.png",
+      url: "https://www.edx.org/professional-certificate/aws-solutions-architect",
     },
     {
       id: 8,
-      title: 'Python for Data Science and AI',
-      description: 'Master Python programming for data science and artificial intelligence',
-      platform: 'Coursera',
-      duration: '4 weeks',
+      title: "Python for Data Science and AI",
+      description:
+        "Master Python programming for data science and artificial intelligence",
+      platform: "Coursera",
+      duration: "4 weeks",
       rating: 4.6,
       reviewCount: 89123,
       price: 49,
-      skills: ['Python', 'Data Science', 'AI', 'Pandas'],
-      difficulty: 'Intermediate',
+      skills: ["Python", "Data Science", "AI", "Pandas"],
+      difficulty: "Intermediate",
       saved: false,
-      image: 'https://d3njjcbhbojbot.cloudfront.net/api/utilities/v1/imageproxy/https://d15cw65ipctsrr.cloudfront.net/14/b2d530f1ad11e7ab380fc0c6c817a8/PythonforDS.jpg',
-      url: 'https://www.coursera.org/learn/python-for-applied-data-science-ai'
+      image:
+        "https://d3njjcbhbojbot.cloudfront.net/api/utilities/v1/imageproxy/https://d15cw65ipctsrr.cloudfront.net/14/b2d530f1ad11e7ab380fc0c6c817a8/PythonforDS.jpg",
+      url: "https://www.coursera.org/learn/python-for-applied-data-science-ai",
     },
     {
       id: 9,
-      title: 'UI/UX Design Professional Certificate',
-      description: 'Learn to design user experiences for products in Figma',
-      platform: 'Google',
-      duration: '6 months',
+      title: "UI/UX Design Professional Certificate",
+      description: "Learn to design user experiences for products in Figma",
+      platform: "Google",
+      duration: "6 months",
       rating: 4.8,
       reviewCount: 23456,
       price: 39,
-      skills: ['UI Design', 'UX Research', 'Figma', 'Prototyping'],
-      difficulty: 'Beginner',
+      skills: ["UI Design", "UX Research", "Figma", "Prototyping"],
+      difficulty: "Beginner",
       saved: false,
-      image: 'https://d3njjcbhbojbot.cloudfront.net/api/utilities/v1/imageproxy/https://d15cw65ipctsrr.cloudfront.net/4a/3d8b33e6914610b0bd825d7b0c5433/Professional-Certificate---UX-Design.png',
-      url: 'https://www.coursera.org/professional-certificates/google-ux-design'
-    }
+      image:
+        "https://d3njjcbhbojbot.cloudfront.net/api/utilities/v1/imageproxy/https://d15cw65ipctsrr.cloudfront.net/4a/3d8b33e6914610b0bd825d7b0c5433/Professional-Certificate---UX-Design.png",
+      url: "https://www.coursera.org/professional-certificates/google-ux-design",
+    },
   ];
 
   const handleFilterChange = (event) => {
@@ -435,41 +451,41 @@ function Courses() {
 
   const handleSaveCourse = (course) => {
     // In real app, dispatch action to save course
-    console.log('Save course:', course);
+    console.log("Save course:", course);
   };
 
   return (
     <Box
       sx={{
-        minHeight: '100vh',
+        minHeight: "100vh",
         background: `linear-gradient(to bottom, ${alpha(theme.palette.background.default, 0.95)}, ${alpha(theme.palette.background.default, 1)})`,
         py: { xs: 4, md: 6 },
       }}
     >
       <Container maxWidth="lg">
         {/* Header */}
-        <Box sx={{ mb: 6, textAlign: 'center' }}>
+        <Box sx={{ mb: 6, textAlign: "center" }}>
           <Typography
             variant="h3"
             sx={{
               fontWeight: 800,
               mb: 2,
               background: theme.palette.background.gradient,
-              backgroundClip: 'text',
-              WebkitBackgroundClip: 'text',
-              color: 'transparent',
-              position: 'relative',
-              display: 'inline-block',
-              '&::after': {
+              backgroundClip: "text",
+              WebkitBackgroundClip: "text",
+              color: "transparent",
+              position: "relative",
+              display: "inline-block",
+              "&::after": {
                 content: '""',
-                position: 'absolute',
+                position: "absolute",
                 bottom: -8,
-                left: '50%',
-                transform: 'translateX(-50%)',
-                width: '60px',
-                height: '4px',
+                left: "50%",
+                transform: "translateX(-50%)",
+                width: "60px",
+                height: "4px",
                 background: theme.palette.background.gradient,
-                borderRadius: '2px',
+                borderRadius: "2px",
               },
             }}
           >
@@ -480,11 +496,12 @@ function Courses() {
             sx={{
               color: alpha(theme.palette.text.primary, 0.7),
               fontWeight: 500,
-              maxWidth: '800px',
-              mx: 'auto',
+              maxWidth: "800px",
+              mx: "auto",
             }}
           >
-            Discover top-rated courses from leading platforms to enhance your skills
+            Discover top-rated courses from leading platforms to enhance your
+            skills
           </Typography>
         </Box>
 
@@ -495,7 +512,7 @@ function Courses() {
             p: { xs: 2, sm: 3 },
             borderRadius: 4,
             background: alpha(theme.palette.background.paper, 0.8),
-            backdropFilter: 'blur(12px)',
+            backdropFilter: "blur(12px)",
             border: `1px solid ${alpha(theme.palette.primary.main, 0.1)}`,
           }}
         >
@@ -505,7 +522,9 @@ function Courses() {
                 fullWidth
                 placeholder="Search courses..."
                 value={filters.search}
-                onChange={(e) => setFilters({ ...filters, search: e.target.value })}
+                onChange={(e) =>
+                  setFilters({ ...filters, search: e.target.value })
+                }
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
@@ -514,29 +533,40 @@ function Courses() {
                   ),
                 }}
                 sx={{
-                  '& .MuiOutlinedInput-root': {
+                  "& .MuiOutlinedInput-root": {
                     borderRadius: 2,
                     backgroundColor: alpha(theme.palette.background.paper, 0.8),
-                    '&:hover': {
-                      backgroundColor: alpha(theme.palette.background.paper, 0.9),
+                    "&:hover": {
+                      backgroundColor: alpha(
+                        theme.palette.background.paper,
+                        0.9,
+                      ),
                     },
                   },
                 }}
               />
             </Grid>
             <Grid item xs={12} sm={6} md={8}>
-              <Box sx={{ display: 'flex', gap: 2 }}>
+              <Box sx={{ display: "flex", gap: 2 }}>
                 <FormControl fullWidth>
                   <InputLabel>Platform</InputLabel>
                   <Select
                     value={filters.platform}
                     label="Platform"
-                    onChange={(e) => setFilters({ ...filters, platform: e.target.value })}
+                    onChange={(e) =>
+                      setFilters({ ...filters, platform: e.target.value })
+                    }
                     sx={{
                       borderRadius: 2,
-                      backgroundColor: alpha(theme.palette.background.paper, 0.8),
-                      '&:hover': {
-                        backgroundColor: alpha(theme.palette.background.paper, 0.9),
+                      backgroundColor: alpha(
+                        theme.palette.background.paper,
+                        0.8,
+                      ),
+                      "&:hover": {
+                        backgroundColor: alpha(
+                          theme.palette.background.paper,
+                          0.9,
+                        ),
                       },
                     }}
                   >
@@ -551,12 +581,20 @@ function Courses() {
                   <Select
                     value={filters.difficulty}
                     label="Difficulty"
-                    onChange={(e) => setFilters({ ...filters, difficulty: e.target.value })}
+                    onChange={(e) =>
+                      setFilters({ ...filters, difficulty: e.target.value })
+                    }
                     sx={{
                       borderRadius: 2,
-                      backgroundColor: alpha(theme.palette.background.paper, 0.8),
-                      '&:hover': {
-                        backgroundColor: alpha(theme.palette.background.paper, 0.9),
+                      backgroundColor: alpha(
+                        theme.palette.background.paper,
+                        0.8,
+                      ),
+                      "&:hover": {
+                        backgroundColor: alpha(
+                          theme.palette.background.paper,
+                          0.9,
+                        ),
                       },
                     }}
                   >
@@ -571,12 +609,20 @@ function Courses() {
                   <Select
                     value={filters.priceRange}
                     label="Price Range"
-                    onChange={(e) => setFilters({ ...filters, priceRange: e.target.value })}
+                    onChange={(e) =>
+                      setFilters({ ...filters, priceRange: e.target.value })
+                    }
                     sx={{
                       borderRadius: 2,
-                      backgroundColor: alpha(theme.palette.background.paper, 0.8),
-                      '&:hover': {
-                        backgroundColor: alpha(theme.palette.background.paper, 0.9),
+                      backgroundColor: alpha(
+                        theme.palette.background.paper,
+                        0.8,
+                      ),
+                      "&:hover": {
+                        backgroundColor: alpha(
+                          theme.palette.background.paper,
+                          0.9,
+                        ),
                       },
                     }}
                   >
@@ -594,10 +640,10 @@ function Courses() {
         {loading ? (
           <Box
             sx={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              minHeight: '400px',
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              minHeight: "400px",
             }}
           >
             <CircularProgress />
@@ -616,4 +662,4 @@ function Courses() {
   );
 }
 
-export default Courses; 
+export default Courses;

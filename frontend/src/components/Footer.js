@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Box,
   Container,
@@ -17,7 +17,7 @@ import {
   alpha,
   Alert,
   Snackbar,
-} from '@mui/material';
+} from "@mui/material";
 import {
   GitHub,
   LinkedIn,
@@ -25,20 +25,20 @@ import {
   Email,
   KeyboardArrowRight,
   Close as CloseIcon,
-} from '@mui/icons-material';
+} from "@mui/icons-material";
 
 const Footer = () => {
   const theme = useTheme();
   const [openEmailDialog, setOpenEmailDialog] = useState(false);
   const [emailData, setEmailData] = useState({
-    name: '',
-    email: '',
-    message: '',
+    name: "",
+    email: "",
+    message: "",
   });
   const [snackbar, setSnackbar] = useState({
     open: false,
-    message: '',
-    severity: 'success',
+    message: "",
+    severity: "success",
   });
 
   const handleEmailClick = () => {
@@ -47,7 +47,7 @@ const Footer = () => {
 
   const handleCloseDialog = () => {
     setOpenEmailDialog(false);
-    setEmailData({ name: '', email: '', message: '' });
+    setEmailData({ name: "", email: "", message: "" });
   };
 
   const handleSendEmail = () => {
@@ -57,8 +57,8 @@ const Footer = () => {
     handleCloseDialog();
     setSnackbar({
       open: true,
-      message: 'Opening your email client...',
-      severity: 'success',
+      message: "Opening your email client...",
+      severity: "success",
     });
   };
 
@@ -72,7 +72,7 @@ const Footer = () => {
       sx={{
         py: 6,
         background: alpha(theme.palette.background.paper, 0.8),
-        backdropFilter: 'blur(12px)',
+        backdropFilter: "blur(12px)",
         borderTop: `1px solid ${alpha(theme.palette.divider, 0.1)}`,
       }}
     >
@@ -85,16 +85,17 @@ const Footer = () => {
               sx={{
                 fontWeight: 700,
                 background: theme.palette.background.gradient,
-                backgroundClip: 'text',
-                WebkitBackgroundClip: 'text',
-                color: 'transparent',
+                backgroundClip: "text",
+                WebkitBackgroundClip: "text",
+                color: "transparent",
                 mb: 2,
               }}
             >
               Skill Bridge
             </Typography>
             <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
-              Empowering careers through skill development and market insights. Join us in building the future of professional growth.
+              Empowering careers through skill development and market insights.
+              Join us in building the future of professional growth.
             </Typography>
             <Stack direction="row" spacing={1}>
               <IconButton
@@ -102,12 +103,12 @@ const Footer = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 sx={{
-                  color: 'text.secondary',
-                  '&:hover': {
-                    color: 'primary.main',
-                    transform: 'translateY(-2px)',
+                  color: "text.secondary",
+                  "&:hover": {
+                    color: "primary.main",
+                    transform: "translateY(-2px)",
                   },
-                  transition: 'all 0.2s',
+                  transition: "all 0.2s",
                 }}
               >
                 <GitHub />
@@ -117,12 +118,12 @@ const Footer = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 sx={{
-                  color: 'text.secondary',
-                  '&:hover': {
-                    color: 'primary.main',
-                    transform: 'translateY(-2px)',
+                  color: "text.secondary",
+                  "&:hover": {
+                    color: "primary.main",
+                    transform: "translateY(-2px)",
                   },
-                  transition: 'all 0.2s',
+                  transition: "all 0.2s",
                 }}
               >
                 <LinkedIn />
@@ -132,12 +133,12 @@ const Footer = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 sx={{
-                  color: 'text.secondary',
-                  '&:hover': {
-                    color: 'primary.main',
-                    transform: 'translateY(-2px)',
+                  color: "text.secondary",
+                  "&:hover": {
+                    color: "primary.main",
+                    transform: "translateY(-2px)",
                   },
-                  transition: 'all 0.2s',
+                  transition: "all 0.2s",
                 }}
               >
                 <Twitter />
@@ -155,9 +156,9 @@ const Footer = () => {
                 href="/"
                 underline="none"
                 sx={{
-                  color: 'text.secondary',
-                  '&:hover': {
-                    color: 'primary.main',
+                  color: "text.secondary",
+                  "&:hover": {
+                    color: "primary.main",
                   },
                 }}
               >
@@ -167,9 +168,9 @@ const Footer = () => {
                 href="/courses"
                 underline="none"
                 sx={{
-                  color: 'text.secondary',
-                  '&:hover': {
-                    color: 'primary.main',
+                  color: "text.secondary",
+                  "&:hover": {
+                    color: "primary.main",
                   },
                 }}
               >
@@ -179,9 +180,9 @@ const Footer = () => {
                 href="/resume"
                 underline="none"
                 sx={{
-                  color: 'text.secondary',
-                  '&:hover': {
-                    color: 'primary.main',
+                  color: "text.secondary",
+                  "&:hover": {
+                    color: "primary.main",
                   },
                 }}
               >
@@ -191,9 +192,9 @@ const Footer = () => {
                 href="/skill-gap"
                 underline="none"
                 sx={{
-                  color: 'text.secondary',
-                  '&:hover': {
-                    color: 'primary.main',
+                  color: "text.secondary",
+                  "&:hover": {
+                    color: "primary.main",
                   },
                 }}
               >
@@ -216,7 +217,7 @@ const Footer = () => {
               onClick={handleEmailClick}
               sx={{
                 borderRadius: 2,
-                textTransform: 'none',
+                textTransform: "none",
                 py: 1,
               }}
             >
@@ -243,12 +244,16 @@ const Footer = () => {
         maxWidth="sm"
         fullWidth
         PaperProps={{
-          className: 'glassmorphic',
+          className: "glassmorphic",
           elevation: 0,
         }}
       >
         <DialogTitle>
-          <Stack direction="row" alignItems="center" justifyContent="space-between">
+          <Stack
+            direction="row"
+            alignItems="center"
+            justifyContent="space-between"
+          >
             <Typography variant="h6" sx={{ fontWeight: 600 }}>
               Send Email
             </Typography>
@@ -263,7 +268,9 @@ const Footer = () => {
               label="Your Name"
               fullWidth
               value={emailData.name}
-              onChange={(e) => setEmailData({ ...emailData, name: e.target.value })}
+              onChange={(e) =>
+                setEmailData({ ...emailData, name: e.target.value })
+              }
               required
             />
             <TextField
@@ -271,7 +278,9 @@ const Footer = () => {
               type="email"
               fullWidth
               value={emailData.email}
-              onChange={(e) => setEmailData({ ...emailData, email: e.target.value })}
+              onChange={(e) =>
+                setEmailData({ ...emailData, email: e.target.value })
+              }
               required
             />
             <TextField
@@ -280,7 +289,9 @@ const Footer = () => {
               rows={4}
               fullWidth
               value={emailData.message}
-              onChange={(e) => setEmailData({ ...emailData, message: e.target.value })}
+              onChange={(e) =>
+                setEmailData({ ...emailData, message: e.target.value })
+              }
               required
             />
           </Stack>
@@ -310,13 +321,13 @@ const Footer = () => {
         open={snackbar.open}
         autoHideDuration={6000}
         onClose={handleCloseSnackbar}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >
         <Alert
           onClose={handleCloseSnackbar}
           severity={snackbar.severity}
           variant="filled"
-          sx={{ width: '100%' }}
+          sx={{ width: "100%" }}
         >
           {snackbar.message}
         </Alert>
@@ -325,4 +336,4 @@ const Footer = () => {
   );
 };
 
-export default Footer; 
+export default Footer;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Box,
   Container,
@@ -19,7 +19,7 @@ import {
   IconButton,
   Tooltip,
   Divider,
-} from '@mui/material';
+} from "@mui/material";
 import {
   Work,
   School,
@@ -30,60 +30,60 @@ import {
   Info,
   ArrowForward,
   ArrowBack,
-} from '@mui/icons-material';
+} from "@mui/icons-material";
 
 const SkillGapAnalyzer = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [jobPreference, setJobPreference] = useState({
-    role: '',
-    experience: '',
-    industry: '',
-    location: '',
+    role: "",
+    experience: "",
+    industry: "",
+    location: "",
   });
   const [currentSkills, setCurrentSkills] = useState([]);
   const [skillLevels, setSkillLevels] = useState({});
   const [analysisResult, setAnalysisResult] = useState(null);
 
   const jobRoles = [
-    'Frontend Developer',
-    'Backend Developer',
-    'Full Stack Developer',
-    'Data Scientist',
-    'DevOps Engineer',
-    'UI/UX Designer',
-    'Product Manager',
-    'Cloud Architect',
+    "Frontend Developer",
+    "Backend Developer",
+    "Full Stack Developer",
+    "Data Scientist",
+    "DevOps Engineer",
+    "UI/UX Designer",
+    "Product Manager",
+    "Cloud Architect",
   ];
 
   const industries = [
-    'Technology',
-    'Healthcare',
-    'Finance',
-    'E-commerce',
-    'Education',
-    'Manufacturing',
+    "Technology",
+    "Healthcare",
+    "Finance",
+    "E-commerce",
+    "Education",
+    "Manufacturing",
   ];
 
   const commonSkills = {
     technical: [
-      'JavaScript',
-      'Python',
-      'React',
-      'Node.js',
-      'SQL',
-      'AWS',
-      'Docker',
-      'Git',
-      'TypeScript',
-      'MongoDB',
+      "JavaScript",
+      "Python",
+      "React",
+      "Node.js",
+      "SQL",
+      "AWS",
+      "Docker",
+      "Git",
+      "TypeScript",
+      "MongoDB",
     ],
     soft: [
-      'Communication',
-      'Problem Solving',
-      'Team Collaboration',
-      'Time Management',
-      'Leadership',
-      'Adaptability',
+      "Communication",
+      "Problem Solving",
+      "Team Collaboration",
+      "Time Management",
+      "Leadership",
+      "Adaptability",
     ],
   };
 
@@ -119,13 +119,13 @@ const SkillGapAnalyzer = () => {
   const performAnalysis = () => {
     // Mock analysis result - In a real app, this would call an API
     const mockRequiredSkills = {
-      'Frontend Developer': {
-        required: ['React', 'JavaScript', 'TypeScript', 'HTML/CSS', 'Git'],
-        recommended: ['Node.js', 'Jest', 'Webpack', 'GraphQL'],
+      "Frontend Developer": {
+        required: ["React", "JavaScript", "TypeScript", "HTML/CSS", "Git"],
+        recommended: ["Node.js", "Jest", "Webpack", "GraphQL"],
       },
-      'Backend Developer': {
-        required: ['Node.js', 'Python', 'SQL', 'MongoDB', 'REST APIs'],
-        recommended: ['Docker', 'Kubernetes', 'Redis', 'Message Queues'],
+      "Backend Developer": {
+        required: ["Node.js", "Python", "SQL", "MongoDB", "REST APIs"],
+        recommended: ["Docker", "Kubernetes", "Redis", "Message Queues"],
       },
       // Add more role-specific skills
     };
@@ -136,21 +136,21 @@ const SkillGapAnalyzer = () => {
     };
 
     const missingRequired = roleSkills.required.filter(
-      (skill) => !currentSkills.includes(skill)
+      (skill) => !currentSkills.includes(skill),
     );
     const missingRecommended = roleSkills.recommended.filter(
-      (skill) => !currentSkills.includes(skill)
+      (skill) => !currentSkills.includes(skill),
     );
 
     const skillGaps = {
       critical: missingRequired.map((skill) => ({
         skill,
-        importance: 'Critical',
+        importance: "Critical",
         gap: 100,
       })),
       recommended: missingRecommended.map((skill) => ({
         skill,
-        importance: 'Recommended',
+        importance: "Recommended",
         gap: 70,
       })),
     };
@@ -158,7 +158,7 @@ const SkillGapAnalyzer = () => {
     const matchScore = Math.round(
       ((roleSkills.required.length - missingRequired.length) /
         roleSkills.required.length) *
-        100
+        100,
     );
 
     setAnalysisResult({
@@ -167,15 +167,15 @@ const SkillGapAnalyzer = () => {
       recommendations: [
         {
           skill: missingRequired[0] || missingRecommended[0],
-          course: 'Advanced Web Development',
-          platform: 'Udemy',
-          duration: '3 months',
+          course: "Advanced Web Development",
+          platform: "Udemy",
+          duration: "3 months",
         },
         {
           skill: missingRequired[1] || missingRecommended[1],
-          course: 'Modern JavaScript',
-          platform: 'Coursera',
-          duration: '2 months',
+          course: "Modern JavaScript",
+          platform: "Coursera",
+          duration: "2 months",
         },
         // Add more recommendations
       ],
@@ -259,7 +259,7 @@ const SkillGapAnalyzer = () => {
                 <Autocomplete
                   multiple
                   options={commonSkills.technical.filter(
-                    (skill) => !currentSkills.includes(skill)
+                    (skill) => !currentSkills.includes(skill),
                   )}
                   renderInput={(params) => (
                     <TextField
@@ -282,7 +282,7 @@ const SkillGapAnalyzer = () => {
                 <Autocomplete
                   multiple
                   options={commonSkills.soft.filter(
-                    (skill) => !currentSkills.includes(skill)
+                    (skill) => !currentSkills.includes(skill),
                   )}
                   renderInput={(params) => (
                     <TextField
@@ -312,13 +312,15 @@ const SkillGapAnalyzer = () => {
                   <Grid item xs={12} key={skill}>
                     <Box
                       sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
                         mb: 2,
                       }}
                     >
-                      <Box sx={{ display: 'flex', alignItems: 'center', flex: 1 }}>
+                      <Box
+                        sx={{ display: "flex", alignItems: "center", flex: 1 }}
+                      >
                         <Chip
                           label={skill}
                           onDelete={() => handleSkillRemove(skill)}
@@ -332,11 +334,11 @@ const SkillGapAnalyzer = () => {
                         />
                       </Box>
                       <Typography variant="body2" color="textSecondary">
-                        {skillLevels[skill] === 1 && 'Beginner'}
-                        {skillLevels[skill] === 2 && 'Intermediate'}
-                        {skillLevels[skill] === 3 && 'Advanced'}
-                        {skillLevels[skill] === 4 && 'Expert'}
-                        {skillLevels[skill] === 5 && 'Master'}
+                        {skillLevels[skill] === 1 && "Beginner"}
+                        {skillLevels[skill] === 2 && "Intermediate"}
+                        {skillLevels[skill] === 3 && "Advanced"}
+                        {skillLevels[skill] === 4 && "Expert"}
+                        {skillLevels[skill] === 5 && "Master"}
                       </Typography>
                     </Box>
                   </Grid>
@@ -354,7 +356,7 @@ const SkillGapAnalyzer = () => {
                 <Typography variant="h6" gutterBottom>
                   Match Score
                 </Typography>
-                <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
                   <Box sx={{ flex: 1, mr: 2 }}>
                     <LinearProgress
                       variant="determinate"
@@ -362,14 +364,14 @@ const SkillGapAnalyzer = () => {
                       sx={{
                         height: 20,
                         borderRadius: 5,
-                        backgroundColor: '#e0e0e0',
-                        '& .MuiLinearProgress-bar': {
+                        backgroundColor: "#e0e0e0",
+                        "& .MuiLinearProgress-bar": {
                           backgroundColor:
                             analysisResult.matchScore >= 70
-                              ? '#4caf50'
+                              ? "#4caf50"
                               : analysisResult.matchScore >= 40
-                              ? '#ff9800'
-                              : '#f44336',
+                                ? "#ff9800"
+                                : "#f44336",
                         },
                       }}
                     />
@@ -392,17 +394,13 @@ const SkillGapAnalyzer = () => {
                       <Box key={index} sx={{ mb: 2 }}>
                         <Box
                           sx={{
-                            display: 'flex',
-                            justifyContent: 'space-between',
+                            display: "flex",
+                            justifyContent: "space-between",
                             mb: 1,
                           }}
                         >
                           <Typography>{gap.skill}</Typography>
-                          <Chip
-                            label="Critical"
-                            size="small"
-                            color="error"
-                          />
+                          <Chip label="Critical" size="small" color="error" />
                         </Box>
                         <LinearProgress
                           variant="determinate"
@@ -425,8 +423,8 @@ const SkillGapAnalyzer = () => {
                       <Box key={index} sx={{ mb: 2 }}>
                         <Box
                           sx={{
-                            display: 'flex',
-                            justifyContent: 'space-between',
+                            display: "flex",
+                            justifyContent: "space-between",
                             mb: 1,
                           }}
                         >
@@ -459,7 +457,7 @@ const SkillGapAnalyzer = () => {
                         <Grid item xs={12} md={6} key={index}>
                           <Paper
                             elevation={2}
-                            sx={{ p: 2, height: '100%', position: 'relative' }}
+                            sx={{ p: 2, height: "100%", position: "relative" }}
                           >
                             <Typography variant="subtitle1" gutterBottom>
                               {rec.course}
@@ -508,19 +506,19 @@ const SkillGapAnalyzer = () => {
 
   const steps = [
     {
-      label: 'Job Preferences',
+      label: "Job Preferences",
       icon: <Work />,
     },
     {
-      label: 'Current Skills',
+      label: "Current Skills",
       icon: <School />,
     },
     {
-      label: 'Skill Levels',
+      label: "Skill Levels",
       icon: <TrendingUp />,
     },
     {
-      label: 'Analysis Results',
+      label: "Analysis Results",
       icon: <Compare />,
     },
   ];
@@ -540,11 +538,7 @@ const SkillGapAnalyzer = () => {
         Analyze your skills and get personalized recommendations
       </Typography>
 
-      <Stepper
-        activeStep={activeStep}
-        alternativeLabel
-        sx={{ mb: 4 }}
-      >
+      <Stepper activeStep={activeStep} alternativeLabel sx={{ mb: 4 }}>
         {steps.map((step, index) => (
           <Step key={index}>
             <StepLabel
@@ -553,13 +547,13 @@ const SkillGapAnalyzer = () => {
                   sx={{
                     width: 40,
                     height: 40,
-                    borderRadius: '50%',
+                    borderRadius: "50%",
                     backgroundColor:
-                      activeStep >= index ? 'primary.main' : 'grey.300',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: activeStep >= index ? 'white' : 'grey.600',
+                      activeStep >= index ? "primary.main" : "grey.300",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    color: activeStep >= index ? "white" : "grey.600",
                   }}
                 >
                   {step.icon}
@@ -574,7 +568,7 @@ const SkillGapAnalyzer = () => {
 
       <Box sx={{ mt: 4, mb: 4 }}>{renderStepContent(activeStep)}</Box>
 
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 3 }}>
+      <Box sx={{ display: "flex", justifyContent: "space-between", mt: 3 }}>
         <Button
           onClick={handleBack}
           disabled={activeStep === 0}
@@ -588,11 +582,11 @@ const SkillGapAnalyzer = () => {
           disabled={activeStep === steps.length - 1}
           endIcon={<ArrowForward />}
         >
-          {activeStep === steps.length - 2 ? 'Analyze' : 'Next'}
+          {activeStep === steps.length - 2 ? "Analyze" : "Next"}
         </Button>
       </Box>
     </Container>
   );
 };
 
-export default SkillGapAnalyzer; 
+export default SkillGapAnalyzer;

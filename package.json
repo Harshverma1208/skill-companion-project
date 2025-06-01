@@ -1,0 +1,25 @@
+{
+  "name": "skill-bridge-project",
+  "version": "1.0.0",
+  "description": "Skill Bridge - A platform for analyzing resumes and enhancing skills based on market demand",
+  "main": "index.js",
+  "scripts": {
+    "start": "concurrently \"npm run frontend\" \"npm run backend\"",
+    "frontend": "cd frontend && npm start",
+    "backend": "cd backend && npm start",
+    "install-all": "npm install && cd frontend && npm install && cd ../backend && npm install",
+    "build": "cd frontend && npm run build",
+    "dev": "concurrently \"cd frontend && npm start\" \"cd backend && npm run dev\""
+  },
+  "keywords": [
+    "skills",
+    "resume",
+    "analysis",
+    "ai"
+  ],
+  "author": "Harsh Verma",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.0.1"
+  }
+} 

@@ -9,7 +9,6 @@ module.exports = {
     'eslint:recommended',
     'plugin:react/recommended',
     'plugin:react-hooks/recommended',
-    'plugin:prettier/recommended',
   ],
   parserOptions: {
     ecmaFeatures: {
@@ -21,10 +20,11 @@ module.exports = {
   plugins: ['react', 'react-hooks'],
   rules: {
     'react/react-in-jsx-scope': 'off',
-    'react/prop-types': 'warn',
+    'react/prop-types': 'off',
     'no-unused-vars': 'warn',
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn',
+    'prettier/prettier': 'off',
   },
   settings: {
     react: {
