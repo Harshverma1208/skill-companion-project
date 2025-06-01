@@ -12,18 +12,11 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  Divider,
   Alert,
   LinearProgress,
-  Paper,
   Chip,
-  Avatar,
-  Link,
-  Tabs,
-  Tab,
   Switch,
   FormControlLabel,
-  Tooltip,
 } from '@mui/material';
 import {
   CloudUpload,
@@ -32,20 +25,13 @@ import {
   TrendingUp,
   School,
   Work,
-  Description,
   Lightbulb,
-  Phone,
-  Email,
-  LinkedIn,
-  GitHub,
-  ArrowForward,
-  Code,
-  Assignment,
-  Timeline,
   BugReport,
   Refresh,
+  PictureAsPdf,
+  Analytics,
 } from '@mui/icons-material';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { analyzeResume, extractTextFromPDF } from '../services/geminiService';
 
 // Score indicator component
@@ -82,219 +68,6 @@ const ScoreIndicator = ({ score, label, color }) => (
   </Box>
 );
 
-// Resume Preview component (Structured view only)
-const ResumePreview = ({ resumeData }) => {
-  if (!resumeData) return null;
-  
-  const { basicInfo, summary, workExperience, education, skills, projects } = resumeData || {};
-  
-  return (
-    <Box sx={{ mb: 4 }}>
-      <Paper elevation={2} sx={{ p: 4, backgroundColor: '#fafafa' }}>
-        {/* Header */}
-        <Box sx={{ mb: 3, textAlign: 'center' }}>
-          <Typography variant="h4" gutterBottom sx={{ fontWeight: 700, color: '#1e293b' }}>
-            {basicInfo?.name || 'Name Not Available'}
-          </Typography>
-          
-          <Box sx={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: 2, mt: 1 }}>
-            {basicInfo?.phone && (
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                <Phone fontSize="small" color="action" />
-                <Typography variant="body2">{basicInfo.phone}</Typography>
-              </Box>
-            )}
-            {basicInfo?.email && (
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                <Email fontSize="small" color="action" />
-                <Typography variant="body2">{basicInfo.email}</Typography>
-              </Box>
-            )}
-            {basicInfo?.links?.map((link, index) => {
-              const isLinkedIn = link.includes('linkedin');
-              const isGitHub = link.includes('github');
-              return (
-                <Box key={index} sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                  {isLinkedIn ? (
-                    <LinkedIn fontSize="small" color="action" />
-                  ) : isGitHub ? (
-                    <GitHub fontSize="small" color="action" />
-                  ) : (
-                    <Link fontSize="small" color="action" />
-                  )}
-                  <Typography variant="body2">{isLinkedIn ? 'LinkedIn' : isGitHub ? 'GitHub' : link}</Typography>
-                </Box>
-              );
-            })}
-          </Box>
-        </Box>
-        
-        {/* Profile Summary */}
-        {summary && (
-          <Box sx={{ mb: 3 }}>
-            <Typography variant="h6" gutterBottom sx={{ color: '#475569', fontWeight: 600, borderBottom: '1px solid #e2e8f0', pb: 1 }}>
-              Profile
-            </Typography>
-            <Typography variant="body1" sx={{ pl: 1 }}>
-              {summary}
-            </Typography>
-          </Box>
-        )}
-        
-        {/* Work Experience */}
-        {workExperience && workExperience.length > 0 && (
-          <Box sx={{ mb: 3 }}>
-            <Typography variant="h6" gutterBottom sx={{ color: '#475569', fontWeight: 600, borderBottom: '1px solid #e2e8f0', pb: 1 }}>
-              Professional Experience
-            </Typography>
-            
-            {workExperience.map((job, index) => (
-              <Box key={index} sx={{ mb: 2 }}>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.5 }}>
-                  <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
-                    {job.company}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {job.duration}
-                  </Typography>
-                </Box>
-                
-                <Typography variant="body2" sx={{ fontStyle: 'italic', mb: 1 }}>
-                  {job.title} {job.location && `| ${job.location}`}
-                </Typography>
-                
-                {job.achievements && job.achievements.length > 0 && (
-                  <List dense disablePadding>
-                    {job.achievements.map((achievement, idx) => (
-                      <ListItem key={idx} sx={{ py: 0.25 }}>
-                        <ListItemIcon sx={{ minWidth: 24 }}>
-                          <ArrowForward sx={{ fontSize: 14 }} />
-                        </ListItemIcon>
-                        <ListItemText 
-                          primary={achievement} 
-                          primaryTypographyProps={{ variant: 'body2' }}
-                        />
-                      </ListItem>
-                    ))}
-                  </List>
-                )}
-              </Box>
-            ))}
-          </Box>
-        )}
-        
-        {/* Projects */}
-        {projects && projects.length > 0 && (
-          <Box sx={{ mb: 3 }}>
-            <Typography variant="h6" gutterBottom sx={{ color: '#475569', fontWeight: 600, borderBottom: '1px solid #e2e8f0', pb: 1 }}>
-              Technical Projects
-            </Typography>
-            
-            {projects.map((project, index) => (
-              <Box key={index} sx={{ mb: 2 }}>
-                <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
-                  {project.name}
-                </Typography>
-                
-                {project.description && (
-                  <Typography variant="body2" sx={{ mb: 0.5 }}>
-                    {project.description}
-                  </Typography>
-                )}
-                
-                {project.technologies && project.technologies.length > 0 && (
-                  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, mt: 1 }}>
-                    {project.technologies.map((tech, idx) => (
-                      <Chip
-                        key={idx}
-                        label={tech}
-                        size="small"
-                        sx={{ backgroundColor: '#e2e8f0', fontSize: '0.75rem' }}
-                      />
-                    ))}
-                  </Box>
-                )}
-              </Box>
-            ))}
-          </Box>
-        )}
-        
-        {/* Education */}
-        {education && education.length > 0 && (
-          <Box sx={{ mb: 3 }}>
-            <Typography variant="h6" gutterBottom sx={{ color: '#475569', fontWeight: 600, borderBottom: '1px solid #e2e8f0', pb: 1 }}>
-              Education
-            </Typography>
-            
-            {education.map((edu, index) => (
-              <Box key={index} sx={{ mb: index !== education.length - 1 ? 2 : 0 }}>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.5 }}>
-                  <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
-                    {edu.institution}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {edu.date}
-                  </Typography>
-                </Box>
-                
-                <Typography variant="body2" sx={{ fontStyle: 'italic' }}>
-                  {edu.degree}{edu.field ? ` in ${edu.field}` : ''}
-                  {edu.gpa && ` | ${edu.gpa}`}
-                </Typography>
-              </Box>
-            ))}
-          </Box>
-        )}
-        
-        {/* Skills */}
-        {skills && (skills.technical?.length > 0 || skills.soft?.length > 0) && (
-          <Box>
-            <Typography variant="h6" gutterBottom sx={{ color: '#475569', fontWeight: 600, borderBottom: '1px solid #e2e8f0', pb: 1 }}>
-              Technical Skills
-            </Typography>
-            
-            {skills.technical && skills.technical.length > 0 && (
-              <Box sx={{ mb: 2 }}>
-                <Typography variant="subtitle2" gutterBottom>
-                  Technical Skills
-                </Typography>
-                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.75 }}>
-                  {skills.technical.map((skill, index) => (
-                    <Chip
-                      key={index}
-                      label={skill}
-                      size="small"
-                      sx={{ backgroundColor: '#e2e8f0', fontSize: '0.75rem' }}
-                    />
-                  ))}
-                </Box>
-              </Box>
-            )}
-            
-            {skills.soft && skills.soft.length > 0 && (
-              <Box>
-                <Typography variant="subtitle2" gutterBottom>
-                  Soft Skills
-                </Typography>
-                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.75 }}>
-                  {skills.soft.map((skill, index) => (
-                    <Chip
-                      key={index}
-                      label={skill}
-                      size="small"
-                      sx={{ backgroundColor: '#f1f5f9', fontSize: '0.75rem' }}
-                    />
-                  ))}
-                </Box>
-              </Box>
-            )}
-          </Box>
-        )}
-      </Paper>
-    </Box>
-  );
-};
-
 function Resume() {
   const dispatch = useDispatch();
   const fileInputRef = useRef();
@@ -302,7 +75,6 @@ function Resume() {
   const [analysis, setAnalysis] = useState(null);
   const [error, setError] = useState(null);
   const [fileName, setFileName] = useState(null);
-  const [currentTab, setCurrentTab] = useState(0);
   const [useSampleData, setUseSampleData] = useState(() => {
     return localStorage.getItem('USE_FALLBACK_DATA') === 'true';
   });
@@ -317,7 +89,7 @@ function Resume() {
     if (!file) return;
 
     if (file.type !== 'application/pdf') {
-      setError('Please upload a PDF file');
+      setError('Please upload a PDF file only. Other formats are not supported.');
       return;
     }
 
@@ -329,24 +101,21 @@ function Resume() {
       // Extract text from PDF
       const resumeText = await extractTextFromPDF(file);
       
+      if (!resumeText || resumeText.trim().length === 0) {
+        throw new Error('Unable to extract text from the PDF. Please ensure the PDF contains readable text.');
+      }
+      
       // Analyze resume with Gemini AI
       const analysisResult = await analyzeResume(resumeText);
       
       setAnalysis(analysisResult);
-      setCurrentTab(0); // Show resume preview first
-      
-      // If we got results, clear any previous error
       setError(null);
     } catch (error) {
       console.error('Resume analysis error:', error);
-      setError('Failed to analyze resume. Please try again or use sample data.');
+      setError(error.message || 'Failed to analyze resume. Please try again or use sample data.');
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleTabChange = (event, newValue) => {
-    setCurrentTab(newValue);
   };
 
   const handleToggleSampleData = (event) => {
@@ -354,8 +123,6 @@ function Resume() {
   };
 
   const handleRetry = async () => {
-    if (!fileName) return;
-    
     setLoading(true);
     setError(null);
     
@@ -367,7 +134,6 @@ function Resume() {
       const analysisResult = await analyzeResume("");
       
       setAnalysis(analysisResult);
-      setCurrentTab(0);
       setError(null);
     } catch (error) {
       console.error('Error loading sample data:', error);
@@ -377,14 +143,26 @@ function Resume() {
     }
   };
 
+  const handleAnalyzeAnother = () => {
+    setAnalysis(null);
+    setFileName(null);
+    setError(null);
+    // Reset file input
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
+
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
-      <Typography variant="h4" gutterBottom>
-        Resume Analysis
-      </Typography>
-      <Typography variant="body1" color="text.secondary" sx={{ mb: 2 }}>
-        Upload your resume for AI-powered analysis and improvement suggestions powered by Google&apos;s Gemini AI.
-      </Typography>
+      <Box sx={{ mb: 4, textAlign: 'center' }}>
+        <Typography variant="h4" gutterBottom sx={{ fontWeight: 700, color: 'primary.main' }}>
+          AI Resume Analysis
+        </Typography>
+        <Typography variant="body1" color="text.secondary" sx={{ mb: 2, maxWidth: 600, mx: 'auto' }}>
+          Upload your resume for comprehensive AI-powered analysis and improvement suggestions powered by Google&apos;s Gemini AI.
+        </Typography>
+      </Box>
       
       {/* Developer options in development mode */}
       {process.env.NODE_ENV === 'development' && (
@@ -409,14 +187,14 @@ function Resume() {
 
       {/* Upload Section */}
       {!analysis && (
-        <Card sx={{ mb: 4 }}>
+        <Card sx={{ mb: 4, border: '2px dashed', borderColor: 'primary.light' }}>
           <CardContent>
             <Box
               sx={{
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
-                py: 3,
+                py: 4,
               }}
             >
               <input
@@ -426,30 +204,44 @@ function Resume() {
                 ref={fileInputRef}
                 onChange={handleFileUpload}
               />
-              <CloudUpload sx={{ fontSize: 48, color: 'primary.main', mb: 2 }} />
-              <Typography variant="h6" gutterBottom>
+              <PictureAsPdf sx={{ fontSize: 64, color: 'primary.main', mb: 2 }} />
+              <Typography variant="h5" gutterBottom sx={{ fontWeight: 600 }}>
                 Upload Your Resume
               </Typography>
-              <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-                Supported format: PDF
+              <Typography variant="body1" color="text.secondary" sx={{ mb: 3, textAlign: 'center' }}>
+                Supported format: PDF files only<br />
+                Get detailed analysis including skill gaps, improvements, and market alignment
               </Typography>
               <Button
                 variant="contained"
+                size="large"
                 onClick={() => fileInputRef.current.click()}
                 disabled={loading}
+                startIcon={<CloudUpload />}
+                sx={{ 
+                  px: 4, 
+                  py: 1.5,
+                  fontSize: '1.1rem',
+                  borderRadius: 2 
+                }}
               >
-                Select File
+                Choose PDF File
               </Button>
               {fileName && (
-                <Typography variant="body2" sx={{ mt: 2 }}>
-                  Selected file: {fileName}
-                </Typography>
+                <Box sx={{ mt: 3, display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <PictureAsPdf color="primary" />
+                  <Typography variant="body1" sx={{ fontWeight: 500 }}>
+                    {fileName}
+                  </Typography>
+                  <Chip label="Ready to analyze" color="success" size="small" />
+                </Box>
               )}
             </Box>
           </CardContent>
         </Card>
       )}
 
+      {/* Error Alert */}
       {error && (
         <Alert 
           severity="error" 
@@ -461,7 +253,7 @@ function Resume() {
               startIcon={<Refresh />}
               onClick={handleRetry}
             >
-              Try with Sample Data
+              Try Sample Data
             </Button>
           }
         >
@@ -469,195 +261,225 @@ function Resume() {
         </Alert>
       )}
 
+      {/* Loading State */}
       {loading && (
-        <Box sx={{ mb: 4 }}>
-          <LinearProgress />
-          <Typography variant="body2" sx={{ mt: 1, textAlign: 'center' }}>
-            Analyzing your resume with Gemini AI...
-          </Typography>
-        </Box>
+        <Card sx={{ mb: 4 }}>
+          <CardContent>
+            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', py: 3 }}>
+              <LinearProgress sx={{ width: '100%', mb: 2 }} />
+              <Typography variant="h6" gutterBottom sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                <Analytics sx={{ animation: 'pulse 1.5s infinite' }} />
+                Analyzing Your Resume
+              </Typography>
+              <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center' }}>
+                Please wait while our AI analyzes your resume...<br />
+                This may take a few moments depending on the content complexity.
+              </Typography>
+            </Box>
+          </CardContent>
+        </Card>
       )}
 
+      {/* Analysis Results */}
       {analysis && (
         <>
-          {/* Tabs for resumePreview and Analysis */}
-          <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 3 }}>
-            <Tabs value={currentTab} onChange={handleTabChange} aria-label="resume analysis tabs">
-              <Tab icon={<Description />} label="Resume Preview" iconPosition="start" />
-              <Tab icon={<TrendingUp />} label="Analysis" iconPosition="start" />
-            </Tabs>
+          {/* Header */}
+          <Box sx={{ mb: 4, textAlign: 'center' }}>
+            <Typography variant="h5" gutterBottom sx={{ fontWeight: 600 }}>
+              Resume Analysis Results
+            </Typography>
+            <Typography variant="body1" color="text.secondary">
+              Comprehensive analysis of your resume with actionable insights
+            </Typography>
           </Box>
 
-          {/* Resume Preview Tab */}
-          {currentTab === 0 && (
-            <ResumePreview resumeData={analysis.extractedData} />
+          {/* Score Overview */}
+          <Card sx={{ mb: 4 }}>
+            <CardContent>
+              <Typography variant="h6" gutterBottom sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                <TrendingUp color="primary" />
+                Analysis Overview
+              </Typography>
+              <Grid container spacing={3} justifyContent="center" sx={{ mt: 1 }}>
+                <Grid item xs={6} sm={3}>
+                  <ScoreIndicator
+                    score={analysis.scores.overall}
+                    label="Overall Score"
+                    color="#2563eb"
+                  />
+                </Grid>
+                <Grid item xs={6} sm={3}>
+                  <ScoreIndicator
+                    score={analysis.scores.skills}
+                    label="Skills Match"
+                    color="#7c3aed"
+                  />
+                </Grid>
+                <Grid item xs={6} sm={3}>
+                  <ScoreIndicator
+                    score={analysis.scores.experience}
+                    label="Experience"
+                    color="#059669"
+                  />
+                </Grid>
+                <Grid item xs={6} sm={3}>
+                  <ScoreIndicator
+                    score={analysis.scores.education}
+                    label="Education"
+                    color="#dc2626"
+                  />
+                </Grid>
+              </Grid>
+            </CardContent>
+          </Card>
+
+          {/* Key Insights */}
+          {analysis.keyInsights && (
+            <Card sx={{ mb: 4 }}>
+              <CardContent>
+                <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2 }}>
+                  <Lightbulb sx={{ color: 'warning.main', mt: 0.5 }} />
+                  <Box>
+                    <Typography variant="h6" gutterBottom>
+                      Key Insights
+                    </Typography>
+                    <Typography variant="body1" sx={{ lineHeight: 1.6 }}>
+                      {analysis.keyInsights}
+                    </Typography>
+                  </Box>
+                </Box>
+              </CardContent>
+            </Card>
           )}
 
-          {/* Analysis Tab */}
-          {currentTab === 1 && (
-            <>
-              {/* Score Overview */}
-              <Card sx={{ mb: 4 }}>
+          {/* Detailed Analysis */}
+          <Grid container spacing={3}>
+            {/* Skill Gaps */}
+            <Grid item xs={12} md={6}>
+              <Card sx={{ height: '100%' }}>
                 <CardContent>
-                  <Typography variant="h6" gutterBottom>
-                    Analysis Overview
+                  <Typography variant="h6" gutterBottom sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <Warning color="warning" />
+                    Skill Gaps
                   </Typography>
-                  <Grid container spacing={3} justifyContent="center">
-                    <Grid item xs={6} sm={3}>
-                      <ScoreIndicator
-                        score={analysis.scores.overall}
-                        label="Overall Score"
-                        color="#2563eb"
-                      />
+                  <List>
+                    {analysis.skillGaps && analysis.skillGaps.length > 0 ? analysis.skillGaps.map((gap, index) => (
+                      <ListItem key={index}>
+                        <ListItemIcon>
+                          <Warning color={gap.importance === 'high' ? 'error' : 'warning'} />
+                        </ListItemIcon>
+                        <ListItemText
+                          primary={gap.skill}
+                          secondary={`Importance: ${gap.importance}`}
+                        />
+                      </ListItem>
+                    )) : (
+                      <ListItem>
+                        <ListItemIcon>
+                          <CheckCircle color="success" />
+                        </ListItemIcon>
+                        <ListItemText primary="No significant skill gaps identified" />
+                      </ListItem>
+                    )}
+                  </List>
+                </CardContent>
+              </Card>
+            </Grid>
+
+            {/* Improvements */}
+            <Grid item xs={12} md={6}>
+              <Card sx={{ height: '100%' }}>
+                <CardContent>
+                  <Typography variant="h6" gutterBottom sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <CheckCircle color="success" />
+                    Suggested Improvements
+                  </Typography>
+                  <List>
+                    {analysis.improvements && analysis.improvements.length > 0 ? analysis.improvements.map((improvement, index) => (
+                      <ListItem key={index}>
+                        <ListItemIcon>
+                          <CheckCircle color="success" />
+                        </ListItemIcon>
+                        <ListItemText primary={improvement} />
+                      </ListItem>
+                    )) : (
+                      <ListItem>
+                        <ListItemText primary="No specific improvements suggested" />
+                      </ListItem>
+                    )}
+                  </List>
+                </CardContent>
+              </Card>
+            </Grid>
+
+            {/* Market Alignment */}
+            <Grid item xs={12}>
+              <Card>
+                <CardContent>
+                  <Typography variant="h6" gutterBottom sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <Work color="primary" />
+                    Market Alignment
+                  </Typography>
+                  <Grid container spacing={3} sx={{ mt: 1 }}>
+                    <Grid item xs={12} md={4}>
+                      <Typography variant="subtitle2" color="text.secondary" gutterBottom>
+                        Matched Jobs
+                      </Typography>
+                      <Typography variant="h4" color="primary.main">
+                        {analysis.marketAlignment?.matchedJobs || 0}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        Available positions
+                      </Typography>
                     </Grid>
-                    <Grid item xs={6} sm={3}>
-                      <ScoreIndicator
-                        score={analysis.scores.skills}
-                        label="Skills Match"
-                        color="#7c3aed"
-                      />
+                    <Grid item xs={12} md={4}>
+                      <Typography variant="subtitle2" color="text.secondary" gutterBottom>
+                        Top Matching Roles
+                      </Typography>
+                      <List dense>
+                        {analysis.marketAlignment?.topRoles?.map((role, index) => (
+                          <ListItem key={index} sx={{ px: 0 }}>
+                            <ListItemIcon>
+                              <Work fontSize="small" color="primary" />
+                            </ListItemIcon>
+                            <ListItemText primary={role} />
+                          </ListItem>
+                        )) || (
+                          <ListItem sx={{ px: 0 }}>
+                            <ListItemText primary="Analyzing market roles..." />
+                          </ListItem>
+                        )}
+                      </List>
                     </Grid>
-                    <Grid item xs={6} sm={3}>
-                      <ScoreIndicator
-                        score={analysis.scores.experience}
-                        label="Experience"
-                        color="#059669"
-                      />
-                    </Grid>
-                    <Grid item xs={6} sm={3}>
-                      <ScoreIndicator
-                        score={analysis.scores.education}
-                        label="Education"
-                        color="#dc2626"
-                      />
+                    <Grid item xs={12} md={4}>
+                      <Typography variant="subtitle2" color="text.secondary" gutterBottom>
+                        Expected Salary Range
+                      </Typography>
+                      <Typography variant="h6" color="success.main">
+                        ${analysis.marketAlignment?.salaryRange?.min?.toLocaleString() || '0'} - 
+                        ${analysis.marketAlignment?.salaryRange?.max?.toLocaleString() || '0'}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        Based on market data
+                      </Typography>
                     </Grid>
                   </Grid>
                 </CardContent>
               </Card>
+            </Grid>
+          </Grid>
 
-              {/* Key Insights */}
-              {analysis.keyInsights && (
-                <Card sx={{ mb: 4 }}>
-                  <CardContent>
-                    <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2 }}>
-                      <Lightbulb sx={{ color: 'warning.main', mt: 0.5 }} />
-                      <Box>
-                        <Typography variant="h6" gutterBottom>
-                          Key Insights
-                        </Typography>
-                        <Typography variant="body1">
-                          {analysis.keyInsights}
-                        </Typography>
-                      </Box>
-                    </Box>
-                  </CardContent>
-                </Card>
-              )}
-
-              {/* Detailed Analysis */}
-              <Grid container spacing={3}>
-                {/* Skill Gaps */}
-                <Grid item xs={12} md={6}>
-                  <Card sx={{ height: '100%' }}>
-                    <CardContent>
-                      <Typography variant="h6" gutterBottom>
-                        Skill Gaps
-                      </Typography>
-                      <List>
-                        {analysis.skillGaps && analysis.skillGaps.map((gap, index) => (
-                          <ListItem key={index}>
-                            <ListItemIcon>
-                              <Warning color={gap.importance === 'high' ? 'error' : 'warning'} />
-                            </ListItemIcon>
-                            <ListItemText
-                              primary={gap.skill}
-                              secondary={`Importance: ${gap.importance}`}
-                            />
-                          </ListItem>
-                        ))}
-                      </List>
-                    </CardContent>
-                  </Card>
-                </Grid>
-
-                {/* Improvements */}
-                <Grid item xs={12} md={6}>
-                  <Card sx={{ height: '100%' }}>
-                    <CardContent>
-                      <Typography variant="h6" gutterBottom>
-                        Suggested Improvements
-                      </Typography>
-                      <List>
-                        {analysis.improvements && analysis.improvements.map((improvement, index) => (
-                          <ListItem key={index}>
-                            <ListItemIcon>
-                              <CheckCircle color="success" />
-                            </ListItemIcon>
-                            <ListItemText primary={improvement} />
-                          </ListItem>
-                        ))}
-                      </List>
-                    </CardContent>
-                  </Card>
-                </Grid>
-
-                {/* Market Alignment */}
-                <Grid item xs={12}>
-                  <Card>
-                    <CardContent>
-                      <Typography variant="h6" gutterBottom>
-                        Market Alignment
-                      </Typography>
-                      <Grid container spacing={3}>
-                        <Grid item xs={12} md={4}>
-                          <Typography variant="subtitle2" color="text.secondary">
-                            Matched Jobs
-                          </Typography>
-                          <Typography variant="h4">
-                            {analysis.marketAlignment?.matchedJobs || 0}
-                          </Typography>
-                        </Grid>
-                        <Grid item xs={12} md={4}>
-                          <Typography variant="subtitle2" color="text.secondary">
-                            Top Matching Roles
-                          </Typography>
-                          <List dense>
-                            {analysis.marketAlignment?.topRoles?.map((role, index) => (
-                              <ListItem key={index}>
-                                <ListItemIcon>
-                                  <Work fontSize="small" />
-                                </ListItemIcon>
-                                <ListItemText primary={role} />
-                              </ListItem>
-                            ))}
-                          </List>
-                        </Grid>
-                        <Grid item xs={12} md={4}>
-                          <Typography variant="subtitle2" color="text.secondary">
-                            Expected Salary Range
-                          </Typography>
-                          <Typography variant="h6">
-                            ${analysis.marketAlignment?.salaryRange?.min?.toLocaleString() || '0'} - 
-                            ${analysis.marketAlignment?.salaryRange?.max?.toLocaleString() || '0'}
-                          </Typography>
-                        </Grid>
-                      </Grid>
-                    </CardContent>
-                  </Card>
-                </Grid>
-              </Grid>
-            </>
-          )}
-
-          {/* Re-Upload Button */}
+          {/* Action Buttons */}
           <Box sx={{ mt: 4, textAlign: 'center' }}>
             <Button
-              variant="outlined"
-              onClick={() => {
-                setAnalysis(null);
-                setFileName(null);
-                setCurrentTab(0);
-                setError(null);
+              variant="contained"
+              onClick={handleAnalyzeAnother}
+              startIcon={<CloudUpload />}
+              sx={{ 
+                px: 4, 
+                py: 1.5,
+                fontSize: '1.1rem',
+                borderRadius: 2 
               }}
             >
               Analyze Another Resume
